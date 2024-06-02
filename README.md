@@ -1,25 +1,23 @@
-ClickHouse Native JDBC
+Timeplus Native JDBC
 ===
 
-[![Build Status](https://github.com/housepower/ClickHouse-Native-JDBC/workflows/build/badge.svg?branch=master)](https://github.com/housepower/ClickHouse-Native-JDBC/actions?query=workflow%3Abuild+branch%3Amaster)
-[![codecov.io](https://codecov.io/github/housepower/ClickHouse-Native-JDBC/coverage.svg?branch=master)](https://codecov.io/github/housepower/ClickHouse-Native-JDBC?branch=master)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.housepower/clickhouse-native-jdbc-parent/badge.svg)](https://search.maven.org/search?q=com.github.housepower)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/housepower/ClickHouse-Native-JDBC.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/housepower/ClickHouse-Native-JDBC/alerts/)
-[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/housepower/ClickHouse-Native-JDBC.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/housepower/ClickHouse-Native-JDBC/context:java)
-[![License](https://img.shields.io/github/license/housepower/ClickHouse-Native-JDBC)](https://github.com/housepower/ClickHouse-Native-JDBC/blob/master/LICENSE)
+[![Build Status](https://github.com/timeplus-io/timeplus-native-jdbc/workflows/build/badge.svg?branch=master)](https://github.com/timeplus-io/timeplus-native-jdbc/actions?query=workflow%3Abuild+branch%3Amaster)
+[![codecov.io](https://codecov.io/github/timeplus-io/timepllus-native-jdbc/coverage.svg?branch=master)](https://codecov.io/github/timeplus-io/timeplus-native-jdbc?branch=master)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.timeplus-io/timeplus-native-jdbc-parent/badge.svg)](https://search.maven.org/search?q=com.github.timeplus)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/timeplus-io/timeplus-native-jdbc.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/timeplus-io/timeplus-native-jdbc/alerts/)
+[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/timeplus-io/timeplus-native-jdbc.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/timeplus-io/timeplus-native-jdbc/context:java)
+[![License](https://img.shields.io/github/license/timeplus-io/timeplus-native-jdbc)](https://github.com/timeplus-io/timeplus-native-jdbc/blob/master/LICENSE)
 
 English | [简体中文](README_zh.md)
 
-## [Home Page](https://housepower.github.io/ClickHouse-Native-JDBC/) | [GitHub](https://github.com/housepower/ClickHouse-Native-JDBC) | [Gitee](https://gitee.com/housepower/ClickHouse-Native-JDBC)
+## [Home Page](https://timeplus.github.io/timeplus-native-jdbc/) | [GitHub](https://github.com/timeplus-io/timeplus-native-jdbc) | [Gitee](https://gitee.com/timeplus-io/timeplus-native-jdbc)
 
-A Native JDBC library for accessing [ClickHouse](https://clickhouse.yandex/) in Java, also provide a library for 
+A Native JDBC library for accessing [Timeplus](https://timeplus.com/) in Java, also provide a library for 
 integrating with [Apache Spark](https://github.com/apache/spark/).
 
 ## CONTRIBUTE
 
 We welcome anyone that wants to help out in any way, whether that includes reporting problems, helping with documentations, or contributing code changes to fix bugs, add tests, or implement new features. Please follow [Contributing Guide](CONTRIBUTE.md).
-
-Supported by [JetBrains Open Source License](https://www.jetbrains.com/?from=ClickHouse-Native-JDBC) 2020-2021. 
 
 ## JDBC Driver
 
@@ -28,8 +26,6 @@ Supported by [JetBrains Open Source License](https://www.jetbrains.com/?from=Cli
 - Java 8/11. 
 
 **Notes:** We only do test with Java LTS versions.
-
-### Differences from [yandex/clickhouse-jdbc](https://github.com/yandex/clickhouse-jdbc)
 
 * Data is organized and compressed by columns.
 * Implemented in the TCP Protocol, with higher performance than HTTP, here is the [benchmark report](docs/dev/benchmark.md).
@@ -45,10 +41,10 @@ Supported by [JetBrains Open Source License](https://www.jetbrains.com/?from=Cli
 - Gradle
 ```groovy
 // (recommended) shaded version, available since 2.3-stable
-compile "com.github.housepower:clickhouse-native-jdbc-shaded:${clickhouse_native_jdbc_version}"
+compile "com.github.timeplus:timeplus-native-jdbc-shaded:${timeplus_native_jdbc_version}"
 
 // normal version
-compile "com.github.housepower:clickhouse-native-jdbc:${clickhouse_native_jdbc_version}"
+compile "com.github.timeplus:timeplus-native-jdbc:${timeplus_native_jdbc_version}"
 ```
 
 - Maven
@@ -56,16 +52,16 @@ compile "com.github.housepower:clickhouse-native-jdbc:${clickhouse_native_jdbc_v
 ```xml
 <!-- (recommended) shaded version, available since 2.3-stable -->
 <dependency>
-    <groupId>com.github.housepower</groupId>
-    <artifactId>clickhouse-native-jdbc-shaded</artifactId>
-    <version>${clickhouse-native-jdbc.version}</version>
+    <groupId>com.github.timeplus</groupId>
+    <artifactId>timeplus-native-jdbc-shaded</artifactId>
+    <version>${timeplus-native-jdbc.version}</version>
 </dependency>
 
-<!-- normal version -->
+        <!-- normal version -->
 <dependency>
-    <groupId>com.github.housepower</groupId>
-    <artifactId>clickhouse-native-jdbc</artifactId>
-    <version>${clickhouse-native-jdbc.version}</version>
+<groupId>com.github.timeplus</groupId>
+<artifactId>timeplus-native-jdbc</artifactId>
+<version>${timeplus-native-jdbc.version}</version>
 </dependency>
 ```
 
@@ -76,7 +72,7 @@ compile "com.github.housepower:clickhouse-native-jdbc:${clickhouse_native_jdbc_v
 - Java 8, Scala 2.11/2.12, Spark 2.4
 - Or Java 8/11, Scala 2.12, Spark 3.0/3.1
 
-For Spark 3.2, [Spark ClickHouse Connector](https://github.com/housepower/spark-clickhouse-connector) is recommended.
+For Spark 3.2, [Spark Timeplus Connector](https://github.com/timeplus-io/spark-timeplus-connector) is recommended.
 
 **Notes:** Spark 2.3.x(EOL) should also work fine. Actually we do test on both Java 8 and Java 11, 
 but Spark official support on Java 11 since 3.0.0.
@@ -87,7 +83,7 @@ but Spark official support on Java 11 since 3.0.0.
 
 ```groovy
 // available since 2.4.0
-compile "com.github.housepower:clickhouse-integration-spark_2.11:${clickhouse_native_jdbc_version}"
+compile "com.github.timeplus:timeplus-integration-spark_2.11:${timeplus_native_jdbc_version}"
 ```
 
 - Maven
@@ -95,9 +91,9 @@ compile "com.github.housepower:clickhouse-integration-spark_2.11:${clickhouse_na
 ```xml
 <!-- available since 2.4.0 -->
 <dependency>
-    <groupId>com.github.housepower</groupId>
-    <artifactId>clickhouse-integration-spark_2.11</artifactId>
-    <version>${clickhouse-native-jdbc.version}</version>
+    <groupId>com.github.timeplus</groupId>
+    <artifactId>timeplus-integration-spark_2.11</artifactId>
+    <version>${timeplus-native-jdbc.version}</version>
 </dependency>
 ```
 
