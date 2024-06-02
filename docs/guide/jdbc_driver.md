@@ -22,16 +22,16 @@ compile "com.github.housepower:clickhouse-native-jdbc:${clickhouse_native_jdbc_v
 ```xml
 <!-- (recommended) shaded version, available since 2.3-stable -->
 <dependency>
-    <groupId>com.github.housepower</groupId>
+    <groupId>com.github.timeplus</groupId>
     <artifactId>clickhouse-native-jdbc-shaded</artifactId>
     <version>${clickhouse-native-jdbc.version}</version>
 </dependency>
 
-<!-- normal version -->
+        <!-- normal version -->
 <dependency>
-    <groupId>com.github.housepower</groupId>
-    <artifactId>clickhouse-native-jdbc</artifactId>
-    <version>${clickhouse-native-jdbc.version}</version>
+<groupId>com.github.timeplus</groupId>
+<artifactId>clickhouse-native-jdbc</artifactId>
+<version>${clickhouse-native-jdbc.version}</version>
 </dependency>
 ```
 

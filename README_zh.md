@@ -55,16 +55,16 @@ compile "com.github.housepower:clickhouse-native-jdbc:${clickhouse_native_jdbc_v
 ```xml
 <!-- (推荐) shaded 版本，自 2.3-stable 起可用 -->
 <dependency>
-    <groupId>com.github.housepower</groupId>
+    <groupId>com.github.timeplus</groupId>
     <artifactId>clickhouse-native-jdbc-shaded</artifactId>
     <version>${clickhouse-native-jdbc.version}</version>
 </dependency>
 
-<!-- 常规版本 -->
+        <!-- 常规版本 -->
 <dependency>
-    <groupId>com.github.housepower</groupId>
-    <artifactId>clickhouse-native-jdbc</artifactId>
-    <version>${clickhouse-native-jdbc.version}</version>
+<groupId>com.github.timeplus</groupId>
+<artifactId>clickhouse-native-jdbc</artifactId>
+<version>${clickhouse-native-jdbc.version}</version>
 </dependency>
 ```
 
@@ -93,7 +93,7 @@ compile "com.github.housepower:clickhouse-integration-spark_2.11:${clickhouse_na
 ```xml
 <!-- 自 2.4.0 起可用 -->
 <dependency>
-    <groupId>com.github.housepower</groupId>
+    <groupId>com.github.timeplus</groupId>
     <artifactId>clickhouse-integration-spark_2.11</artifactId>
     <version>${clickhouse-native-jdbc.version}</version>
 </dependency>

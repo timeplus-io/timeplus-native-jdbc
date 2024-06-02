@@ -14,7 +14,7 @@
 
 package examples;
 
-import com.github.housepower.jdbc.AbstractITest;
+import com.github.timeplus.jdbc.AbstractITest;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;

@@ -24,7 +24,7 @@ compile "com.github.housepower:clickhouse-integration-spark_2.11:${clickhouse_na
 ```xml
 <!-- available since 2.4.0 -->
 <dependency>
-    <groupId>com.github.housepower</groupId>
+    <groupId>com.github.timeplus</groupId>
     <artifactId>clickhouse-integration-spark_2.11</artifactId>
     <version>${clickhouse-native-jdbc.version}</version>
 </dependency>

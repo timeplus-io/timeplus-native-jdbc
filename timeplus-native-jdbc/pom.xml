@@ -18,14 +18,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.github.housepower</groupId>
+        <groupId>com.github.timeplus</groupId>
         <artifactId>timeplus-native-jdbc-parent</artifactId>
         <version>2.8.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>timeplus-native-jdbc</artifactId>
 
-    <url>https://github.com/housepower/ClickHouse-Native-JDBC</url>
+    <url>https://github.com/timeplus-io/timeplus-native-jdbc</url>
 
     <properties>
         <build.testJarPhase>prepare-package</build.testJarPhase>
@@ -57,8 +57,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.clickhouse</groupId>
-            <artifactId>clickhouse-jdbc</artifactId>
+            <groupId>com.timeplus</groupId>
+            <artifactId>timeplus-jdbc</artifactId>
             <classifier>all</classifier>
             <scope>test</scope>
         </dependency>
@@ -89,7 +89,7 @@
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
-            <artifactId>clickhouse</artifactId>
+            <artifactId>timeplus</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -125,7 +125,7 @@
                                         <argument>-classpath</argument>
                                         <classpath/>
                                         <argument>-Djava.library.path=${async-profiler.library-path}</argument>
-                                        <argument>com.github.housepower.jdbc.benchmark.Benchmark</argument>
+                                        <argument>com.github.timeplus.jdbc.benchmark.Benchmark</argument>
                                     </arguments>
                                 </configuration>
                             </execution>

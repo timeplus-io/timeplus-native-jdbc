@@ -14,7 +14,7 @@
 
 package examples;
 
-import com.github.housepower.jdbc.BalancedClickhouseDataSource;
+import com.github.timeplus.jdbc.BalancedClickhouseDataSource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.BeforeEach;

@@ -56,16 +56,16 @@ compile "com.github.housepower:clickhouse-native-jdbc:${clickhouse_native_jdbc_v
 ```xml
 <!-- (recommended) shaded version, available since 2.3-stable -->
 <dependency>
-    <groupId>com.github.housepower</groupId>
+    <groupId>com.github.timeplus</groupId>
     <artifactId>clickhouse-native-jdbc-shaded</artifactId>
     <version>${clickhouse-native-jdbc.version}</version>
 </dependency>
 
-<!-- normal version -->
+        <!-- normal version -->
 <dependency>
-    <groupId>com.github.housepower</groupId>
-    <artifactId>clickhouse-native-jdbc</artifactId>
-    <version>${clickhouse-native-jdbc.version}</version>
+<groupId>com.github.timeplus</groupId>
+<artifactId>clickhouse-native-jdbc</artifactId>
+<version>${clickhouse-native-jdbc.version}</version>
 </dependency>
 ```
 
@@ -95,7 +95,7 @@ compile "com.github.housepower:clickhouse-integration-spark_2.11:${clickhouse_na
 ```xml
 <!-- available since 2.4.0 -->
 <dependency>
-    <groupId>com.github.housepower</groupId>
+    <groupId>com.github.timeplus</groupId>
     <artifactId>clickhouse-integration-spark_2.11</artifactId>
     <version>${clickhouse-native-jdbc.version}</version>
 </dependency>
