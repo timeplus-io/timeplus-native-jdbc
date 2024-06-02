@@ -25,7 +25,7 @@ public class DataTypeInt16 implements BaseDataTypeInt16<Short, Short> {
 
     @Override
     public String name() {
-        return "Int16";
+        return "int16";
     }
 
     @Override

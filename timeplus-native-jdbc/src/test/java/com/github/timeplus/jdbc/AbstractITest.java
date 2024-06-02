@@ -33,9 +33,9 @@ public abstract class AbstractITest implements Serializable {
 
     protected static final ZoneId CLIENT_TZ = ZoneId.systemDefault();
     protected static final ZoneId SERVER_TZ = ZoneId.of("UTC");
-    protected static final String DRIVER_CLASS_NAME = "com.github.housepower.jdbc.ClickHouseDriver";
+    protected static final String DRIVER_CLASS_NAME = "com.github.timeplus.jdbc.TimeplusDriver";
 
-    public static final String CLICKHOUSE_IMAGE = System.getProperty("CLICKHOUSE_IMAGE", "timeplus/clickhouse-server:21.9");
+    public static final String CLICKHOUSE_IMAGE = System.getProperty("CLICKHOUSE_IMAGE", "ghcr.io/timeplus-io/proton:latest");
 
     protected static final String CLICKHOUSE_USER = SystemUtil.loadProp("CLICKHOUSE_USER", "default");
     protected static final String CLICKHOUSE_PASSWORD = SystemUtil.loadProp("CLICKHOUSE_PASSWORD", "");
@@ -43,7 +43,7 @@ public abstract class AbstractITest implements Serializable {
 
     protected static final int CLICKHOUSE_HTTP_PORT = 8123;
     protected static final int CLICKHOUSE_HTTPS_PORT = 8443;
-    protected static final int CLICKHOUSE_NATIVE_PORT = 9000;
+    protected static final int CLICKHOUSE_NATIVE_PORT = 8463;
     protected static final int CLICKHOUSE_NATIVE_SECURE_PORT = 9440;
 
     @Container
@@ -55,14 +55,14 @@ public abstract class AbstractITest implements Serializable {
                     CLICKHOUSE_HTTPS_PORT,
                     CLICKHOUSE_NATIVE_PORT,
                     CLICKHOUSE_NATIVE_SECURE_PORT)
-            .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/config/config.xml"),
-                    "/etc/clickhouse-server/config.xml")
+            .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/config/config.yaml"),
+                    "/etc/timeplusd-server/config.yaml")
             .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/config/users.xml"),
-                    "/etc/clickhouse-server/users.xml")
+                    "/etc/timeplusd-server/users.xml")
             .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/server.key"),
-                    "/etc/clickhouse-server/server.key")
+                    "/etc/timeplusd-server/server.key")
             .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/server.crt"),
-                    "/etc/clickhouse-server/server.crt");
+                    "/etc/timeplusd-server/server.crt");
 
     protected static String CK_HOST;
     protected static int CK_PORT;

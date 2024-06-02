@@ -38,8 +38,8 @@ public class DataTypeArray implements IDataType<TimeplusArray, Array> {
         Validate.isTrue(lexer.character() == '(');
         IDataType<?, ?> arrayNestedType = DataTypeFactory.get(lexer, serverContext);
         Validate.isTrue(lexer.character() == ')');
-        return new DataTypeArray("Array(" + arrayNestedType.name() + ")",
-                arrayNestedType, (DataTypeInt64) DataTypeFactory.get("Int64", serverContext));
+        return new DataTypeArray("array(" + arrayNestedType.name() + ")",
+                arrayNestedType, (DataTypeInt64) DataTypeFactory.get("int64", serverContext));
     };
 
     private final String name;

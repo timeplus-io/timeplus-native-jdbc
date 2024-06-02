@@ -26,7 +26,7 @@ import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BalancedClickhouseDataSourceITest extends AbstractITest {
+public class BalancedTimeplusDataSourceITest extends AbstractITest {
 
     private static BalancedTimeplusDataSource singleDs;
     private static BalancedTimeplusDataSource dualDs;

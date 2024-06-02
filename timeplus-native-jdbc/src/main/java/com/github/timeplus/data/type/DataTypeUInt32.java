@@ -25,7 +25,7 @@ public class DataTypeUInt32 implements BaseDataTypeInt32<Long, Long> {
 
     @Override
     public String name() {
-        return "UInt32";
+        return "uint32";
     }
 
     @Override

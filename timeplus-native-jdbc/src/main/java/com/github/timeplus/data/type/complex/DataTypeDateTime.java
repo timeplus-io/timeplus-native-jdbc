@@ -35,9 +35,9 @@ public class DataTypeDateTime implements IDataType<ZonedDateTime, Timestamp> {
             Validate.isTrue(lexer.character() == '(');
             String dataTimeZone = lexer.stringLiteral();
             Validate.isTrue(lexer.character() == ')');
-            return new DataTypeDateTime("DateTime('" + dataTimeZone + "')", serverContext);
+            return new DataTypeDateTime("datetime('" + dataTimeZone + "')", serverContext);
         }
-        return new DataTypeDateTime("DateTime", serverContext);
+        return new DataTypeDateTime("datetime", serverContext);
     };
 
     private static final LocalDateTime EPOCH_LOCAL_DT = LocalDateTime.of(1970, 1, 1, 0, 0);

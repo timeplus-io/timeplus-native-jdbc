@@ -25,7 +25,7 @@ public class DataTypeUInt16 implements BaseDataTypeInt16<Integer, Integer> {
 
     @Override
     public String name() {
-        return "UInt16";
+        return "uint16";
     }
 
     @Override

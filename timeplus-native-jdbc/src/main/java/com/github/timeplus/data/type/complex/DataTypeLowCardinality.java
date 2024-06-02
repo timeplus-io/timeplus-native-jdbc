@@ -31,7 +31,7 @@ public class DataTypeLowCardinality implements IDataType {
         IDataType nestedType = DataTypeFactory.get(lexer, serverContext);
         Validate.isTrue(lexer.character() == ')');
         return new DataTypeLowCardinality(
-                "LowCardinality(" + nestedType.name() + ")", nestedType);
+                "low_cardinality(" + nestedType.name() + ")", nestedType);
     };
 
     private final String name;

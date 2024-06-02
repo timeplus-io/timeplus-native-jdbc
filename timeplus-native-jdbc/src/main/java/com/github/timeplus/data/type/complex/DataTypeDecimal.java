@@ -37,7 +37,7 @@ public class DataTypeDecimal implements IDataType<BigDecimal, BigDecimal>, Bytes
         Validate.isTrue(lexer.character() == ',');
         Number scale = lexer.numberLiteral();
         Validate.isTrue(lexer.character() == ')');
-        return new DataTypeDecimal("Decimal(" + precision.intValue() + "," + scale.intValue() + ")",
+        return new DataTypeDecimal("decimal(" + precision.intValue() + "," + scale.intValue() + ")",
                 precision.intValue(), scale.intValue());
     };
 

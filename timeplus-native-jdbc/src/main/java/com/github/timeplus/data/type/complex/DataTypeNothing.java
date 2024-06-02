@@ -35,7 +35,7 @@ public class DataTypeNothing implements IDataType<Object, Object> {
 
     @Override
     public String name() {
-        return "Nothing";
+        return "nothing";
     }
 
     @Override
@@ -76,7 +76,7 @@ public class DataTypeNothing implements IDataType<Object, Object> {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"NULL"};
+        return new String[]{"null"};
     }
 
     @Override
