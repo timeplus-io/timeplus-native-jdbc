@@ -93,17 +93,17 @@ public class NativeContext {
     public static class ServerContext {
         private final long majorVersion;
         private final long minorVersion;
-        private final long reversion;
+        private final long revision;
         private final ZoneId timeZone;
         private final String displayName;
         private final TimeplusConfig configure;
 
-        public ServerContext(long majorVersion, long minorVersion, long reversion,
+        public ServerContext(long majorVersion, long minorVersion, long revision,
                              TimeplusConfig configure,
                              ZoneId timeZone, String displayName) {
             this.majorVersion = majorVersion;
             this.minorVersion = minorVersion;
-            this.reversion = reversion;
+            this.revision = revision;
             this.configure = configure;
             this.timeZone = timeZone;
             this.displayName = displayName;
@@ -117,12 +117,12 @@ public class NativeContext {
             return minorVersion;
         }
 
-        public long reversion() {
-            return reversion;
+        public long revision() {
+            return revision;
         }
 
         public String version() {
-            return majorVersion + "." + minorVersion + "." + reversion;
+            return majorVersion + "." + minorVersion + "." + revision;
         }
 
         public ZoneId timeZone() {

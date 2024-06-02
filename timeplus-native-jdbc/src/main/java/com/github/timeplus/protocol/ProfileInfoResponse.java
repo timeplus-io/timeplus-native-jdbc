@@ -24,7 +24,7 @@ public class ProfileInfoResponse implements Response {
         long rows = deserializer.readVarInt();
         long blocks = deserializer.readVarInt();
         long bytes = deserializer.readVarInt();
-        long appliedLimit = deserializer.readVarInt();
+        boolean appliedLimit = deserializer.readBoolean();
         long rowsBeforeLimit = deserializer.readVarInt();
         boolean calculatedRowsBeforeLimit = deserializer.readBoolean();
         return new ProfileInfoResponse(rows, blocks, bytes, appliedLimit, rowsBeforeLimit, calculatedRowsBeforeLimit);
@@ -33,12 +33,12 @@ public class ProfileInfoResponse implements Response {
     private final long rows;
     private final long blocks;
     private final long bytes;
-    private final long appliedLimit;
+    private final boolean appliedLimit;
     private final long rowsBeforeLimit;
     private final boolean calculatedRowsBeforeLimit;
 
     public ProfileInfoResponse(long rows, long blocks, long bytes,
-                               long appliedLimit, long rowsBeforeLimit, boolean calculatedRowsBeforeLimit) {
+                               boolean appliedLimit, long rowsBeforeLimit, boolean calculatedRowsBeforeLimit) {
         this.rows = rows;
         this.blocks = blocks;
         this.bytes = bytes;
@@ -64,7 +64,7 @@ public class ProfileInfoResponse implements Response {
         return bytes;
     }
 
-    public long appliedLimit() {
+    public boolean appliedLimit() {
         return appliedLimit;
     }
 

@@ -24,6 +24,8 @@ public class ProgressResponse implements Response {
         return new ProgressResponse(
                 deserializer.readVarInt(),
                 deserializer.readVarInt(),
+                deserializer.readVarInt(),
+                deserializer.readVarInt(),
                 deserializer.readVarInt()
         );
     }
@@ -31,11 +33,15 @@ public class ProgressResponse implements Response {
     private final long newRows;
     private final long newBytes;
     private final long newTotalRows;
+    private final long writtenRows;
+    private final long writtenBytes;
 
-    public ProgressResponse(long newRows, long newBytes, long newTotalRows) {
+    public ProgressResponse(long newRows, long newBytes, long newTotalRows, long writtenRows, long writtenBytes) {
         this.newRows = newRows;
         this.newBytes = newBytes;
         this.newTotalRows = newTotalRows;
+        this.writtenRows = writtenRows;
+        this.writtenBytes = writtenBytes;
     }
 
     @Override
@@ -61,6 +67,8 @@ public class ProgressResponse implements Response {
                 "newRows=" + newRows +
                 ", newBytes=" + newBytes +
                 ", newTotalRows=" + newTotalRows +
+                ", writeRows =" + writtenRows +
+                ", writeBytes =" + writtenBytes +
                 '}';
     }
 }
