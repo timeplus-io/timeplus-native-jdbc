@@ -19,7 +19,7 @@ import com.github.timeplus.log.Logger;
 import com.github.timeplus.log.LoggerFactory;
 import com.github.timeplus.misc.StrUtil;
 import com.github.timeplus.misc.Validate;
-import com.github.timeplus.settings.ClickHouseConfig;
+import com.github.timeplus.settings.TimeplusConfig;
 import com.github.timeplus.settings.SettingKey;
 import com.github.timeplus.jdbc.wrapper.SQLWrapper;
 
@@ -48,10 +48,10 @@ import javax.sql.DataSource;
  * Furthermore, this class has method { #scheduleActualization(int, TimeUnit) scheduleActualization}
  * which test hosts for availability. By default, this option is turned off.
  */
-public final class BalancedClickhouseDataSource implements DataSource, SQLWrapper {
+public final class BalancedTimeplusDataSource implements DataSource, SQLWrapper {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BalancedClickhouseDataSource.class);
-    private static final Pattern URL_TEMPLATE = Pattern.compile(ClickhouseJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX +
+    private static final Logger LOG = LoggerFactory.getLogger(BalancedTimeplusDataSource.class);
+    private static final Pattern URL_TEMPLATE = Pattern.compile(TimeplusJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX +
             "//([a-zA-Z0-9_:,.-]+)" +
             "((/[a-zA-Z0-9_]+)?" +
             "([?][a-zA-Z0-9_]+[=][a-zA-Z0-9_]+([&][a-zA-Z0-9_]+[=][a-zA-Z0-9_]*)*)?" +
@@ -64,8 +64,8 @@ public final class BalancedClickhouseDataSource implements DataSource, SQLWrappe
     private final List<String> allUrls;
     private volatile List<String> enabledUrls;
 
-    private final ClickHouseConfig cfg;
-    private final ClickHouseDriver driver = new ClickHouseDriver();
+    private final TimeplusConfig cfg;
+    private final TimeplusDriver driver = new TimeplusDriver();
 
     /**
      * create Datasource for clickhouse JDBC connections
@@ -76,7 +76,7 @@ public final class BalancedClickhouseDataSource implements DataSource, SQLWrappe
      * @throws IllegalArgumentException if param have not correct format,
      *                                  or error happens when checking host availability
      */
-    public BalancedClickhouseDataSource(String url) {
+    public BalancedTimeplusDataSource(String url) {
         this(splitUrl(url), new Properties());
     }
 
@@ -85,9 +85,9 @@ public final class BalancedClickhouseDataSource implements DataSource, SQLWrappe
      *
      * @param url        address for connection to the database
      * @param properties database properties
-     * @see #BalancedClickhouseDataSource(String)
+     * @see #BalancedTimeplusDataSource(String)
      */
-    public BalancedClickhouseDataSource(String url, Properties properties) {
+    public BalancedTimeplusDataSource(String url, Properties properties) {
         this(splitUrl(url), properties);
     }
 
@@ -96,20 +96,20 @@ public final class BalancedClickhouseDataSource implements DataSource, SQLWrappe
      *
      * @param url      address for connection to the database
      * @param settings clickhouse settings
-     * @see #BalancedClickhouseDataSource(String)
+     * @see #BalancedTimeplusDataSource(String)
      */
-    public BalancedClickhouseDataSource(final String url, Map<SettingKey, Serializable> settings) {
+    public BalancedTimeplusDataSource(final String url, Map<SettingKey, Serializable> settings) {
         this(splitUrl(url), settings);
     }
 
-    private BalancedClickhouseDataSource(final List<String> urls, Properties properties) {
-        this(urls, ClickhouseJdbcUrlParser.parseProperties(properties));
+    private BalancedTimeplusDataSource(final List<String> urls, Properties properties) {
+        this(urls, TimeplusJdbcUrlParser.parseProperties(properties));
     }
 
-    private BalancedClickhouseDataSource(final List<String> urls, Map<SettingKey, Serializable> settings) {
+    private BalancedTimeplusDataSource(final List<String> urls, Map<SettingKey, Serializable> settings) {
         Validate.ensure(!urls.isEmpty(), "Incorrect ClickHouse jdbc url list. It must be not empty");
 
-        this.cfg = ClickHouseConfig.Builder.builder()
+        this.cfg = TimeplusConfig.Builder.builder()
                 .withJdbcUrl(urls.get(0))
                 .withSettings(settings)
                 .host("undefined")
@@ -141,12 +141,12 @@ public final class BalancedClickhouseDataSource implements DataSource, SQLWrappe
         final String database = StrUtil.getOrDefault(m.group(2), "");
         String[] hosts = m.group(1).split(",");
         return Arrays.stream(hosts)
-                .map(host -> ClickhouseJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX + "//" + host + database)
+                .map(host -> TimeplusJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX + "//" + host + database)
                 .collect(Collectors.toList());
     }
 
     private boolean ping(final String url) {
-        try (ClickHouseConnection connection = driver.connect(url, cfg)) {
+        try (TimeplusConnection connection = driver.connect(url, cfg)) {
             return connection.ping(Duration.ofSeconds(1));
         } catch (Exception e) {
             return false;
@@ -195,7 +195,7 @@ public final class BalancedClickhouseDataSource implements DataSource, SQLWrappe
      * {@inheritDoc}
      */
     @Override
-    public ClickHouseConnection getConnection() throws SQLException {
+    public TimeplusConnection getConnection() throws SQLException {
         return driver.connect(getAnyUrl(), cfg);
     }
 
@@ -203,7 +203,7 @@ public final class BalancedClickhouseDataSource implements DataSource, SQLWrappe
      * {@inheritDoc}
      */
     @Override
-    public ClickHouseConnection getConnection(String user, String password) throws SQLException {
+    public TimeplusConnection getConnection(String user, String password) throws SQLException {
         return driver.connect(getAnyUrl(), cfg.withCredentials(user, password));
     }
 
@@ -269,7 +269,7 @@ public final class BalancedClickhouseDataSource implements DataSource, SQLWrappe
         return allUrls.size() != enabledUrls.size();
     }
 
-    public ClickHouseConfig getCfg() {
+    public TimeplusConfig getCfg() {
         return cfg;
     }
 }

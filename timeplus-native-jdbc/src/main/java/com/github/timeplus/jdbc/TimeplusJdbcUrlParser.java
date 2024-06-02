@@ -29,7 +29,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ClickhouseJdbcUrlParser {
+public class TimeplusJdbcUrlParser {
     public static final String JDBC_PREFIX = "jdbc:";
     public static final String CLICKHOUSE_PREFIX = "clickhouse:";
     public static final String JDBC_CLICKHOUSE_PREFIX = JDBC_PREFIX + CLICKHOUSE_PREFIX;
@@ -47,7 +47,7 @@ public class ClickhouseJdbcUrlParser {
             + "(?:/(?<database>([a-zA-Z0-9_]+)))?" // database: optional; starts with "/", and then followed by any char except "?"
             + "(?:\\?(?<properties>.*))?"); // properties: optional; starts with "?", and then followed by any char
 
-    private static final Logger LOG = LoggerFactory.getLogger(ClickhouseJdbcUrlParser.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TimeplusJdbcUrlParser.class);
 
     public static Map<SettingKey, Serializable> parseJdbcUrl(String jdbcUrl) {
         String uri = jdbcUrl.substring(JDBC_CLICKHOUSE_PREFIX.length());

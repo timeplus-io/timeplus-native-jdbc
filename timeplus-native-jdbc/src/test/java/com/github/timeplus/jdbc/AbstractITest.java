@@ -35,7 +35,7 @@ public abstract class AbstractITest implements Serializable {
     protected static final ZoneId SERVER_TZ = ZoneId.of("UTC");
     protected static final String DRIVER_CLASS_NAME = "com.github.housepower.jdbc.ClickHouseDriver";
 
-    public static final String CLICKHOUSE_IMAGE = System.getProperty("CLICKHOUSE_IMAGE", "clickhouse/clickhouse-server:21.9");
+    public static final String CLICKHOUSE_IMAGE = System.getProperty("CLICKHOUSE_IMAGE", "timeplus/clickhouse-server:21.9");
 
     protected static final String CLICKHOUSE_USER = SystemUtil.loadProp("CLICKHOUSE_USER", "default");
     protected static final String CLICKHOUSE_PASSWORD = SystemUtil.loadProp("CLICKHOUSE_PASSWORD", "");
@@ -55,13 +55,13 @@ public abstract class AbstractITest implements Serializable {
                     CLICKHOUSE_HTTPS_PORT,
                     CLICKHOUSE_NATIVE_PORT,
                     CLICKHOUSE_NATIVE_SECURE_PORT)
-            .withCopyFileToContainer(MountableFile.forClasspathResource("clickhouse/config/config.xml"),
+            .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/config/config.xml"),
                     "/etc/clickhouse-server/config.xml")
-            .withCopyFileToContainer(MountableFile.forClasspathResource("clickhouse/config/users.xml"),
+            .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/config/users.xml"),
                     "/etc/clickhouse-server/users.xml")
-            .withCopyFileToContainer(MountableFile.forClasspathResource("clickhouse/server.key"),
+            .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/server.key"),
                     "/etc/clickhouse-server/server.key")
-            .withCopyFileToContainer(MountableFile.forClasspathResource("clickhouse/server.crt"),
+            .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/server.crt"),
                     "/etc/clickhouse-server/server.crt");
 
     protected static String CK_HOST;
@@ -123,7 +123,7 @@ public abstract class AbstractITest implements Serializable {
         while (drivers.hasMoreElements()) {
             DriverManager.deregisterDriver(drivers.nextElement());
         }
-        DriverManager.registerDriver(new ClickHouseDriver());
+        DriverManager.registerDriver(new TimeplusDriver());
     }
 
     protected void withNewConnection(WithConnection withConnection, Object... args) throws Exception {

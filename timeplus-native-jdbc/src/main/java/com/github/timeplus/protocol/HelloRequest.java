@@ -15,7 +15,7 @@
 package com.github.timeplus.protocol;
 
 import com.github.timeplus.serde.BinarySerializer;
-import com.github.timeplus.settings.ClickHouseDefines;
+import com.github.timeplus.settings.TimeplusDefines;
 
 import java.io.IOException;
 
@@ -43,9 +43,9 @@ public class HelloRequest implements Request {
 
     @Override
     public void writeImpl(BinarySerializer serializer) throws IOException {
-        serializer.writeUTF8StringBinary(ClickHouseDefines.NAME + " " + clientName);
-        serializer.writeVarInt(ClickHouseDefines.MAJOR_VERSION);
-        serializer.writeVarInt(ClickHouseDefines.MINOR_VERSION);
+        serializer.writeUTF8StringBinary(TimeplusDefines.NAME + " " + clientName);
+        serializer.writeVarInt(TimeplusDefines.MAJOR_VERSION);
+        serializer.writeVarInt(TimeplusDefines.MINOR_VERSION);
         serializer.writeVarInt(clientReversion);
         serializer.writeUTF8StringBinary(defaultDatabase);
         serializer.writeUTF8StringBinary(clientUsername);

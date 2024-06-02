@@ -18,7 +18,7 @@ import com.github.timeplus.data.DataTypeFactory;
 import com.github.timeplus.data.IDataType;
 import com.github.timeplus.log.Logger;
 import com.github.timeplus.log.LoggerFactory;
-import com.github.timeplus.settings.ClickHouseDefines;
+import com.github.timeplus.settings.TimeplusDefines;
 import com.github.timeplus.jdbc.wrapper.SQLDatabaseMetadata;
 
 import java.sql.*;
@@ -27,15 +27,15 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public final class ClickHouseDatabaseMetadata implements SQLDatabaseMetadata {
+public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ClickHouseDatabaseMetadata.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TimeplusDatabaseMetadata.class);
 
     private final String url;
-    private final ClickHouseConnection connection;
+    private final TimeplusConnection connection;
 
     // we will not close connection
-    public ClickHouseDatabaseMetadata(String url, ClickHouseConnection connection) {
+    public TimeplusDatabaseMetadata(String url, TimeplusConnection connection) {
         this.url = url;
         this.connection = connection;
     }
@@ -102,17 +102,17 @@ public final class ClickHouseDatabaseMetadata implements SQLDatabaseMetadata {
 
     @Override
     public String getDriverVersion() throws SQLException {
-        return String.valueOf(ClickHouseDefines.CLIENT_REVISION);
+        return String.valueOf(TimeplusDefines.CLIENT_REVISION);
     }
 
     @Override
     public int getDriverMajorVersion() {
-        return ClickHouseDefines.MAJOR_VERSION;
+        return TimeplusDefines.MAJOR_VERSION;
     }
 
     @Override
     public int getDriverMinorVersion() {
-        return ClickHouseDefines.MINOR_VERSION;
+        return TimeplusDefines.MINOR_VERSION;
     }
 
     @Override
@@ -635,7 +635,7 @@ public final class ClickHouseDatabaseMetadata implements SQLDatabaseMetadata {
                                    String schemaPattern,
                                    String procedureNamePattern) throws SQLException {
 
-        return ClickHouseResultSetBuilder
+        return TimeplusResultSetBuilder
                 .builder(9, connection.serverContext())
                 .cfg(connection.cfg())
                 .columnNames(
@@ -666,7 +666,7 @@ public final class ClickHouseDatabaseMetadata implements SQLDatabaseMetadata {
                                          String schemaPattern,
                                          String procedureNamePattern,
                                          String columnNamePattern) throws SQLException {
-        return ClickHouseResultSetBuilder
+        return TimeplusResultSetBuilder
                 .builder(20, connection.serverContext())
                 .cfg(connection.cfg())
                 .columnNames(
@@ -711,7 +711,7 @@ public final class ClickHouseDatabaseMetadata implements SQLDatabaseMetadata {
         sql += " order by database, name";
         ResultSet result = request(sql);
 
-        ClickHouseResultSetBuilder builder = ClickHouseResultSetBuilder
+        TimeplusResultSetBuilder builder = TimeplusResultSetBuilder
                 .builder(10, connection.serverContext())
                 .cfg(connection.cfg())
                 .columnNames(
@@ -740,7 +740,7 @@ public final class ClickHouseDatabaseMetadata implements SQLDatabaseMetadata {
         List<String> typeList = types != null ? Arrays.asList(types) : null;
         while (result.next()) {
             List<String> row = new ArrayList<>();
-            row.add(ClickHouseDefines.DEFAULT_CATALOG);
+            row.add(TimeplusDefines.DEFAULT_CATALOG);
             row.add(result.getString(1));
             row.add(result.getString(2));
             String type, e = result.getString(3).intern();
@@ -780,7 +780,7 @@ public final class ClickHouseDatabaseMetadata implements SQLDatabaseMetadata {
 
     @Override
     public ResultSet getSchemas(String catalog, String schemaPattern) throws SQLException {
-        String sql = "select name as TABLE_SCHEM, '" + ClickHouseDefines.DEFAULT_CATALOG + "' as TABLE_CATALOG from system.databases";
+        String sql = "select name as TABLE_SCHEM, '" + TimeplusDefines.DEFAULT_CATALOG + "' as TABLE_CATALOG from system.databases";
         if (catalog != null) {
             sql += " where TABLE_CATALOG = '" + catalog + '\'';
         }
@@ -797,17 +797,17 @@ public final class ClickHouseDatabaseMetadata implements SQLDatabaseMetadata {
 
     @Override
     public ResultSet getCatalogs() throws SQLException {
-        return ClickHouseResultSetBuilder
+        return TimeplusResultSetBuilder
                 .builder(1, connection.serverContext())
                 .cfg(connection.cfg())
                 .columnNames("TABLE_CAT")
                 .columnTypes("String")
-                .addRow(ClickHouseDefines.DEFAULT_CATALOG).build();
+                .addRow(TimeplusDefines.DEFAULT_CATALOG).build();
     }
 
     @Override
     public ResultSet getTableTypes() throws SQLException {
-        return ClickHouseResultSetBuilder
+        return TimeplusResultSetBuilder
                 .builder(1, connection.serverContext())
                 .cfg(connection.cfg())
                 .columnNames("TABLE_TYPE")
@@ -845,7 +845,7 @@ public final class ClickHouseDatabaseMetadata implements SQLDatabaseMetadata {
             query.append(" WHERE ");
             buildAndCondition(query, predicates);
         }
-        ClickHouseResultSetBuilder builder = ClickHouseResultSetBuilder
+        TimeplusResultSetBuilder builder = TimeplusResultSetBuilder
                 .builder(24, connection.serverContext())
                 .cfg(connection.cfg())
                 .columnNames(
@@ -903,7 +903,7 @@ public final class ClickHouseDatabaseMetadata implements SQLDatabaseMetadata {
         while (descTable.next()) {
             List<Object> row = new ArrayList<>();
             //catalog name
-            row.add(ClickHouseDefines.DEFAULT_CATALOG);
+            row.add(TimeplusDefines.DEFAULT_CATALOG);
             //database name
             row.add(descTable.getString("database"));
             //table name
@@ -1023,7 +1023,7 @@ public final class ClickHouseDatabaseMetadata implements SQLDatabaseMetadata {
 
     @Override
     public ResultSet getTypeInfo() throws SQLException {
-        ClickHouseResultSetBuilder builder = ClickHouseResultSetBuilder
+        TimeplusResultSetBuilder builder = TimeplusResultSetBuilder
                 .builder(18, connection.serverContext())
                 .cfg(connection.cfg())
                 .columnNames(
@@ -1282,12 +1282,12 @@ public final class ClickHouseDatabaseMetadata implements SQLDatabaseMetadata {
 
     @Override
     public int getJDBCMajorVersion() throws SQLException {
-        return ClickHouseDefines.MAJOR_VERSION;
+        return TimeplusDefines.MAJOR_VERSION;
     }
 
     @Override
     public int getJDBCMinorVersion() throws SQLException {
-        return ClickHouseDefines.MINOR_VERSION;
+        return TimeplusDefines.MINOR_VERSION;
     }
 
     @Override
@@ -1355,7 +1355,7 @@ public final class ClickHouseDatabaseMetadata implements SQLDatabaseMetadata {
 
     @Override
     public Logger logger() {
-        return ClickHouseDatabaseMetadata.LOG;
+        return TimeplusDatabaseMetadata.LOG;
     }
 
 
@@ -1365,7 +1365,7 @@ public final class ClickHouseDatabaseMetadata implements SQLDatabaseMetadata {
     }
 
     private ResultSet getEmptyResultSet() throws SQLException {
-        return ClickHouseResultSetBuilder
+        return TimeplusResultSetBuilder
                 .builder(1, connection.serverContext())
                 .cfg(connection.cfg())
                 .columnNames("some")

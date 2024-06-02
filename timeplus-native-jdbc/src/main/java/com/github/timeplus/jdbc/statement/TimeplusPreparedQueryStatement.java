@@ -15,7 +15,7 @@
 package com.github.timeplus.jdbc.statement;
 
 
-import com.github.timeplus.jdbc.ClickHouseConnection;
+import com.github.timeplus.jdbc.TimeplusConnection;
 import com.github.timeplus.client.NativeContext;
 import com.github.timeplus.misc.DateTimeUtil;
 
@@ -26,7 +26,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClickHousePreparedQueryStatement extends AbstractPreparedStatement {
+public class TimeplusPreparedQueryStatement extends AbstractPreparedStatement {
 
     private static String[] splitQueryByQuestionMark(String query) {
         int lastPos = 0;
@@ -49,11 +49,11 @@ public class ClickHousePreparedQueryStatement extends AbstractPreparedStatement 
         return queryParts.toArray(new String[0]);
     }
 
-    public ClickHousePreparedQueryStatement(ClickHouseConnection conn, NativeContext nativeContext, String query) {
+    public TimeplusPreparedQueryStatement(TimeplusConnection conn, NativeContext nativeContext, String query) {
         this(conn, nativeContext, splitQueryByQuestionMark(query));
     }
 
-    private ClickHousePreparedQueryStatement(ClickHouseConnection conn, NativeContext nativeContext, String[] parts) {
+    private TimeplusPreparedQueryStatement(TimeplusConnection conn, NativeContext nativeContext, String[] parts) {
         super(conn, nativeContext, parts);
     }
 

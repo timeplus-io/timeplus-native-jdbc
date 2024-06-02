@@ -17,7 +17,7 @@ package com.github.timeplus.serde;
 import com.github.timeplus.buffer.BuffedWriter;
 import com.github.timeplus.buffer.CompressedBuffedWriter;
 import com.github.timeplus.misc.Switcher;
-import com.github.timeplus.settings.ClickHouseDefines;
+import com.github.timeplus.settings.TimeplusDefines;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -33,7 +33,7 @@ public class BinarySerializer {
         this.enableCompress = enableCompress;
         BuffedWriter compressWriter = null;
         if (enableCompress) {
-            compressWriter = new CompressedBuffedWriter(ClickHouseDefines.SOCKET_SEND_BUFFER_BYTES, writer);
+            compressWriter = new CompressedBuffedWriter(TimeplusDefines.SOCKET_SEND_BUFFER_BYTES, writer);
         }
         switcher = new Switcher<>(compressWriter, writer);
         // max num of byte is 8 for double and long

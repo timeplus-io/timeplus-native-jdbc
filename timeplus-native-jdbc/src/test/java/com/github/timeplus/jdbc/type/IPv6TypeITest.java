@@ -15,7 +15,7 @@
 package com.github.timeplus.jdbc.type;
 
 import com.github.timeplus.jdbc.AbstractITest;
-import com.github.timeplus.jdbc.ClickHouseResultSet;
+import com.github.timeplus.jdbc.TimeplusResultSet;
 import com.github.timeplus.misc.BytesHelper;
 import org.junit.jupiter.api.Test;
 
@@ -48,7 +48,7 @@ public class IPv6TypeITest extends AbstractITest implements BytesHelper {
                 pstmt.executeBatch();
             }
 
-            ClickHouseResultSet rs = (ClickHouseResultSet) statement.executeQuery("SELECT * FROM ipv6_test;");
+            TimeplusResultSet rs = (TimeplusResultSet) statement.executeQuery("SELECT * FROM ipv6_test;");
             int size = 0;
             while (rs.next()) {
                 size++;

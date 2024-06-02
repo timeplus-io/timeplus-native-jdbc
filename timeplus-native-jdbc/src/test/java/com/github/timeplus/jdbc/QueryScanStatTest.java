@@ -60,8 +60,8 @@ public class QueryScanStatTest extends AbstractITest {
                         // ignore result
                     }
 
-                    readRows = ((ClickHouseResultSet) rs).getReadRows();
-                    readBytes = ((ClickHouseResultSet) rs).getReadBytes();
+                    readRows = ((TimeplusResultSet) rs).getReadRows();
+                    readBytes = ((TimeplusResultSet) rs).getReadBytes();
                 }
 
                 Thread.sleep(12 * 1000); // wait insert into ch log table
@@ -98,7 +98,7 @@ public class QueryScanStatTest extends AbstractITest {
                     // ignore result
                 }
 
-                assertEquals(((ClickHouseResultSet) rs).getReadRows(), lines);
+                assertEquals(((TimeplusResultSet) rs).getReadRows(), lines);
             }
         });
     }

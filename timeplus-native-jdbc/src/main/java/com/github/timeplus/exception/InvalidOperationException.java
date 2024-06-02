@@ -14,7 +14,7 @@
 
 package com.github.timeplus.exception;
 
-public class InvalidOperationException extends ClickHouseClientException {
+public class InvalidOperationException extends TimeplusClientException {
 
     public InvalidOperationException(String message) {
         super(message);

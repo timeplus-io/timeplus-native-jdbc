@@ -14,7 +14,7 @@
 
 package com.github.timeplus.exception;
 
-public class NotImplementedException extends ClickHouseClientException {
+public class NotImplementedException extends TimeplusClientException {
 
     public NotImplementedException(String message) {
         super(message);

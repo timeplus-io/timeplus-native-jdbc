@@ -22,13 +22,13 @@ import com.github.timeplus.misc.Validate;
 import com.github.timeplus.protocol.*;
 import com.github.timeplus.serde.BinaryDeserializer;
 import com.github.timeplus.serde.BinarySerializer;
-import com.github.timeplus.settings.ClickHouseConfig;
-import com.github.timeplus.settings.ClickHouseDefines;
+import com.github.timeplus.settings.TimeplusConfig;
+import com.github.timeplus.settings.TimeplusDefines;
 import com.github.timeplus.settings.SettingKey;
 import com.github.timeplus.log.Logger;
 import com.github.timeplus.log.LoggerFactory;
 import com.github.timeplus.stream.QueryResult;
-import com.github.timeplus.stream.ClickHouseQueryResult;
+import com.github.timeplus.stream.TimeplusQueryResult;
 
 import javax.net.ssl.*;
 import java.io.IOException;
@@ -48,13 +48,13 @@ public class NativeClient {
 
     private static final Logger LOG = LoggerFactory.getLogger(NativeClient.class);
 
-    public static NativeClient connect(ClickHouseConfig config) throws SQLException {
+    public static NativeClient connect(TimeplusConfig config) throws SQLException {
         return connect(config.host(), config.port(), config);
     }
 
     // TODO: Support proxy
     // TODO: Move socket initialisation to separate factory (default & ssl)
-    public static NativeClient connect(String host, int port, ClickHouseConfig config) throws SQLException {
+    public static NativeClient connect(String host, int port, TimeplusConfig config) throws SQLException {
         try {
             SocketAddress endpoint = new InetSocketAddress(host, port);
             Socket socket;
@@ -69,8 +69,8 @@ public class NativeClient {
                 socket = new Socket();
             }
             socket.setTcpNoDelay(true);
-            socket.setSendBufferSize(ClickHouseDefines.SOCKET_SEND_BUFFER_BYTES);
-            socket.setReceiveBufferSize(ClickHouseDefines.SOCKET_RECV_BUFFER_BYTES);
+            socket.setSendBufferSize(TimeplusDefines.SOCKET_SEND_BUFFER_BYTES);
+            socket.setReceiveBufferSize(TimeplusDefines.SOCKET_RECV_BUFFER_BYTES);
             socket.setKeepAlive(config.tcpKeepAlive());
             socket.connect(endpoint, (int) config.connectTimeout().toMillis());
 
@@ -96,7 +96,7 @@ public class NativeClient {
     private NativeClient(Socket socket) throws IOException {
         this.socket = socket;
         this.address = socket.getLocalSocketAddress();
-        this.compression = ClickHouseDefines.COMPRESSION;
+        this.compression = TimeplusDefines.COMPRESSION;
 
         this.serializer = new BinarySerializer(new SocketBuffedWriter(socket), compression);
         this.deserializer = new BinaryDeserializer(new SocketBuffedReader(socket), compression);
@@ -161,7 +161,7 @@ public class NativeClient {
     }
 
     public QueryResult receiveQuery(Duration soTimeout, NativeContext.ServerContext info) {
-        return new ClickHouseQueryResult(() -> receiveResponse(soTimeout, info));
+        return new TimeplusQueryResult(() -> receiveResponse(soTimeout, info));
     }
 
     public void silentDisconnect() {

@@ -269,11 +269,11 @@ public class BatchInsertITest extends AbstractITest {
                                 break;
                             }
                             case 2: {
-                                v = (Integer) (((ClickHouseStruct) each.getValue()).getAttributes()[0]);
+                                v = (Integer) (((TimeplusStruct) each.getValue()).getAttributes()[0]);
                                 break;
                             }
                             case 3: {
-                                v = (Integer) (((ClickHouseArray) each.getValue()).getArray()[0]);
+                                v = (Integer) (((TimeplusArray) each.getValue()).getArray()[0]);
                                 break;
                             }
                             default: {

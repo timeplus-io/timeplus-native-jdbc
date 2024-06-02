@@ -16,7 +16,7 @@ package com.github.timeplus.settings;
 
 import java.util.Locale;
 
-public enum ClickHouseErrCode {
+public enum TimeplusErrCode {
     UNKNOWN_ERROR(-2, "UNKNOWN_ERROR"),
     CLIENT_ERROR(-1, "CLIENT_ERROR"),
     OK(0, "OK"),
@@ -547,18 +547,18 @@ public enum ClickHouseErrCode {
     UNKNOWN_EXCEPTION(1002, "UNKNOWN_EXCEPTION"),
     INVALID_SHARD_ID(1003, "INVALID_SHARD_ID");
 
-    public static ClickHouseErrCode fromCode(int code) {
-        for (ClickHouseErrCode value : ClickHouseErrCode.values()) {
+    public static TimeplusErrCode fromCode(int code) {
+        for (TimeplusErrCode value : TimeplusErrCode.values()) {
             if (value.code == code)
                 return value;
         }
-        return ClickHouseErrCode.UNKNOWN_ERROR;
+        return TimeplusErrCode.UNKNOWN_ERROR;
     }
 
     private final int code;
     private final String name;
 
-    ClickHouseErrCode(int code, String name) {
+    TimeplusErrCode(int code, String name) {
         this.code = code;
         this.name = name;
     }

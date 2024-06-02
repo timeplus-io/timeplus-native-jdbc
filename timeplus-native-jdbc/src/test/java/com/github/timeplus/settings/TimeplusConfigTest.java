@@ -24,11 +24,11 @@ import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ClickHouseConfigTest {
+class TimeplusConfigTest {
 
     @Test
     public void testDefaultClickHouseConfig() {
-        ClickHouseConfig cfg = ClickHouseConfig.Builder.builder().build();
+        TimeplusConfig cfg = TimeplusConfig.Builder.builder().build();
         assertEquals("127.0.0.1", cfg.host());
         assertEquals(9000, cfg.port());
         assertEquals("default", cfg.user());
@@ -44,7 +44,7 @@ class ClickHouseConfigTest {
 
     @Test
     public void testClickHouseConfig() {
-        ClickHouseConfig cfg = ClickHouseConfig.Builder.builder()
+        TimeplusConfig cfg = TimeplusConfig.Builder.builder()
                 .withJdbcUrl("jdbc:clickhouse://1.2.3.4:8123/db2")
                 .charset("GBK")
                 .clientName("ck-test")
@@ -68,7 +68,7 @@ class ClickHouseConfigTest {
     public void testUndefinedSettings() {
         Properties props = new Properties();
         props.setProperty("unknown", "unknown");
-        ClickHouseConfig cfg = ClickHouseConfig.Builder.builder()
+        TimeplusConfig cfg = TimeplusConfig.Builder.builder()
                 .withProperties(props)
                 .build();
         assertTrue(cfg.settings()
@@ -87,7 +87,7 @@ class ClickHouseConfigTest {
         Properties props = new Properties();
         props.setProperty("user_defined", "haha");
 
-        ClickHouseConfig cfg = ClickHouseConfig.Builder.builder()
+        TimeplusConfig cfg = TimeplusConfig.Builder.builder()
                 .withProperties(props)
                 .build();
         assertEquals("haha", cfg.settings().get(userDefined));

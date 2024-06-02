@@ -21,8 +21,8 @@ import io.airlift.compress.Decompressor;
 import io.airlift.compress.lz4.Lz4Decompressor;
 import io.airlift.compress.zstd.ZstdDecompressor;
 
-import static com.github.timeplus.settings.ClickHouseDefines.CHECKSUM_LENGTH;
-import static com.github.timeplus.settings.ClickHouseDefines.COMPRESSION_HEADER_LENGTH;
+import static com.github.timeplus.settings.TimeplusDefines.CHECKSUM_LENGTH;
+import static com.github.timeplus.settings.TimeplusDefines.COMPRESSION_HEADER_LENGTH;
 
 public class CompressedBuffedReader implements BuffedReader, BytesHelper {
 

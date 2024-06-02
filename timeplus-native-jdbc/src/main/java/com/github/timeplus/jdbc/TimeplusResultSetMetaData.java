@@ -19,20 +19,20 @@ import com.github.timeplus.data.type.complex.DataTypeNullable;
 import com.github.timeplus.log.Logger;
 import com.github.timeplus.log.LoggerFactory;
 import com.github.timeplus.jdbc.wrapper.SQLResultSetMetaData;
-import com.github.timeplus.settings.ClickHouseDefines;
+import com.github.timeplus.settings.TimeplusDefines;
 
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
-public class ClickHouseResultSetMetaData implements SQLResultSetMetaData {
+public class TimeplusResultSetMetaData implements SQLResultSetMetaData {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ClickHouseResultSetMetaData.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TimeplusResultSetMetaData.class);
 
     private final Block header;
     private final String db;
     private final String table;
 
-    public ClickHouseResultSetMetaData(Block header, String db, String table) {
+    public TimeplusResultSetMetaData(Block header, String db, String table) {
         this.header = header;
         this.db = db;
         this.table = table;
@@ -116,7 +116,7 @@ public class ClickHouseResultSetMetaData implements SQLResultSetMetaData {
 
     @Override
     public String getCatalogName(int column) throws SQLException {
-        return ClickHouseDefines.DEFAULT_CATALOG;
+        return TimeplusDefines.DEFAULT_CATALOG;
     }
 
     @Override
@@ -146,6 +146,6 @@ public class ClickHouseResultSetMetaData implements SQLResultSetMetaData {
 
     @Override
     public Logger logger() {
-        return ClickHouseResultSetMetaData.LOG;
+        return TimeplusResultSetMetaData.LOG;
     }
 }

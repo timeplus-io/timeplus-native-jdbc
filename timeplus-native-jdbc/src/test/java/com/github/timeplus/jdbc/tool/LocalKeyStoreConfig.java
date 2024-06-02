@@ -37,7 +37,7 @@ public class LocalKeyStoreConfig extends KeyStoreConfig {
     }
 
     private String getKeyStoreAbsolutePath() {
-        Path jksPath = Paths.get("src", "test", "resources", "clickhouse", "server.jks");
+        Path jksPath = Paths.get("src", "test", "resources", "timeplus", "server.jks");
         return jksPath.toFile().getAbsolutePath();
     }
 }

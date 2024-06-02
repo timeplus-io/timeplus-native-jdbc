@@ -14,7 +14,7 @@
 
 package com.github.timeplus.jdbc.statement;
 
-import com.github.timeplus.jdbc.ClickHouseConnection;
+import com.github.timeplus.jdbc.TimeplusConnection;
 import com.github.timeplus.client.NativeContext;
 import com.github.timeplus.misc.BytesCharSeq;
 import com.github.timeplus.misc.DateTimeUtil;
@@ -33,7 +33,7 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.regex.Matcher;
 
-public abstract class AbstractPreparedStatement extends ClickHouseStatement implements SQLPreparedStatement {
+public abstract class AbstractPreparedStatement extends TimeplusStatement implements SQLPreparedStatement {
 
     private final String[] queryParts;
     private final DateTimeFormatter dateFmt;
@@ -42,7 +42,7 @@ public abstract class AbstractPreparedStatement extends ClickHouseStatement impl
 
     protected Object[] parameters;
 
-    public AbstractPreparedStatement(ClickHouseConnection connection, NativeContext nativeContext, String[] queryParts) {
+    public AbstractPreparedStatement(TimeplusConnection connection, NativeContext nativeContext, String[] queryParts) {
         super(connection, nativeContext);
         this.queryParts = queryParts;
         if (queryParts != null && queryParts.length > 0)

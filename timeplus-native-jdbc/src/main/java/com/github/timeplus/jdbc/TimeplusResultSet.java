@@ -16,8 +16,8 @@ package com.github.timeplus.jdbc;
 
 import com.github.timeplus.data.Block;
 import com.github.timeplus.data.IColumn;
-import com.github.timeplus.exception.ClickHouseSQLException;
-import com.github.timeplus.jdbc.statement.ClickHouseStatement;
+import com.github.timeplus.exception.TimeplusSQLException;
+import com.github.timeplus.jdbc.statement.TimeplusStatement;
 import com.github.timeplus.jdbc.wrapper.SQLResultSet;
 import com.github.timeplus.log.Logger;
 import com.github.timeplus.log.LoggerFactory;
@@ -25,7 +25,7 @@ import com.github.timeplus.misc.CheckedIterator;
 import com.github.timeplus.misc.DateTimeUtil;
 import com.github.timeplus.misc.Validate;
 import com.github.timeplus.protocol.DataResponse;
-import com.github.timeplus.settings.ClickHouseConfig;
+import com.github.timeplus.settings.TimeplusConfig;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -36,9 +36,9 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
 
-public class ClickHouseResultSet implements SQLResultSet {
+public class TimeplusResultSet implements SQLResultSet {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ClickHouseResultSet.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TimeplusResultSet.class);
 
     private int currentRowNum = -1;
     private Block currentBlock = new Block();
@@ -47,8 +47,8 @@ public class ClickHouseResultSet implements SQLResultSet {
     private int lastFetchColumnIdx = -1;
     private Block lastFetchBlock = null;
 
-    private final ClickHouseStatement statement;
-    private final ClickHouseConfig cfg;
+    private final TimeplusStatement statement;
+    private final TimeplusConfig cfg;
     private final String db;
     private final String table;
     private final Block header;
@@ -60,12 +60,12 @@ public class ClickHouseResultSet implements SQLResultSet {
     private long readRows = 0;
     private long readBytes = 0;
 
-    public ClickHouseResultSet(ClickHouseStatement statement,
-                               ClickHouseConfig cfg,
-                               String db,
-                               String table,
-                               Block header,
-                               CheckedIterator<DataResponse, SQLException> dataResponses) {
+    public TimeplusResultSet(TimeplusStatement statement,
+                             TimeplusConfig cfg,
+                             String db,
+                             String table,
+                             Block header,
+                             CheckedIterator<DataResponse, SQLException> dataResponses) {
         this.statement = statement;
         this.cfg = cfg;
         this.db = db;
@@ -292,7 +292,7 @@ public class ClickHouseResultSet implements SQLResultSet {
         if (data instanceof String) {
             return ((String) data).getBytes(cfg.charset());
         }
-        throw new ClickHouseSQLException(-1, "Currently not support getBytes from class: " + data.getClass());
+        throw new TimeplusSQLException(-1, "Currently not support getBytes from class: " + data.getClass());
     }
 
     @Override
@@ -392,7 +392,7 @@ public class ClickHouseResultSet implements SQLResultSet {
 
     @Override
     public ResultSetMetaData getMetaData() throws SQLException {
-        return new ClickHouseResultSetMetaData(header, db, table);
+        return new TimeplusResultSetMetaData(header, db, table);
     }
 
     @Override
@@ -455,7 +455,7 @@ public class ClickHouseResultSet implements SQLResultSet {
 
     @Override
     public Logger logger() {
-        return ClickHouseResultSet.LOG;
+        return TimeplusResultSet.LOG;
     }
 
     private Block fetchBlock() throws SQLException {

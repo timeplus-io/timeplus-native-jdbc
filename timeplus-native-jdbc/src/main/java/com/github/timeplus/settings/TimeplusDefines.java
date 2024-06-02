@@ -14,7 +14,7 @@
 
 package com.github.timeplus.settings;
 
-public class ClickHouseDefines {
+public class TimeplusDefines {
     public static final String NAME = "ClickHouse";
     public static final String DEFAULT_CATALOG = "default";
     public static final String DEFAULT_DATABASE = "default";

@@ -17,7 +17,7 @@ package com.github.timeplus.client.ssl;
 import com.github.timeplus.client.NativeClient;
 import com.github.timeplus.log.Logger;
 import com.github.timeplus.log.LoggerFactory;
-import com.github.timeplus.settings.ClickHouseConfig;
+import com.github.timeplus.settings.TimeplusConfig;
 import com.github.timeplus.settings.KeyStoreConfig;
 import com.github.timeplus.settings.SettingKey;
 
@@ -32,11 +32,11 @@ import java.security.cert.CertificateException;
 public class SSLContextBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(NativeClient.class);
 
-    private ClickHouseConfig config;
+    private TimeplusConfig config;
 
     private KeyStoreConfig keyStoreConfig;
 
-    public SSLContextBuilder(ClickHouseConfig config) {
+    public SSLContextBuilder(TimeplusConfig config) {
         this.config = config;
         this.keyStoreConfig = new KeyStoreConfig(
                 (String) config.settings().get(SettingKey.keyStoreType),

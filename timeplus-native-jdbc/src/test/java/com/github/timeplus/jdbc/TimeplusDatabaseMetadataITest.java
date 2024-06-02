@@ -14,7 +14,7 @@
 
 package com.github.timeplus.jdbc;
 
-import com.github.timeplus.settings.ClickHouseDefines;
+import com.github.timeplus.settings.TimeplusDefines;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
@@ -25,7 +25,7 @@ import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ClickHouseDatabaseMetadataITest extends AbstractITest {
+class TimeplusDatabaseMetadataITest extends AbstractITest {
 
     @Test
     void allProceduresAreCallable() throws Exception {
@@ -112,7 +112,7 @@ class ClickHouseDatabaseMetadataITest extends AbstractITest {
     void getDatabaseProductVersion() throws Exception {
         withNewConnection(connection -> {
             DatabaseMetaData dm = connection.getMetaData();
-            assertEquals(((ClickHouseConnection) connection).serverContext().version(), dm.getDatabaseProductVersion());
+            assertEquals(((TimeplusConnection) connection).serverContext().version(), dm.getDatabaseProductVersion());
         });
     }
 
@@ -128,7 +128,7 @@ class ClickHouseDatabaseMetadataITest extends AbstractITest {
     void getDriverVersion() throws Exception {
         withNewConnection(connection -> {
             DatabaseMetaData dm = connection.getMetaData();
-            assertEquals(String.valueOf(ClickHouseDefines.CLIENT_REVISION), dm.getDriverVersion());
+            assertEquals(String.valueOf(TimeplusDefines.CLIENT_REVISION), dm.getDriverVersion());
         });
     }
 
@@ -136,7 +136,7 @@ class ClickHouseDatabaseMetadataITest extends AbstractITest {
     void getDriverMajorVersion() throws Exception {
         withNewConnection(connection -> {
             DatabaseMetaData dm = connection.getMetaData();
-            assertEquals(ClickHouseDefines.MAJOR_VERSION, dm.getDriverMajorVersion());
+            assertEquals(TimeplusDefines.MAJOR_VERSION, dm.getDriverMajorVersion());
         });
     }
 
@@ -144,7 +144,7 @@ class ClickHouseDatabaseMetadataITest extends AbstractITest {
     void getDriverMinorVersion() throws Exception {
         withNewConnection(connection -> {
             DatabaseMetaData dm = connection.getMetaData();
-            assertEquals(ClickHouseDefines.MINOR_VERSION, dm.getDriverMinorVersion());
+            assertEquals(TimeplusDefines.MINOR_VERSION, dm.getDriverMinorVersion());
         });
     }
 
@@ -1339,7 +1339,7 @@ class ClickHouseDatabaseMetadataITest extends AbstractITest {
     void getDatabaseMajorVersion() throws Exception {
         withNewConnection(connection -> {
             DatabaseMetaData dm = connection.getMetaData();
-            assertEquals((int) ((ClickHouseConnection) connection).serverContext().majorVersion(), dm.getDatabaseMajorVersion());
+            assertEquals((int) ((TimeplusConnection) connection).serverContext().majorVersion(), dm.getDatabaseMajorVersion());
         });
     }
 
@@ -1347,7 +1347,7 @@ class ClickHouseDatabaseMetadataITest extends AbstractITest {
     void getDatabaseMinorVersion() throws Exception {
         withNewConnection(connection -> {
             DatabaseMetaData dm = connection.getMetaData();
-            assertEquals((int) ((ClickHouseConnection) connection).serverContext().minorVersion(), dm.getDatabaseMinorVersion());
+            assertEquals((int) ((TimeplusConnection) connection).serverContext().minorVersion(), dm.getDatabaseMinorVersion());
         });
     }
 
@@ -1355,7 +1355,7 @@ class ClickHouseDatabaseMetadataITest extends AbstractITest {
     void getJDBCMajorVersion() throws Exception {
         withNewConnection(connection -> {
             DatabaseMetaData dm = connection.getMetaData();
-            assertEquals(ClickHouseDefines.MAJOR_VERSION, dm.getJDBCMajorVersion());
+            assertEquals(TimeplusDefines.MAJOR_VERSION, dm.getJDBCMajorVersion());
         });
     }
 
@@ -1363,7 +1363,7 @@ class ClickHouseDatabaseMetadataITest extends AbstractITest {
     void getJDBCMinorVersion() throws Exception {
         withNewConnection(connection -> {
             DatabaseMetaData dm = connection.getMetaData();
-            assertEquals(ClickHouseDefines.MINOR_VERSION, dm.getJDBCMinorVersion());
+            assertEquals(TimeplusDefines.MINOR_VERSION, dm.getJDBCMinorVersion());
         });
     }
 

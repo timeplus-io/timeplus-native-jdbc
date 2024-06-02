@@ -14,9 +14,9 @@
 
 package com.github.timeplus.misc;
 
-import com.github.timeplus.exception.ClickHouseException;
-import com.github.timeplus.exception.ClickHouseSQLException;
-import com.github.timeplus.settings.ClickHouseErrCode;
+import com.github.timeplus.exception.TimeplusException;
+import com.github.timeplus.exception.TimeplusSQLException;
+import com.github.timeplus.settings.TimeplusErrCode;
 
 import javax.annotation.Nullable;
 import java.util.function.BiFunction;
@@ -59,27 +59,27 @@ public class ExceptionUtil {
         };
     }
 
-    public static void rethrowSQLException(CheckedRunnable checked) throws ClickHouseSQLException {
+    public static void rethrowSQLException(CheckedRunnable checked) throws TimeplusSQLException {
         try {
             checked.run();
         } catch (Exception rethrow) {
-            int errCode = ClickHouseErrCode.UNKNOWN_ERROR.code();
-            ClickHouseException ex = ExceptionUtil.recursiveFind(rethrow, ClickHouseException.class);
+            int errCode = TimeplusErrCode.UNKNOWN_ERROR.code();
+            TimeplusException ex = ExceptionUtil.recursiveFind(rethrow, TimeplusException.class);
             if (ex != null)
                 errCode = ex.errCode();
-            throw new ClickHouseSQLException(errCode, rethrow.getMessage(), rethrow);
+            throw new TimeplusSQLException(errCode, rethrow.getMessage(), rethrow);
         }
     }
 
-    public static <T> T rethrowSQLException(CheckedSupplier<T> checked) throws ClickHouseSQLException {
+    public static <T> T rethrowSQLException(CheckedSupplier<T> checked) throws TimeplusSQLException {
         try {
             return checked.get();
         } catch (Exception rethrow) {
-            int errCode = ClickHouseErrCode.UNKNOWN_ERROR.code();
-            ClickHouseException ex = ExceptionUtil.recursiveFind(rethrow, ClickHouseException.class);
+            int errCode = TimeplusErrCode.UNKNOWN_ERROR.code();
+            TimeplusException ex = ExceptionUtil.recursiveFind(rethrow, TimeplusException.class);
             if (ex != null)
                 errCode = ex.errCode();
-            throw new ClickHouseSQLException(errCode, rethrow.getMessage(), rethrow);
+            throw new TimeplusSQLException(errCode, rethrow.getMessage(), rethrow);
         }
     }
 
