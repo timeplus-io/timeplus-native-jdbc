@@ -15,7 +15,7 @@
 package com.github.timeplus.data;
 
 import com.github.timeplus.client.NativeContext;
-import com.github.timeplus.data.BlockSettings.Setting;
+import com.github.timeplus.data.BlockInfo.Setting;
 import com.github.timeplus.misc.Validate;
 import com.github.timeplus.serde.BinaryDeserializer;
 import com.github.timeplus.serde.BinarySerializer;
@@ -29,8 +29,11 @@ public class Block {
 
     public static Block readFrom(BinaryDeserializer deserializer,
                                  NativeContext.ServerContext serverContext) throws IOException, SQLException {
-        BlockSettings info = BlockSettings.readFrom(deserializer);
+        BlockInfo info = null;
+        if (serverContext.revision() > 0)
+            info = BlockInfo.readFrom(deserializer);
 
+        /// Dimensions
         int columnCnt = (int) deserializer.readVarInt();
         int rowCnt = (int) deserializer.readVarInt();
 
@@ -49,7 +52,7 @@ public class Block {
     }
 
     private final IColumn[] columns;
-    private final BlockSettings settings;
+    private final BlockInfo settings;
     // position start with 1
     private final Map<String, Integer> nameAndPositions;
     private final Object[] rowData;
@@ -63,10 +66,10 @@ public class Block {
     }
 
     public Block(int rowCnt, IColumn[] columns) {
-        this(rowCnt, columns, new BlockSettings(Setting.defaultValues()));
+        this(rowCnt, columns, new BlockInfo(Setting.defaultValues()));
     }
 
-    public Block(int rowCnt, IColumn[] columns, BlockSettings settings) {
+    public Block(int rowCnt, IColumn[] columns, BlockInfo settings) {
         this.rowCnt = rowCnt;
         this.columns = columns;
         this.settings = settings;
