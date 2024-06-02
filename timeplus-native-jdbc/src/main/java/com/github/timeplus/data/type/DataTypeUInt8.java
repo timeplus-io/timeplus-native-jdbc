@@ -25,7 +25,7 @@ public class DataTypeUInt8 implements BaseDataTypeInt8<Short, Short> {
 
     @Override
     public String name() {
-        return "UInt8";
+        return "uint8";
     }
 
     @Override

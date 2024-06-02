@@ -43,7 +43,7 @@ public class DataTypeEnum8 implements IDataType<String, String> {
             Validate.isTrue(character == ',' || character == ')');
 
             if (character == ')') {
-                StringBuilder builder = new StringBuilder("Enum8(");
+                StringBuilder builder = new StringBuilder("enum8(");
                 for (int index = 0; index < enumNames.size(); index++) {
                     if (index > 0)
                         builder.append(",");

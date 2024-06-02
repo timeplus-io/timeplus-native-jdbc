@@ -40,9 +40,9 @@ public class DataTypeMap implements IDataType<Object, Object> {
         Validate.isTrue(lexer.character() == ')');
 
         IDataType<?, ?>[] nestedTypes = new IDataType[]{key, value};
-        String name = "Map(" + key.name() + ", " + value.name() + ")";
+        String name = "map(" + key.name() + ", " + value.name() + ")";
 
-        return new DataTypeMap(name, nestedTypes, (DataTypeInt64) DataTypeFactory.get("Int64", serverContext));
+        return new DataTypeMap(name, nestedTypes, (DataTypeInt64) DataTypeFactory.get("int64", serverContext));
     };
 
     private final String name;

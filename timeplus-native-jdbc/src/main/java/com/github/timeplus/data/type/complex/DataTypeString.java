@@ -37,7 +37,7 @@ public class DataTypeString implements IDataType<CharSequence, String> {
 
     @Override
     public String name() {
-        return "String";
+        return "string";
     }
 
     @Override

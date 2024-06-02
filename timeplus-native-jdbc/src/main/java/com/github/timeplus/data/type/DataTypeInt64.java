@@ -25,7 +25,7 @@ public class DataTypeInt64 implements BaseDataTypeInt64<Long, Long> {
 
     @Override
     public String name() {
-        return "Int64";
+        return "int64";
     }
 
     @Override
@@ -55,7 +55,7 @@ public class DataTypeInt64 implements BaseDataTypeInt64<Long, Long> {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"BIGINT"};
+        return new String[]{"bigint"};
     }
 
     @Override

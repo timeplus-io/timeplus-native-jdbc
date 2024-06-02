@@ -28,7 +28,7 @@ public class DataTypeIPv6 implements IDataType<BigInteger, BigInteger> {
 
     @Override
     public String name() {
-        return "IPv6";
+        return "ipv6";
     }
 
     @Override

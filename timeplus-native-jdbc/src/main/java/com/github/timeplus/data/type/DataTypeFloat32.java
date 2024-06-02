@@ -27,7 +27,7 @@ public class DataTypeFloat32 implements IDataType<Float, Float> {
 
     @Override
     public String name() {
-        return "Float32";
+        return "float32";
     }
 
     @Override
@@ -67,7 +67,7 @@ public class DataTypeFloat32 implements IDataType<Float, Float> {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"FLOAT"};
+        return new String[]{"float"};
     }
 
     @Override

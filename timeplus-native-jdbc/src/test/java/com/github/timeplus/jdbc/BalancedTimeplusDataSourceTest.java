@@ -23,7 +23,7 @@ import java.util.Collections;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class BalancedClickhouseDataSourceTest {
+public class BalancedTimeplusDataSourceTest {
 
     @Test
     public void testUrlSplit() {

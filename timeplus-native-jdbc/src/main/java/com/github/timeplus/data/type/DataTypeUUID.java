@@ -28,7 +28,7 @@ public class DataTypeUUID implements IDataType<UUID, String> {
 
     @Override
     public String name() {
-        return "UUID";
+        return "uuid";
     }
 
     @Override

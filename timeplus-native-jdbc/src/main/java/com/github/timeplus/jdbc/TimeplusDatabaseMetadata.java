@@ -97,7 +97,7 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
 
     @Override
     public String getDriverName() throws SQLException {
-        return "com.github.housepower.clickhouse.native.jdbc";
+        return "com.github.timeplus.timeplus.native.jdbc";
     }
 
     @Override
@@ -649,15 +649,15 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
                         "PROCEDURE_TYPE",
                         "SPECIFIC_NAME")
                 .columnTypes(
-                        "String",
-                        "String",
-                        "String",
-                        "String",
-                        "String",
-                        "String",
-                        "String",
-                        "UInt8",
-                        "String")
+                        "string",
+                        "string",
+                        "string",
+                        "string",
+                        "string",
+                        "string",
+                        "string",
+                        "uint8",
+                        "string")
                 .build();
     }
 
@@ -675,10 +675,10 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
                         "11", "12", "13", "14", "15",
                         "16", "17", "18", "19", "20")
                 .columnTypes(
-                        "UInt32", "UInt32", "UInt32", "UInt32", "UInt32",
-                        "UInt32", "UInt32", "UInt32", "UInt32", "UInt32",
-                        "UInt32", "UInt32", "UInt32", "UInt32", "UInt32",
-                        "UInt32", "UInt32", "UInt32", "UInt32", "UInt32")
+                        "uint32", "uint32", "uint32", "uint32", "uint32",
+                        "uint32", "uint32", "uint32", "uint32", "uint32",
+                        "uint32", "uint32", "uint32", "uint32", "uint32",
+                        "uint32", "uint32", "uint32", "uint32", "uint32")
                 .build();
     }
 
@@ -726,16 +726,16 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
                         "SELF_REFERENCING_COL_NAME",
                         "REF_GENERATION")
                 .columnTypes(
-                        "String",
-                        "String",
-                        "String",
-                        "String",
-                        "String",
-                        "String",
-                        "String",
-                        "String",
-                        "String",
-                        "String");
+                        "string",
+                        "string",
+                        "string",
+                        "string",
+                        "string",
+                        "string",
+                        "string",
+                        "string",
+                        "string",
+                        "string");
 
         List<String> typeList = types != null ? Arrays.asList(types) : null;
         while (result.next()) {
@@ -758,7 +758,7 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
                     type = "OTHER"; // not a real table
                     break;
                 default:
-                    type = "TABLE";
+                    type = "STREAM";
                     break;
             }
             row.add(type);
@@ -801,7 +801,7 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
                 .builder(1, connection.serverContext())
                 .cfg(connection.cfg())
                 .columnNames("TABLE_CAT")
-                .columnTypes("String")
+                .columnTypes("string")
                 .addRow(TimeplusDefines.DEFAULT_CATALOG).build();
     }
 
@@ -811,7 +811,7 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
                 .builder(1, connection.serverContext())
                 .cfg(connection.cfg())
                 .columnNames("TABLE_TYPE")
-                .columnTypes("String")
+                .columnTypes("string")
                 .addRow("TABLE")
                 .addRow("VIEW")
                 .addRow("OTHER").build();
@@ -874,30 +874,30 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
                         "IS_AUTOINCREMENT",
                         "IS_GENERATEDCOLUMN")
                 .columnTypes(
-                        "String",
-                        "String",
-                        "String",
-                        "String",
-                        "Int32",
-                        "String",
-                        "Int32",
-                        "Int32",
-                        "Int32",
-                        "Int32",
-                        "Int32",
-                        "String",
-                        "String",
-                        "Int32",
-                        "Int32",
-                        "Int32",
-                        "Int32",
-                        "String",
-                        "String",
-                        "String",
-                        "String",
-                        "Int32",
-                        "String",
-                        "String");
+                        "string",
+                        "string",
+                        "string",
+                        "string",
+                        "int32",
+                        "string",
+                        "int32",
+                        "int32",
+                        "int32",
+                        "int32",
+                        "int32",
+                        "string",
+                        "string",
+                        "int32",
+                        "int32",
+                        "int32",
+                        "int32",
+                        "string",
+                        "string",
+                        "string",
+                        "string",
+                        "int32",
+                        "string",
+                        "string");
         ResultSet descTable = request(query.toString());
         int colNum = 1;
         while (descTable.next()) {
@@ -1046,26 +1046,26 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
                         "SQL_DATETIME_SUB",
                         "NUM_PREC_RADIX")
                 .columnTypes(
-                        "String",
-                        "Int32",
-                        "Int32",
-                        "String",
-                        "String",
-                        "String",
-                        "Int32",
-                        "Int8",
-                        "Int32",
-                        "Int8",
-                        "Int8",
-                        "Int8",
-                        "String",
-                        "Int32",
-                        "Int32",
-                        "Int32",
-                        "Int32",
-                        "Int32")
+                        "string",
+                        "int32",
+                        "int32",
+                        "string",
+                        "string",
+                        "string",
+                        "int32",
+                        "int8",
+                        "int32",
+                        "int8",
+                        "int8",
+                        "int8",
+                        "string",
+                        "int32",
+                        "int32",
+                        "int32",
+                        "int32",
+                        "int32")
                 .addRow(
-                        "String", Types.VARCHAR,
+                        "string", Types.VARCHAR,
                         null,       // precision - todo
                         '\'', '\'', null,
                         typeNoNulls, true, typeSearchable,
@@ -1081,7 +1081,7 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
         boolean[] signed = {true, false};
         for (int size : sizes) {
             for (boolean b : signed) {
-                String name = (b ? "" : "U") + "Int" + size;
+                String name = (b ? "" : "u") + "int" + size;
                 builder.addRow(
                         name, (size <= 16 ? Types.INTEGER : Types.BIGINT),
                         null,       // precision - todo
@@ -1099,7 +1099,7 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
         }
         int[] floatSizes = {32, 64};
         for (int floatSize : floatSizes) {
-            String name = "Float" + floatSize;
+            String name = "float" + floatSize;
             builder.addRow(
                     name, Types.FLOAT,
                     null,       // precision - todo
@@ -1114,7 +1114,7 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
                     10);
         }
         builder.addRow(
-                "Date", Types.DATE,
+                "date", Types.DATE,
                 null, // precision - todo
                 null, null, null,
                 typeNoNulls, true, typePredBasic,
@@ -1126,7 +1126,7 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
                 null, null,
                 10);
         builder.addRow(
-                "DateTime", Types.TIMESTAMP,
+                "datetime", Types.TIMESTAMP,
                 null, // precision - todo
                 null, null, null,
                 typeNoNulls, true, typePredBasic,
@@ -1369,7 +1369,7 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
                 .builder(1, connection.serverContext())
                 .cfg(connection.cfg())
                 .columnNames("some")
-                .columnTypes("String")
+                .columnTypes("string")
                 .build();
     }
 

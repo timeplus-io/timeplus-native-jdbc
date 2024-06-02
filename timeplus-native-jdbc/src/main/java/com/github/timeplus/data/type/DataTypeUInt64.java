@@ -30,7 +30,7 @@ public class DataTypeUInt64 implements BaseDataTypeInt64<BigInteger, BigInteger>
 
     @Override
     public String name() {
-        return "UInt64";
+        return "uint64";
     }
 
     @Override

@@ -27,7 +27,7 @@ public class DataTypeIPv4 implements IDataType<Long, Long> {
 
     @Override
     public String name() {
-        return "IPv4";
+        return "ipv4";
     }
 
     @Override
