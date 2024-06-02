@@ -19,10 +19,10 @@ import com.github.timeplus.serde.BinarySerializer;
 
 import java.io.IOException;
 
-public class BlockSettings {
+public class BlockInfo {
     private final Setting[] settings;
 
-    public BlockSettings(Setting[] settings) {
+    public BlockInfo(Setting[] settings) {
         this.settings = settings;
     }
 
@@ -39,13 +39,12 @@ public class BlockSettings {
         serializer.writeVarInt(0);
     }
 
-    public static BlockSettings readFrom(BinaryDeserializer deserializer) throws IOException {
-        return new BlockSettings(readSettingsFrom(1, deserializer));
+    public static BlockInfo readFrom(BinaryDeserializer deserializer) throws IOException {
+        return new BlockInfo(readSettingsFrom(1, deserializer));
     }
 
     private static Setting[] readSettingsFrom(int currentSize, BinaryDeserializer deserializer) throws IOException {
         long num = deserializer.readVarInt();
-
         for (Setting setting : Setting.defaultValues()) {
             if (setting.num == num) {
                 if (Boolean.class.isAssignableFrom(setting.clazz)) {
