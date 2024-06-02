@@ -36,7 +36,7 @@ public class DataTypeDate32 implements IDataType<LocalDate, Date> {
 
     @Override
     public String name() {
-        return "Date32";
+        return "date32";
     }
 
     @Override

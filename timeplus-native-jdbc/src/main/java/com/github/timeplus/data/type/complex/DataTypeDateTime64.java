@@ -45,13 +45,13 @@ public class DataTypeDateTime64 implements IDataType<ZonedDateTime, Timestamp> {
                 Validate.isTrue(lexer.isWhitespace());
                 String dataTimeZone = lexer.stringLiteral();
                 Validate.isTrue(lexer.character() == ')');
-                return new DataTypeDateTime64("DateTime64(" + scale + ", '" + dataTimeZone + "')", scale, serverContext);
+                return new DataTypeDateTime64("datetime64(" + scale + ", '" + dataTimeZone + "')", scale, serverContext);
             }
 
             Validate.isTrue(lexer.character() == ')');
-            return new DataTypeDateTime64("DateTime64(" + scale + ")", scale, serverContext);
+            return new DataTypeDateTime64("datetime64(" + scale + ")", scale, serverContext);
         }
-        return new DataTypeDateTime64("DateTime64", DataTypeDateTime64.DEFAULT_SCALE, serverContext);
+        return new DataTypeDateTime64("datetime64", DataTypeDateTime64.DEFAULT_SCALE, serverContext);
     };
 
     private static final LocalDateTime EPOCH_LOCAL_DT = LocalDateTime.of(1970, 1, 1, 0, 0);
@@ -112,7 +112,7 @@ public class DataTypeDateTime64 implements IDataType<ZonedDateTime, Timestamp> {
     @Override
     public ZonedDateTime deserializeText(SQLLexer lexer) throws SQLException {
         StringView dataTypeName = lexer.bareWord();
-        Validate.isTrue(dataTypeName.checkEquals("toDateTime64"));
+        Validate.isTrue(dataTypeName.checkEquals("to_datetime64"));
         Validate.isTrue(lexer.character() == '(');
         Validate.isTrue(lexer.character() == '\'');
         int year = lexer.numberLiteral().intValue();

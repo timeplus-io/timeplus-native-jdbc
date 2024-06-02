@@ -27,7 +27,7 @@ public class DataTypeFloat64 implements IDataType<Double, Double> {
 
     @Override
     public String name() {
-        return "Float64";
+        return "float64";
     }
 
     @Override
@@ -67,7 +67,7 @@ public class DataTypeFloat64 implements IDataType<Double, Double> {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"DOUBLE"};
+        return new String[]{"double"};
     }
 
     @Override

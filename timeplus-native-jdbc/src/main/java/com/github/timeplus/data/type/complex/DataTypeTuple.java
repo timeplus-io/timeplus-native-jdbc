@@ -40,7 +40,7 @@ public class DataTypeTuple implements IDataType<TimeplusStruct, Struct> {
             char delimiter = lexer.character();
             Validate.isTrue(delimiter == ',' || delimiter == ')');
             if (delimiter == ')') {
-                StringBuilder builder = new StringBuilder("Tuple(");
+                StringBuilder builder = new StringBuilder("tuple(");
                 for (int i = 0; i < nestedDataTypes.size(); i++) {
                     if (i > 0)
                         builder.append(",");
@@ -75,7 +75,7 @@ public class DataTypeTuple implements IDataType<TimeplusStruct, Struct> {
         for (int i = 0; i < getNestedTypes().length; i++) {
             attrs[i] = getNestedTypes()[i].defaultValue();
         }
-        return new TimeplusStruct("Tuple", attrs);
+        return new TimeplusStruct("tuple", attrs);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class DataTypeTuple implements IDataType<TimeplusStruct, Struct> {
         for (int i = 0; i < getNestedTypes().length; i++) {
             attrs[i] = getNestedTypes()[i].deserializeBinary(deserializer);
         }
-        return new TimeplusStruct("Tuple", attrs);
+        return new TimeplusStruct("tuple", attrs);
     }
 
     @Override
@@ -136,7 +136,7 @@ public class DataTypeTuple implements IDataType<TimeplusStruct, Struct> {
             for (int elemIndex = 0; elemIndex < getNestedTypes().length; elemIndex++) {
                 elemsData[elemIndex] = rowsWithElems[elemIndex][row];
             }
-            rowsData[row] = new TimeplusStruct("Tuple", elemsData);
+            rowsData[row] = new TimeplusStruct("tuple", elemsData);
         }
         return rowsData;
     }
@@ -159,7 +159,7 @@ public class DataTypeTuple implements IDataType<TimeplusStruct, Struct> {
             tupleData[i] = getNestedTypes()[i].deserializeText(lexer);
         }
         Validate.isTrue(lexer.character() == ')');
-        return new TimeplusStruct("Tuple", tupleData);
+        return new TimeplusStruct("tuple", tupleData);
     }
 
     public IDataType[] getNestedTypes() {

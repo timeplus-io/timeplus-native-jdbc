@@ -24,17 +24,16 @@ import java.sql.Statement;
 public class ExecuteQuery {
 
     public static void main(String[] args) throws Exception {
-        try (Connection connection = DriverManager.getConnection("jdbc:clickhouse://127.0.0.1:9000")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:timeplus://127.0.0.1:8463")) {
             try (Statement stmt = connection.createStatement()) {
-                stmt.executeQuery("drop table if exists test_jdbc_example");
-                stmt.executeQuery("create table test_jdbc_example(" +
-                        "day default toDate( toDateTime(timestamp) ), " +
-                        "timestamp UInt32, " +
-                        "name String, " +
-                        "impressions UInt32" +
-                        ") Engine=MergeTree(day, (timestamp, name), 8192)");
-                stmt.executeQuery("alter table test_jdbc_example add column costs Float32");
-                stmt.executeQuery("drop table test_jdbc_example");
+                stmt.executeQuery("drop stream if exists test_jdbc_example");
+                stmt.executeQuery("create stream test_jdbc_example(" +
+                        "day default to_date( to_datetime(timestamp) ), " +
+                        "timestamp uint32, " +
+                        "name string, " +
+                        "impressions uint32" +
+                        ")");
+                stmt.executeQuery("drop stream test_jdbc_example");
             }
         }
     }

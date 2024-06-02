@@ -25,7 +25,7 @@ public class DataTypeInt8 implements BaseDataTypeInt8<Byte, Byte> {
 
     @Override
     public String name() {
-        return "Int8";
+        return "int8";
     }
 
     @Override

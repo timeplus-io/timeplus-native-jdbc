@@ -63,20 +63,30 @@ public class NativeContext {
         }
 
         public void writeTo(BinarySerializer serializer) throws IOException {
-            serializer.writeVarInt(ClientContext.INITIAL_QUERY);
-            serializer.writeUTF8StringBinary("");
-            serializer.writeUTF8StringBinary("");
-            serializer.writeUTF8StringBinary(initialAddress);
+            /// ClientInfo
+            serializer.writeByte(ClientContext.INITIAL_QUERY);
+            serializer.writeUTF8StringBinary(""); /// initial user
+            serializer.writeUTF8StringBinary(""); /// initial query_id
+            serializer.writeUTF8StringBinary(initialAddress); /// initial address
+
+            serializer.writeLong(0); /// initial query start time microseconds
 
             // for TCP kind
-            serializer.writeVarInt(TCP_KINE);
-            serializer.writeUTF8StringBinary("");
+            serializer.writeByte((byte) TCP_KINE); /// interface
+            serializer.writeUTF8StringBinary(""); /// os user
             serializer.writeUTF8StringBinary(clientHostname);
             serializer.writeUTF8StringBinary(clientName);
             serializer.writeVarInt(TimeplusDefines.MAJOR_VERSION);
             serializer.writeVarInt(TimeplusDefines.MINOR_VERSION);
             serializer.writeVarInt(TimeplusDefines.CLIENT_REVISION);
-            serializer.writeUTF8StringBinary("");
+            serializer.writeUTF8StringBinary(""); /// quota key
+            serializer.writeVarInt(0); /// distributed depth
+            serializer.writeVarInt(0); /// client version patch
+            serializer.writeByte((byte) 0); /// no open telemetry
+
+            serializer.writeVarInt(0); /// collaborate with initiator
+            serializer.writeVarInt(0); /// count participating replicas
+            serializer.writeVarInt(0); /// number of current replica
         }
     }
 

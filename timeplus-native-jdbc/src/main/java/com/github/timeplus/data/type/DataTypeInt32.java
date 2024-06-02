@@ -25,7 +25,7 @@ public class DataTypeInt32 implements BaseDataTypeInt32<Integer, Integer> {
 
     @Override
     public String name() {
-        return "Int32";
+        return "int32";
     }
 
     @Override
@@ -55,7 +55,7 @@ public class DataTypeInt32 implements BaseDataTypeInt32<Integer, Integer> {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"INT", "INTEGER"};
+        return new String[]{"int", "integer"};
     }
 
     @Override

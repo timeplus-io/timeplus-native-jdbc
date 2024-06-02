@@ -31,8 +31,8 @@ import java.util.regex.Pattern;
 
 public class TimeplusJdbcUrlParser {
     public static final String JDBC_PREFIX = "jdbc:";
-    public static final String CLICKHOUSE_PREFIX = "clickhouse:";
-    public static final String JDBC_CLICKHOUSE_PREFIX = JDBC_PREFIX + CLICKHOUSE_PREFIX;
+    public static final String TIMEPLUS_PREFIX = "timeplus:";
+    public static final String JDBC_CLICKHOUSE_PREFIX = JDBC_PREFIX + TIMEPLUS_PREFIX;
 
     public static final String HOST_DELIMITER = ",";
     public static final String PORT_DELIMITER = ":";

@@ -33,7 +33,7 @@ public class DataTypeFixedString implements IDataType<CharSequence, String> {
         Validate.isTrue(lexer.character() == '(');
         Number fixedStringN = lexer.numberLiteral();
         Validate.isTrue(lexer.character() == ')');
-        return new DataTypeFixedString("FixedString(" + fixedStringN.intValue() + ")", fixedStringN.intValue(), serverContext);
+        return new DataTypeFixedString("fixed_string(" + fixedStringN.intValue() + ")", fixedStringN.intValue(), serverContext);
     };
 
     private final int n;

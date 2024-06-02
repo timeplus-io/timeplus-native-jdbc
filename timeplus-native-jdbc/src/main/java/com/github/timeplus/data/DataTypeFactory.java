@@ -64,31 +64,31 @@ public class DataTypeFactory {
     public static IDataType<?, ?> get(SQLLexer lexer, NativeContext.ServerContext serverContext) throws SQLException {
         String dataTypeName = String.valueOf(lexer.bareWord());
 
-        if (dataTypeName.equalsIgnoreCase("Tuple")) {
+        if (dataTypeName.equalsIgnoreCase("tuple")) {
             return DataTypeTuple.creator.createDataType(lexer, serverContext);
-        } else if (dataTypeName.equalsIgnoreCase("Array")) {
+        } else if (dataTypeName.equalsIgnoreCase("array")) {
             return DataTypeArray.creator.createDataType(lexer, serverContext);
-        } else if (dataTypeName.equalsIgnoreCase("Enum8")) {
+        } else if (dataTypeName.equalsIgnoreCase("enum8")) {
             return DataTypeEnum8.creator.createDataType(lexer, serverContext);
-        } else if (dataTypeName.equalsIgnoreCase("Enum16")) {
+        } else if (dataTypeName.equalsIgnoreCase("enum16")) {
             return DataTypeEnum16.creator.createDataType(lexer, serverContext);
-        } else if (dataTypeName.equalsIgnoreCase("DateTime")) {
+        } else if (dataTypeName.equalsIgnoreCase("datetime")) {
             return DataTypeDateTime.creator.createDataType(lexer, serverContext);
-        } else if (dataTypeName.equalsIgnoreCase("DateTime64")) {
+        } else if (dataTypeName.equalsIgnoreCase("datetime64")) {
             return DataTypeDateTime64.creator.createDataType(lexer, serverContext);
-        } else if (dataTypeName.equalsIgnoreCase("Nullable")) {
+        } else if (dataTypeName.equalsIgnoreCase("nullable")) {
             return DataTypeNullable.creator.createDataType(lexer, serverContext);
-        } else if (dataTypeName.equalsIgnoreCase("LowCardinality")) {
+        } else if (dataTypeName.equalsIgnoreCase("low_cardinality")) {
             return DataTypeLowCardinality.creator.createDataType(lexer, serverContext);
-        } else if (dataTypeName.equalsIgnoreCase("FixedString") || dataTypeName.equals("Binary")) {
+        } else if (dataTypeName.equalsIgnoreCase("fixed_string") || dataTypeName.equals("binary")) {
             return DataTypeFixedString.creator.createDataType(lexer, serverContext);
-        } else if (dataTypeName.equalsIgnoreCase("Decimal")) {
+        } else if (dataTypeName.equalsIgnoreCase("decimal")) {
             return DataTypeDecimal.creator.createDataType(lexer, serverContext);
-        } else if (dataTypeName.equalsIgnoreCase("String")) {
+        } else if (dataTypeName.equalsIgnoreCase("string")) {
             return DataTypeString.CREATOR.createDataType(lexer, serverContext);
-        } else if (dataTypeName.equalsIgnoreCase("Nothing")) {
+        } else if (dataTypeName.equalsIgnoreCase("nothing")) {
             return DataTypeNothing.CREATOR.createDataType(lexer, serverContext);
-        } else if (dataTypeName.equalsIgnoreCase("Map")) {
+        } else if (dataTypeName.equalsIgnoreCase("map")) {
             return DataTypeMap.creator.createDataType(lexer, serverContext);
         } else {
             IDataType<?, ?> dataType = dataTypes.get(dataTypeName.toLowerCase(Locale.ROOT));
