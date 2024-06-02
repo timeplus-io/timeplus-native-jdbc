@@ -28,10 +28,7 @@ public class ExceptionResponse implements Response {
         String message = deserializer.readUTF8StringBinary();
         String stackTrace = deserializer.readUTF8StringBinary();
 
-        if (deserializer.readBoolean()) {
-            return new TimeplusSQLException(
-                    code, name + message + ". Stack trace:\n\n" + stackTrace, readExceptionFrom(deserializer));
-        }
+        deserializer.readBoolean(); /// nested (exception), obsolete
 
         return new TimeplusSQLException(code, name + message + ". Stack trace:\n\n" + stackTrace);
     }
