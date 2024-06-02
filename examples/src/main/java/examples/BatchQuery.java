@@ -27,7 +27,7 @@ public class BatchQuery {
                 try (ResultSet rs = stmt.executeQuery("drop stream if exists test_jdbc_example")) {
                     System.out.println(rs.next());
                 }
-                try (ResultSet rs = stmt.executeQuery("create stream test_jdbc_example(day date, name string, age uint8)")) {
+                try (ResultSet rs = stmt.executeQuery("create stream test_jdbc_example(day date, name string, age uint8) settings flush_threshold_count=100")) {
                     System.out.println(rs.next());
                 }
                 try (PreparedStatement pstmt = connection.prepareStatement("INSERT INTO test_jdbc_example (day, name, age) VALUES(?, ?, ?)")) {
@@ -54,7 +54,7 @@ public class BatchQuery {
                     pstmt.setString(1, "Zhang San");
                     printCount(pstmt);
                 }
-                try (ResultSet rs = stmt.executeQuery("drop table test_jdbc_example")) {
+                try (ResultSet rs = stmt.executeQuery("drop stream test_jdbc_example")) {
                     System.out.println(rs.next());
                 }
             }
