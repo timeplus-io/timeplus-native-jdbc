@@ -14,7 +14,7 @@
 
 package org.apache.spark.sql.jdbc
 
-import org.apache.spark.sql.jdbc.ClickHouseDialect._
+import org.apache.spark.sql.jdbc.TimeplusDialect._
 import org.junit.jupiter.api.Assertions._
 import org.junit.jupiter.api.Test
 
