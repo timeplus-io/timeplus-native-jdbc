@@ -14,7 +14,7 @@
 
 package com.github.timeplus.data;
 
-import com.github.timeplus.jdbc.ClickHouseArray;
+import com.github.timeplus.jdbc.TimeplusArray;
 import com.github.timeplus.data.type.complex.DataTypeArray;
 import com.github.timeplus.serde.BinarySerializer;
 
@@ -37,7 +37,7 @@ public class ColumnArray extends AbstractColumn {
 
     @Override
     public void write(Object object) throws IOException, SQLException {
-        Object[] arr = ((ClickHouseArray) object).getArray();
+        Object[] arr = ((TimeplusArray) object).getArray();
 
         offsets.add(offsets.isEmpty() ? arr.length : offsets.get((offsets.size() - 1)) + arr.length);
         for (Object field : arr) {

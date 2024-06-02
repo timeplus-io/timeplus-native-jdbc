@@ -15,6 +15,7 @@
 package com.github.timeplus.jdbc.benchmark;
 
 import com.github.timeplus.jdbc.AbstractITest;
+import com.github.timeplus.jdbc.TimeplusDriver;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -45,7 +46,7 @@ public class AbstractIBenchmark {
     }
 
     private final Driver clickhouseJdbcDriver = new com.clickhouse.jdbc.ClickHouseDriver();
-    private final Driver nativeDriver = new com.github.timeplus.jdbc.ClickHouseDriver();
+    private final Driver nativeDriver = new TimeplusDriver();
 
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
@@ -68,7 +69,7 @@ public class AbstractIBenchmark {
         int port;
         switch (connectionType) {
             case NATIVE:
-                Class.forName("com.github.timeplus.jdbc.ClickHouseDriver");
+                Class.forName("com.github.timeplus.jdbc.TimeplusDriver");
                 DriverManager.registerDriver(nativeDriver);
                 port = container.getMappedPort(CLICKHOUSE_NATIVE_PORT);
                 break;

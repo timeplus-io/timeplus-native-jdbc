@@ -14,15 +14,19 @@
 
 package com.github.timeplus.exception;
 
-import java.sql.SQLException;
+import com.github.timeplus.settings.TimeplusErrCode;
 
-public class ClickHouseSQLException extends SQLException {
+public class TimeplusClientException extends TimeplusException {
 
-    public ClickHouseSQLException(int code, String message) {
-        this(code, message, null);
+    public TimeplusClientException(String message) {
+        super(TimeplusErrCode.CLIENT_ERROR.code(), message);
     }
 
-    public ClickHouseSQLException(int code, String message, Throwable cause) {
-        super(message, null, code, cause);
+    public TimeplusClientException(String message, Throwable cause) {
+        super(TimeplusErrCode.CLIENT_ERROR.code(), message, cause);
+    }
+
+    public TimeplusClientException(Throwable cause) {
+        super(TimeplusErrCode.CLIENT_ERROR.code(), cause);
     }
 }

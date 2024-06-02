@@ -26,7 +26,7 @@ import com.github.timeplus.protocol.listener.ProgressListener;
 import java.sql.SQLException;
 
 
-public class ClickHouseQueryResult implements QueryResult {
+public class TimeplusQueryResult implements QueryResult {
     private final CheckedSupplier<Response, SQLException> responseSupplier;
     private ProgressListener progressListener;
     private Block header;
@@ -36,11 +36,11 @@ public class ClickHouseQueryResult implements QueryResult {
     // ProfileInfo
     // EndOfStream
 
-    public ClickHouseQueryResult(CheckedSupplier<Response, SQLException> responseSupplier) {
+    public TimeplusQueryResult(CheckedSupplier<Response, SQLException> responseSupplier) {
         this.responseSupplier = responseSupplier;
     }
 
-    public ClickHouseQueryResult(CheckedSupplier<Response, SQLException> responseSupplier, ProgressListener progressListener) {
+    public TimeplusQueryResult(CheckedSupplier<Response, SQLException> responseSupplier, ProgressListener progressListener) {
         this.progressListener = progressListener;
         this.responseSupplier = responseSupplier;
     }

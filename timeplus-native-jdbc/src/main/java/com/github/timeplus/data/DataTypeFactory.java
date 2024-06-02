@@ -39,10 +39,10 @@ import com.github.timeplus.data.type.complex.*;
 import com.github.timeplus.misc.LRUCache;
 import com.github.timeplus.misc.SQLLexer;
 import com.github.timeplus.misc.Validate;
-import com.github.timeplus.settings.ClickHouseDefines;
+import com.github.timeplus.settings.TimeplusDefines;
 
 public class DataTypeFactory {
-    private static final LRUCache<String, IDataType<?, ?>> DATA_TYPE_CACHE = new LRUCache<>(ClickHouseDefines.DATA_TYPE_CACHE_SIZE);
+    private static final LRUCache<String, IDataType<?, ?>> DATA_TYPE_CACHE = new LRUCache<>(TimeplusDefines.DATA_TYPE_CACHE_SIZE);
 
     public static IDataType<?, ?> get(String type, NativeContext.ServerContext serverContext) throws SQLException {
         IDataType<?, ?> dataType = DATA_TYPE_CACHE.get(type);

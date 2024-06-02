@@ -16,17 +16,17 @@ package com.github.timeplus.jdbc.statement;
 
 import com.github.timeplus.client.NativeContext;
 import com.github.timeplus.data.Block;
-import com.github.timeplus.jdbc.ClickHouseConnection;
-import com.github.timeplus.jdbc.ClickHouseResultSet;
+import com.github.timeplus.jdbc.TimeplusConnection;
+import com.github.timeplus.jdbc.TimeplusResultSet;
 import com.github.timeplus.jdbc.wrapper.SQLStatement;
 import com.github.timeplus.log.Logger;
 import com.github.timeplus.log.LoggerFactory;
 import com.github.timeplus.misc.ExceptionUtil;
 import com.github.timeplus.misc.Validate;
 import com.github.timeplus.protocol.listener.ProgressListener;
-import com.github.timeplus.settings.ClickHouseConfig;
+import com.github.timeplus.settings.TimeplusConfig;
 import com.github.timeplus.settings.SettingKey;
-import com.github.timeplus.stream.ClickHouseQueryResult;
+import com.github.timeplus.stream.TimeplusQueryResult;
 import com.github.timeplus.stream.QueryResult;
 import com.github.timeplus.stream.ValuesNativeInputFormat;
 
@@ -39,20 +39,20 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ClickHouseStatement implements SQLStatement {
+public class TimeplusStatement implements SQLStatement {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ClickHouseStatement.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TimeplusStatement.class);
 
     private static final Pattern VALUES_REGEX = Pattern.compile("[V|v][A|a][L|l][U|u][E|e][S|s]\\s*\\(");
     private static final Pattern SELECT_DB_TABLE = Pattern.compile("(?i)FROM\\s+(\\S+\\.)?(\\S+)");
 
     private ResultSet lastResultSet;
     protected Block block;
-    protected final ClickHouseConnection connection;
+    protected final TimeplusConnection connection;
     protected final NativeContext nativeContext;
     private ProgressListener progressListener;
 
-    private ClickHouseConfig cfg;
+    private TimeplusConfig cfg;
     private long maxRows;
     private String db;
     private String table = "unknown";
@@ -60,7 +60,7 @@ public class ClickHouseStatement implements SQLStatement {
     private int updateCount = -1;
     private boolean isClosed = false;
 
-    public ClickHouseStatement(ClickHouseConnection connection, NativeContext nativeContext) {
+    public TimeplusStatement(TimeplusConnection connection, NativeContext nativeContext) {
         this.connection = connection;
         this.nativeContext = nativeContext;
         this.cfg = connection.cfg();
@@ -95,11 +95,11 @@ public class ClickHouseStatement implements SQLStatement {
             updateCount = -1;
             QueryResult result = connection.sendQueryRequest(query, cfg);
 
-            if (result instanceof ClickHouseQueryResult) {
-                ((ClickHouseQueryResult) result).setProgressListener(this.progressListener);
+            if (result instanceof TimeplusQueryResult) {
+                ((TimeplusQueryResult) result).setProgressListener(this.progressListener);
             }
 
-            lastResultSet = new ClickHouseResultSet(this, cfg, db, table, result.header(), result.data());
+            lastResultSet = new TimeplusResultSet(this, cfg, db, table, result.header(), result.data());
             return 0;
         });
     }
@@ -245,7 +245,7 @@ public class ClickHouseStatement implements SQLStatement {
 
     @Override
     public Logger logger() {
-        return ClickHouseStatement.LOG;
+        return TimeplusStatement.LOG;
     }
 
     protected Block getSampleBlock(final String insertQuery) throws SQLException {

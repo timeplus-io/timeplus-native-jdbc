@@ -20,14 +20,14 @@ import java.sql.Types;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ClickHouseResultSetMetaDataITest extends AbstractITest {
+class TimeplusResultSetMetaDataITest extends AbstractITest {
 
     @Test
     void getDriverMinorVersion() throws Exception {
         withNewConnection(connection -> {
-            ClickHouseResultSet rs = ClickHouseResultSetBuilder
-                                         .builder(8, ((ClickHouseConnection) connection).serverContext())
-                                         .cfg(((ClickHouseConnection) connection).cfg())
+            TimeplusResultSet rs = TimeplusResultSetBuilder
+                                         .builder(8, ((TimeplusConnection) connection).serverContext())
+                                         .cfg(((TimeplusConnection) connection).cfg())
                                          .columnNames("a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8")
                                          .columnTypes("String", "UInt32", "Int64", "Float32", "Float64", "Decimal(76, 26)",
                                                  "Nullable(Int64)", "Nullable(UInt64)")

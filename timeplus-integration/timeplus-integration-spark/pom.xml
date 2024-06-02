@@ -61,8 +61,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.timeplus</groupId>
-            <artifactId>timeplus-jdbc</artifactId>
+            <groupId>com.clickhouse</groupId>
+            <artifactId>clickhouse-jdbc</artifactId>
             <classifier>all</classifier>
             <scope>test</scope>
         </dependency>
@@ -78,7 +78,7 @@
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
-            <artifactId>timeplus</artifactId>
+            <artifactId>clickhouse</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

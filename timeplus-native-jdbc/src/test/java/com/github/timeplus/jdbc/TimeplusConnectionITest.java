@@ -22,7 +22,7 @@ import java.sql.ResultSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ClickHouseConnectionITest extends AbstractITest {
+public class TimeplusConnectionITest extends AbstractITest {
 
     @Test
     void ping() throws Exception {

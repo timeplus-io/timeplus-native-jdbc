@@ -14,7 +14,7 @@
 
 package com.github.timeplus.protocol;
 
-import com.github.timeplus.exception.ClickHouseSQLException;
+import com.github.timeplus.exception.TimeplusSQLException;
 import com.github.timeplus.serde.BinaryDeserializer;
 
 import java.io.IOException;
@@ -29,11 +29,11 @@ public class ExceptionResponse implements Response {
         String stackTrace = deserializer.readUTF8StringBinary();
 
         if (deserializer.readBoolean()) {
-            return new ClickHouseSQLException(
+            return new TimeplusSQLException(
                     code, name + message + ". Stack trace:\n\n" + stackTrace, readExceptionFrom(deserializer));
         }
 
-        return new ClickHouseSQLException(code, name + message + ". Stack trace:\n\n" + stackTrace);
+        return new TimeplusSQLException(code, name + message + ". Stack trace:\n\n" + stackTrace);
     }
 
     @Override

@@ -14,7 +14,7 @@
 
 package com.github.timeplus.jdbc;
 
-import com.github.timeplus.settings.ClickHouseConfig;
+import com.github.timeplus.settings.TimeplusConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,13 +28,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BalancedClickhouseDataSourceITest extends AbstractITest {
 
-    private static BalancedClickhouseDataSource singleDs;
-    private static BalancedClickhouseDataSource dualDs;
+    private static BalancedTimeplusDataSource singleDs;
+    private static BalancedTimeplusDataSource dualDs;
 
     @BeforeEach
     public void reset() {
-        singleDs = new BalancedClickhouseDataSource(String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s", CK_HOST, CK_PORT));
-        dualDs = new BalancedClickhouseDataSource(String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s,%s:%s", CK_HOST, CK_PORT, CK_HOST, CK_PORT));
+        singleDs = new BalancedTimeplusDataSource(String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s", CK_HOST, CK_PORT));
+        dualDs = new BalancedTimeplusDataSource(String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s,%s:%s", CK_HOST, CK_PORT, CK_HOST, CK_PORT));
     }
 
     @Test
@@ -108,7 +108,7 @@ public class BalancedClickhouseDataSourceITest extends AbstractITest {
 
     @Test
     public void testDisableConnection() {
-        BalancedClickhouseDataSource badDatasource = new BalancedClickhouseDataSource(
+        BalancedTimeplusDataSource badDatasource = new BalancedTimeplusDataSource(
                 "jdbc:clickhouse://not.existed.url:" + CK_PORT, new Properties());
         badDatasource.actualize();
         try (Connection ignored = badDatasource.getConnection()) {
@@ -120,7 +120,7 @@ public class BalancedClickhouseDataSourceITest extends AbstractITest {
 
     @Test
     public void testWorkWithEnabledUrl() throws Exception {
-        BalancedClickhouseDataSource halfDatasource = new BalancedClickhouseDataSource(
+        BalancedTimeplusDataSource halfDatasource = new BalancedTimeplusDataSource(
                 String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s,%s:%s", "not.existed.url", CK_PORT, CK_HOST, CK_PORT), new Properties());
 
         halfDatasource.actualize();
@@ -172,9 +172,9 @@ public class BalancedClickhouseDataSourceITest extends AbstractITest {
         properties.setProperty("password", "888888");
 
         // without connection parameters
-        BalancedClickhouseDataSource dataSource = new BalancedClickhouseDataSource(
+        BalancedTimeplusDataSource dataSource = new BalancedTimeplusDataSource(
                 String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s,%s:%s/click", CK_HOST, CK_PORT, CK_HOST, CK_PORT), properties);
-        ClickHouseConfig cfg = dataSource.getCfg();
+        TimeplusConfig cfg = dataSource.getCfg();
         assertEquals(Duration.ofSeconds(6789), cfg.queryTimeout());
         assertEquals("888888", cfg.password());
         assertEquals("click", cfg.database());
@@ -185,7 +185,7 @@ public class BalancedClickhouseDataSourceITest extends AbstractITest {
                 dataSource.getAllClickhouseUrls().get(1));
 
         // with connection parameters
-        dataSource = new BalancedClickhouseDataSource(
+        dataSource = new BalancedTimeplusDataSource(
                 String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s,%s:%s/click?query_timeout=12345&user=readonly", CK_HOST, CK_PORT, CK_HOST, CK_PORT), properties);
         cfg = dataSource.getCfg();
         assertEquals(Duration.ofSeconds(6789), cfg.queryTimeout());

@@ -58,10 +58,10 @@ import com.github.timeplus.data.type.complex.DataTypeNothing;
 import com.github.timeplus.data.type.complex.DataTypeNullable;
 import com.github.timeplus.data.type.complex.DataTypeString;
 import com.github.timeplus.data.type.complex.DataTypeTuple;
-import com.github.timeplus.exception.ClickHouseSQLException;
-import com.github.timeplus.jdbc.ClickHouseArray;
-import com.github.timeplus.jdbc.ClickHouseConnection;
-import com.github.timeplus.jdbc.ClickHouseStruct;
+import com.github.timeplus.exception.TimeplusSQLException;
+import com.github.timeplus.jdbc.TimeplusArray;
+import com.github.timeplus.jdbc.TimeplusConnection;
+import com.github.timeplus.jdbc.TimeplusStruct;
 import com.github.timeplus.log.Logger;
 import com.github.timeplus.log.LoggerFactory;
 import com.github.timeplus.misc.BytesCharSeq;
@@ -70,9 +70,9 @@ import com.github.timeplus.misc.ExceptionUtil;
 import com.github.timeplus.misc.Validate;
 import com.github.timeplus.stream.ValuesWithParametersNativeInputFormat;
 
-public class ClickHousePreparedInsertStatement extends AbstractPreparedStatement {
+public class TimeplusPreparedInsertStatement extends AbstractPreparedStatement {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ClickHousePreparedInsertStatement.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TimeplusPreparedInsertStatement.class);
 
     private static int computeQuestionMarkSize(String query, int start) throws SQLException {
         int param = 0;
@@ -98,10 +98,10 @@ public class ClickHousePreparedInsertStatement extends AbstractPreparedStatement
     private final String insertQuery;
     private boolean blockInit;
 
-    public ClickHousePreparedInsertStatement(int posOfData,
-                                             String fullQuery,
-                                             ClickHouseConnection conn,
-                                             NativeContext nativeContext) throws SQLException {
+    public TimeplusPreparedInsertStatement(int posOfData,
+                                           String fullQuery,
+                                           TimeplusConnection conn,
+                                           NativeContext nativeContext) throws SQLException {
         super(conn, nativeContext, null);
         this.blockInit = false;
         this.posOfData = posOfData;
@@ -216,11 +216,11 @@ public class ClickHousePreparedInsertStatement extends AbstractPreparedStatement
     }
 
     // TODO we actually need a type cast system rather than put all type cast stuffs here
-    private Object convertToCkDataType(IDataType<?, ?> type, Object obj) throws ClickHouseSQLException {
+    private Object convertToCkDataType(IDataType<?, ?> type, Object obj) throws TimeplusSQLException {
         if (obj == null) {
             if (type.nullable() || type instanceof DataTypeNothing)
                 return null;
-            throw new ClickHouseSQLException(-1, "type[" + type.name() + "] doesn't support null value");
+            throw new TimeplusSQLException(-1, "type[" + type.name() + "] doesn't support null value");
         }
         // put the most common cast at first to avoid `instanceof` test overhead
         if (type instanceof DataTypeString || type instanceof DataTypeFixedString) {
@@ -311,16 +311,16 @@ public class ClickHousePreparedInsertStatement extends AbstractPreparedStatement
             return convertToCkDataType(((DataTypeNullable) type).getNestedDataType(), obj);
         }
         if (type instanceof DataTypeArray) {
-            if (!(obj instanceof ClickHouseArray)) {
-                throw new ClickHouseSQLException(-1, "require ClickHouseArray for column: " + type.name() + ", but found " + obj.getClass());
+            if (!(obj instanceof TimeplusArray)) {
+                throw new TimeplusSQLException(-1, "require ClickHouseArray for column: " + type.name() + ", but found " + obj.getClass());
             }
-            return ((ClickHouseArray) obj).mapElements(unchecked(this::convertToCkDataType));
+            return ((TimeplusArray) obj).mapElements(unchecked(this::convertToCkDataType));
         }
         if (type instanceof DataTypeTuple) {
-            if (!(obj instanceof ClickHouseStruct)) {
-                throw new ClickHouseSQLException(-1, "require ClickHouseStruct for column: " + type.name() + ", but found " + obj.getClass());
+            if (!(obj instanceof TimeplusStruct)) {
+                throw new TimeplusSQLException(-1, "require ClickHouseStruct for column: " + type.name() + ", but found " + obj.getClass());
             }
-            return ((ClickHouseStruct) obj).mapAttributes(((DataTypeTuple) type).getNestedTypes(), unchecked(this::convertToCkDataType));
+            return ((TimeplusStruct) obj).mapAttributes(((DataTypeTuple) type).getNestedTypes(), unchecked(this::convertToCkDataType));
         }
         if (type instanceof DataTypeMap) {
             if (obj instanceof Map) {
@@ -335,7 +335,7 @@ public class ClickHousePreparedInsertStatement extends AbstractPreparedStatement
                 }
                 return result;
             } else {
-                throw new ClickHouseSQLException(-1, "require Map for column: " + type.name() + ", but found " + obj.getClass());
+                throw new TimeplusSQLException(-1, "require Map for column: " + type.name() + ", but found " + obj.getClass());
             }
         }
         

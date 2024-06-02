@@ -13,7 +13,7 @@
  */
 package com.github.timeplus.jdbc;
 
-import com.github.timeplus.exception.ClickHouseSQLException;
+import com.github.timeplus.exception.TimeplusSQLException;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -29,7 +29,7 @@ public class ClickHouseSQLExceptionITest extends AbstractITest {
             try {
                 statement.executeQuery("DROP TABLE test");
             } catch (SQLException e) {
-                assertTrue(e instanceof ClickHouseSQLException);
+                assertTrue(e instanceof TimeplusSQLException);
                 assertNotEquals(0, e.getErrorCode());
                 assertEquals(e.getErrorCode(), e.getErrorCode());
             }

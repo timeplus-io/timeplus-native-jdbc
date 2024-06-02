@@ -14,7 +14,7 @@
 
 package com.github.timeplus.data.type.complex;
 
-import com.github.timeplus.jdbc.ClickHouseStruct;
+import com.github.timeplus.jdbc.TimeplusStruct;
 import com.github.timeplus.data.DataTypeFactory;
 import com.github.timeplus.data.IDataType;
 import com.github.timeplus.misc.SQLLexer;
@@ -29,9 +29,9 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataTypeTuple implements IDataType<ClickHouseStruct, Struct> {
+public class DataTypeTuple implements IDataType<TimeplusStruct, Struct> {
 
-    public static DataTypeCreator<ClickHouseStruct, Struct> creator = (lexer, serverContext) -> {
+    public static DataTypeCreator<TimeplusStruct, Struct> creator = (lexer, serverContext) -> {
         Validate.isTrue(lexer.character() == '(');
         List<IDataType<?, ?>> nestedDataTypes = new ArrayList<>();
 
@@ -70,17 +70,17 @@ public class DataTypeTuple implements IDataType<ClickHouseStruct, Struct> {
     }
 
     @Override
-    public ClickHouseStruct defaultValue() {
+    public TimeplusStruct defaultValue() {
         Object[] attrs = new Object[getNestedTypes().length];
         for (int i = 0; i < getNestedTypes().length; i++) {
             attrs[i] = getNestedTypes()[i].defaultValue();
         }
-        return new ClickHouseStruct("Tuple", attrs);
+        return new TimeplusStruct("Tuple", attrs);
     }
 
     @Override
-    public Class<ClickHouseStruct> javaType() {
-        return ClickHouseStruct.class;
+    public Class<TimeplusStruct> javaType() {
+        return TimeplusStruct.class;
     }
 
     @Override
@@ -99,14 +99,14 @@ public class DataTypeTuple implements IDataType<ClickHouseStruct, Struct> {
     }
 
     @Override
-    public void serializeBinary(ClickHouseStruct data, BinarySerializer serializer) throws SQLException, IOException {
+    public void serializeBinary(TimeplusStruct data, BinarySerializer serializer) throws SQLException, IOException {
         for (int i = 0; i < getNestedTypes().length; i++) {
             getNestedTypes()[i].serializeBinary(data.getAttributes()[i], serializer);
         }
     }
 
     @Override
-    public void serializeBinaryBulk(ClickHouseStruct[] data, BinarySerializer serializer) throws SQLException, IOException {
+    public void serializeBinaryBulk(TimeplusStruct[] data, BinarySerializer serializer) throws SQLException, IOException {
         for (int i = 0; i < getNestedTypes().length; i++) {
             Object[] elemsData = new Object[data.length];
             for (int row = 0; row < data.length; row++) {
@@ -117,26 +117,26 @@ public class DataTypeTuple implements IDataType<ClickHouseStruct, Struct> {
     }
 
     @Override
-    public ClickHouseStruct deserializeBinary(BinaryDeserializer deserializer) throws SQLException, IOException {
+    public TimeplusStruct deserializeBinary(BinaryDeserializer deserializer) throws SQLException, IOException {
         Object[] attrs = new Object[getNestedTypes().length];
         for (int i = 0; i < getNestedTypes().length; i++) {
             attrs[i] = getNestedTypes()[i].deserializeBinary(deserializer);
         }
-        return new ClickHouseStruct("Tuple", attrs);
+        return new TimeplusStruct("Tuple", attrs);
     }
 
     @Override
-    public ClickHouseStruct[] deserializeBinaryBulk(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
+    public TimeplusStruct[] deserializeBinaryBulk(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
         Object[][] rowsWithElems = getRowsWithElems(rows, deserializer);
 
-        ClickHouseStruct[] rowsData = new ClickHouseStruct[rows];
+        TimeplusStruct[] rowsData = new TimeplusStruct[rows];
         for (int row = 0; row < rows; row++) {
             Object[] elemsData = new Object[getNestedTypes().length];
 
             for (int elemIndex = 0; elemIndex < getNestedTypes().length; elemIndex++) {
                 elemsData[elemIndex] = rowsWithElems[elemIndex][row];
             }
-            rowsData[row] = new ClickHouseStruct("Tuple", elemsData);
+            rowsData[row] = new TimeplusStruct("Tuple", elemsData);
         }
         return rowsData;
     }
@@ -150,7 +150,7 @@ public class DataTypeTuple implements IDataType<ClickHouseStruct, Struct> {
     }
 
     @Override
-    public ClickHouseStruct deserializeText(SQLLexer lexer) throws SQLException {
+    public TimeplusStruct deserializeText(SQLLexer lexer) throws SQLException {
         Validate.isTrue(lexer.character() == '(');
         Object[] tupleData = new Object[getNestedTypes().length];
         for (int i = 0; i < getNestedTypes().length; i++) {
@@ -159,7 +159,7 @@ public class DataTypeTuple implements IDataType<ClickHouseStruct, Struct> {
             tupleData[i] = getNestedTypes()[i].deserializeText(lexer);
         }
         Validate.isTrue(lexer.character() == ')');
-        return new ClickHouseStruct("Tuple", tupleData);
+        return new TimeplusStruct("Tuple", tupleData);
     }
 
     public IDataType[] getNestedTypes() {

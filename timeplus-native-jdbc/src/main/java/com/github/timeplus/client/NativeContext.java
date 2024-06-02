@@ -15,8 +15,8 @@
 package com.github.timeplus.client;
 
 import com.github.timeplus.serde.BinarySerializer;
-import com.github.timeplus.settings.ClickHouseConfig;
-import com.github.timeplus.settings.ClickHouseDefines;
+import com.github.timeplus.settings.TimeplusConfig;
+import com.github.timeplus.settings.TimeplusDefines;
 
 import java.io.IOException;
 import java.time.ZoneId;
@@ -73,9 +73,9 @@ public class NativeContext {
             serializer.writeUTF8StringBinary("");
             serializer.writeUTF8StringBinary(clientHostname);
             serializer.writeUTF8StringBinary(clientName);
-            serializer.writeVarInt(ClickHouseDefines.MAJOR_VERSION);
-            serializer.writeVarInt(ClickHouseDefines.MINOR_VERSION);
-            serializer.writeVarInt(ClickHouseDefines.CLIENT_REVISION);
+            serializer.writeVarInt(TimeplusDefines.MAJOR_VERSION);
+            serializer.writeVarInt(TimeplusDefines.MINOR_VERSION);
+            serializer.writeVarInt(TimeplusDefines.CLIENT_REVISION);
             serializer.writeUTF8StringBinary("");
         }
     }
@@ -86,10 +86,10 @@ public class NativeContext {
         private final long reversion;
         private final ZoneId timeZone;
         private final String displayName;
-        private final ClickHouseConfig configure;
+        private final TimeplusConfig configure;
 
         public ServerContext(long majorVersion, long minorVersion, long reversion,
-                             ClickHouseConfig configure,
+                             TimeplusConfig configure,
                              ZoneId timeZone, String displayName) {
             this.majorVersion = majorVersion;
             this.minorVersion = minorVersion;
@@ -123,7 +123,7 @@ public class NativeContext {
             return displayName;
         }
 
-        public ClickHouseConfig getConfigure() {
+        public TimeplusConfig getConfigure() {
             return configure;
         }
     }

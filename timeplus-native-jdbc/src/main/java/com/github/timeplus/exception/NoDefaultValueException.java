@@ -14,7 +14,7 @@
 
 package com.github.timeplus.exception;
 
-public class NoDefaultValueException extends ClickHouseClientException {
+public class NoDefaultValueException extends TimeplusClientException {
 
     public NoDefaultValueException(String message) {
         super(message);

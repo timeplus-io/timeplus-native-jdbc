@@ -14,7 +14,7 @@
 
 package com.github.timeplus.buffer;
 
-import com.github.timeplus.settings.ClickHouseDefines;
+import com.github.timeplus.settings.TimeplusDefines;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class SocketBuffedReader implements BuffedReader {
     private int position;
 
     public SocketBuffedReader(Socket socket) throws IOException {
-        this(socket.getInputStream(), ClickHouseDefines.SOCKET_RECV_BUFFER_BYTES);
+        this(socket.getInputStream(), TimeplusDefines.SOCKET_RECV_BUFFER_BYTES);
     }
 
     SocketBuffedReader(InputStream in, int capacity) {

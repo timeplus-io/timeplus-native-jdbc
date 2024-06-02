@@ -16,8 +16,8 @@ package com.github.timeplus.jdbc;
 
 import com.github.timeplus.client.NativeContext;
 import com.github.timeplus.misc.Validate;
-import com.github.timeplus.settings.ClickHouseConfig;
-import com.github.timeplus.settings.ClickHouseDefines;
+import com.github.timeplus.settings.TimeplusConfig;
+import com.github.timeplus.settings.TimeplusDefines;
 import com.github.timeplus.stream.QueryResult;
 import com.github.timeplus.stream.QueryResultBuilder;
 
@@ -25,67 +25,67 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
-public class ClickHouseResultSetBuilder {
+public class TimeplusResultSetBuilder {
 
     private final QueryResultBuilder queryResultBuilder;
 
-    private ClickHouseConfig cfg;
-    private String db = ClickHouseDefines.DEFAULT_DATABASE;
+    private TimeplusConfig cfg;
+    private String db = TimeplusDefines.DEFAULT_DATABASE;
     private String table = "unknown";
 
-    public static ClickHouseResultSetBuilder builder(int columnsNum, NativeContext.ServerContext serverContext) {
-        return new ClickHouseResultSetBuilder(QueryResultBuilder.builder(columnsNum, serverContext));
+    public static TimeplusResultSetBuilder builder(int columnsNum, NativeContext.ServerContext serverContext) {
+        return new TimeplusResultSetBuilder(QueryResultBuilder.builder(columnsNum, serverContext));
     }
 
-    private ClickHouseResultSetBuilder(QueryResultBuilder queryResultBuilder) {
+    private TimeplusResultSetBuilder(QueryResultBuilder queryResultBuilder) {
         this.queryResultBuilder = queryResultBuilder;
     }
 
-    public ClickHouseResultSetBuilder cfg(ClickHouseConfig cfg) {
+    public TimeplusResultSetBuilder cfg(TimeplusConfig cfg) {
         this.cfg = cfg;
         return this;
     }
 
-    public ClickHouseResultSetBuilder db(String db) {
+    public TimeplusResultSetBuilder db(String db) {
         this.db = db;
         return this;
     }
 
-    public ClickHouseResultSetBuilder table(String table) {
+    public TimeplusResultSetBuilder table(String table) {
         this.table = table;
         return this;
     }
 
-    public ClickHouseResultSetBuilder columnNames(String... names) {
+    public TimeplusResultSetBuilder columnNames(String... names) {
         return columnNames(Arrays.asList(names));
     }
 
-    public ClickHouseResultSetBuilder columnNames(List<String> names) {
+    public TimeplusResultSetBuilder columnNames(List<String> names) {
         this.queryResultBuilder.columnNames(names);
         return this;
     }
 
-    public ClickHouseResultSetBuilder columnTypes(String... types) throws SQLException {
+    public TimeplusResultSetBuilder columnTypes(String... types) throws SQLException {
         return columnTypes(Arrays.asList(types));
     }
 
-    public ClickHouseResultSetBuilder columnTypes(List<String> types) throws SQLException {
+    public TimeplusResultSetBuilder columnTypes(List<String> types) throws SQLException {
         this.queryResultBuilder.columnTypes(types);
         return this;
     }
 
-    public ClickHouseResultSetBuilder addRow(Object... row) {
+    public TimeplusResultSetBuilder addRow(Object... row) {
         return addRow(Arrays.asList(row));
     }
 
-    public ClickHouseResultSetBuilder addRow(List<?> row) {
+    public TimeplusResultSetBuilder addRow(List<?> row) {
         this.queryResultBuilder.addRow(row);
         return this;
     }
 
-    public ClickHouseResultSet build() throws SQLException {
+    public TimeplusResultSet build() throws SQLException {
         Validate.ensure(cfg != null);
         QueryResult queryResult = this.queryResultBuilder.build();
-        return new ClickHouseResultSet(null, cfg, db, table, queryResult.header(), queryResult.data());
+        return new TimeplusResultSet(null, cfg, db, table, queryResult.header(), queryResult.data());
     }
 }
