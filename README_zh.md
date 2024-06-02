@@ -1,24 +1,24 @@
-ClickHouse Native JDBC
+Timeplus Native JDBC
 ===
 
-[![Build Status](https://github.com/housepower/ClickHouse-Native-JDBC/workflows/build/badge.svg?branch=master)](https://github.com/housepower/ClickHouse-Native-JDBC/actions?query=workflow%3Abuild+branch%3Amaster)
-[![codecov.io](https://codecov.io/github/housepower/ClickHouse-Native-JDBC/coverage.svg?branch=master)](https://codecov.io/github/housepower/ClickHouse-Native-JDBC?branch=master)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.housepower/clickhouse-native-jdbc-parent/badge.svg)](https://search.maven.org/search?q=com.github.housepower)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/housepower/ClickHouse-Native-JDBC.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/housepower/ClickHouse-Native-JDBC/alerts/)
-[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/housepower/ClickHouse-Native-JDBC.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/housepower/ClickHouse-Native-JDBC/context:java)
-[![License](https://img.shields.io/github/license/housepower/ClickHouse-Native-JDBC)](https://github.com/housepower/ClickHouse-Native-JDBC/blob/master/LICENSE)
+[![Build Status](https://github.com/timeplus-io/timeplus-native-jdbc/workflows/build/badge.svg?branch=master)](https://github.com/timeplus-io/timeplus-native-jdbc/actions?query=workflow%3Abuild+branch%3Amaster)
+[![codecov.io](https://codecov.io/github/timeplus-io/timeplus-native-jdbc/coverage.svg?branch=master)](https://codecov.io/github/timeplus-io/timeplus-native-jdbc?branch=master)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.timeplus-io/timeplus-native-jdbc-parent/badge.svg)](https://search.maven.org/search?q=com.github.timeplus-io)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/timeplus-io/timeplus-native-jdbc.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/timeplus-io/timeplus-native-jdbc/alerts/)
+[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/timeplus-io/timeplus-native-jdbc.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/timeplus-io/timeplus-native-jdbc/context:java)
+[![License](https://img.shields.io/github/license/timeplus-io/timeplus-native-jdbc)](https://github.com/timeplus-io/timeplus-native-jdbc/blob/master/LICENSE)
 
 [English](README.md) | 简体中文
 
-## [项目主页](https://housepower.github.io/ClickHouse-Native-JDBC/zh/) | [GitHub](https://github.com/housepower/ClickHouse-Native-JDBC) | [码云](https://gitee.com/housepower/ClickHouse-Native-JDBC)
+## [项目主页](https://timeplus-io.github.io/timeplus-native-jdbc/zh/) | [GitHub](https://github.com/timeplus-io/timeplus-native-jdbc) | [码云](https://gitee.com/timeplus-io/timeplus-native-jdbc)
 
-这是一个基于原生(TCP)协议实现的 JDBC 驱动，用于访问 [ClickHouse](https://clickhouse.yandex/) ，同时也支持与 [Apache Spark](https://github.com/apache/spark/) 的集成。
+这是一个基于原生(TCP)协议实现的 JDBC 驱动，用于访问 [Timeplus](https://timeplus.com/) ，同时也支持与 [Apache Spark](https://github.com/apache/spark/) 的集成。
 
 ## 参与贡献
 
 我们欢迎大家以各种形式参与项目贡献，可以是报告问题、完善文档、修复 bug、添加测试用例、实现新特性等。请参考 [贡献指南](CONTRIBUTE.md)。
 
-本项目受 [JetBrains Open Source License](https://www.jetbrains.com/?from=ClickHouse-Native-JDBC) 2020-2021 赞助支持. 
+本项目受 [JetBrains Open Source License](https://www.jetbrains.com/?from=timeplus-native-jdbc) 2020-2021 赞助支持. 
 
 ## JDBC 驱动
 
@@ -27,8 +27,6 @@ ClickHouse Native JDBC
 - Java 8/11. 
 
 **注意:** 我们只基于 Java LTS 版本做测试。
-
-### 与 [yandex/clickhouse-jdbc](https://github.com/yandex/clickhouse-jdbc) 驱动的不同点
 
 * 写入时，数据按照列式格式组织并压缩
 * 基于 TCP 协议实现，比 HTTP 协议更高效，参考 [性能测试报告](docs/dev/benchmark.md)。
@@ -44,10 +42,10 @@ ClickHouse Native JDBC
 - Gradle
 ```groovy
 // (推荐) shaded 版本，自 2.3-stable 起可用
-compile "com.github.housepower:clickhouse-native-jdbc-shaded:${clickhouse_native_jdbc_version}"
+compile "com.github.timeplus-io:timeplus-native-jdbc-shaded:${timeplus_native_jdbc_version}"
 
 // 常规版本
-compile "com.github.housepower:clickhouse-native-jdbc:${clickhouse_native_jdbc_version}"
+compile "com.github.timeplus-io:timeplus-native-jdbc:${timeplus_native_jdbc_version}"
 ```
 
 - Maven
@@ -56,15 +54,15 @@ compile "com.github.housepower:clickhouse-native-jdbc:${clickhouse_native_jdbc_v
 <!-- (推荐) shaded 版本，自 2.3-stable 起可用 -->
 <dependency>
     <groupId>com.github.timeplus</groupId>
-    <artifactId>clickhouse-native-jdbc-shaded</artifactId>
-    <version>${clickhouse-native-jdbc.version}</version>
+    <artifactId>timeplus-native-jdbc-shaded</artifactId>
+    <version>${timepus-native-jdbc.version}</version>
 </dependency>
 
         <!-- 常规版本 -->
 <dependency>
 <groupId>com.github.timeplus</groupId>
-<artifactId>clickhouse-native-jdbc</artifactId>
-<version>${clickhouse-native-jdbc.version}</version>
+<artifactId>timeplus-native-jdbc</artifactId>
+<version>${timeplus-native-jdbc.version}</version>
 </dependency>
 ```
 
@@ -75,7 +73,7 @@ compile "com.github.housepower:clickhouse-native-jdbc:${clickhouse_native_jdbc_v
 - Java 8, Scala 2.11/2.12, Spark 2.4.x
 - 或者 Java 8/11, Scala 2.12, Spark 3.0/3.1
 
-Spark 3.2 推荐使用 [Spark ClickHouse Connector](https://github.com/housepower/spark-clickhouse-connector)
+Spark 3.2 推荐使用 [Spark Timeplus Connector](https://github.com/timeplus-io/spark-timeplus-connector)
 
 **注意:** Spark 2.3.x(EOL) 理论上也支持。但我们只对 Java 8 和 Java 11 做测试，Spark 自 3.0.0 起官方支持 Java 11。
 
@@ -85,7 +83,7 @@ Spark 3.2 推荐使用 [Spark ClickHouse Connector](https://github.com/housepowe
 
 ```groovy
 // 自 2.4.0 起可用
-compile "com.github.housepower:clickhouse-integration-spark_2.11:${clickhouse_native_jdbc_version}"
+compile "com.github.timeplus-io:timeplus-integration-spark_2.11:${timeplus_native_jdbc_version}"
 ```
 
 - Maven
@@ -94,8 +92,8 @@ compile "com.github.housepower:clickhouse-integration-spark_2.11:${clickhouse_na
 <!-- 自 2.4.0 起可用 -->
 <dependency>
     <groupId>com.github.timeplus</groupId>
-    <artifactId>clickhouse-integration-spark_2.11</artifactId>
-    <version>${clickhouse-native-jdbc.version}</version>
+    <artifactId>timeplus-integration-spark_2.11</artifactId>
+    <version>${timeplus-native-jdbc.version}</version>
 </dependency>
 ```
 

@@ -24,9 +24,9 @@ import org.apache.spark.sql.types._
 import scala.util.matching.Regex
 
 /**
- * ClickHouse SQL dialect
+ * Timeplus SQL dialect
  */
-object ClickHouseDialect extends JdbcDialect with Logging {
+object TimeplusDialect extends JdbcDialect with Logging {
 
   private[jdbc] val arrayTypePattern: Regex = "^Array\\((.*)\\)$".r
   private[jdbc] val dateTypePattern: Regex = "^[dD][aA][tT][eE]$".r

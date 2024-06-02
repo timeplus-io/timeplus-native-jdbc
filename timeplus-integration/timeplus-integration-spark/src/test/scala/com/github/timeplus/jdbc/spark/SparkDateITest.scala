@@ -20,7 +20,7 @@ import com.github.timeplus.jdbc.tool.TestHarness
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.to_date
-import org.apache.spark.sql.jdbc.{ClickHouseDialect, JdbcDialects}
+import org.apache.spark.sql.jdbc.{TimeplusDialect, JdbcDialects}
 import org.apache.spark.sql.types.{DataTypes, StructField, StructType}
 import org.junit.jupiter.api.{BeforeAll, Test}
 
@@ -32,7 +32,7 @@ object SparkDateITest {
   @BeforeAll
   def beforeAll(): Unit = {
     // make sure register `ClickHouseDialects` before we use it
-    JdbcDialects.registerDialect(ClickHouseDialect)
+    JdbcDialects.registerDialect(TimeplusDialect)
   }
 }
 
