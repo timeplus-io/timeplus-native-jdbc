@@ -24,14 +24,14 @@ import java.util.Arrays;
 import java.util.StringJoiner;
 import java.util.function.BiFunction;
 
-public class ClickHouseArray implements SQLArray {
+public class TimeplusArray implements SQLArray {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ClickHouseArray.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TimeplusArray.class);
 
     private final IDataType<?, ?> elementDataType;
     private final Object[] elements;
 
-    public ClickHouseArray(IDataType<?, ?> elementDataType, Object[] elements) {
+    public TimeplusArray(IDataType<?, ?> elementDataType, Object[] elements) {
         this.elementDataType = elementDataType;
         this.elements = elements;
     }
@@ -57,7 +57,7 @@ public class ClickHouseArray implements SQLArray {
 
     @Override
     public Logger logger() {
-        return ClickHouseArray.LOG;
+        return TimeplusArray.LOG;
     }
 
     @Override
@@ -70,14 +70,14 @@ public class ClickHouseArray implements SQLArray {
         return joiner.toString();
     }
 
-    public ClickHouseArray slice(int offset, int length) {
+    public TimeplusArray slice(int offset, int length) {
         Object[] result = new Object[length];
         if (length >= 0) System.arraycopy(elements, offset, result, 0, length);
-        return new ClickHouseArray(elementDataType, result);
+        return new TimeplusArray(elementDataType, result);
     }
 
-    public ClickHouseArray mapElements(BiFunction<IDataType<?, ?>, Object, Object> mapFunc) {
+    public TimeplusArray mapElements(BiFunction<IDataType<?, ?>, Object, Object> mapFunc) {
         Object[] mapped = Arrays.stream(elements).map(elem -> mapFunc.apply(elementDataType, elem)).toArray();
-        return new ClickHouseArray(elementDataType, mapped);
+        return new TimeplusArray(elementDataType, mapped);
     }
 }

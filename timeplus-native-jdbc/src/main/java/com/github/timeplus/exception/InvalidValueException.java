@@ -14,7 +14,7 @@
 
 package com.github.timeplus.exception;
 
-public class InvalidValueException extends ClickHouseClientException {
+public class InvalidValueException extends TimeplusClientException {
 
     public InvalidValueException(String message) {
         super(message);

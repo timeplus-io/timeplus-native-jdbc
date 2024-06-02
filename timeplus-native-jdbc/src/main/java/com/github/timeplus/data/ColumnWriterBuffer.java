@@ -16,7 +16,7 @@ package com.github.timeplus.data;
 
 import com.github.timeplus.buffer.ByteArrayWriter;
 import com.github.timeplus.serde.BinarySerializer;
-import com.github.timeplus.settings.ClickHouseDefines;
+import com.github.timeplus.settings.TimeplusDefines;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -28,7 +28,7 @@ public class ColumnWriterBuffer {
     public final BinarySerializer column;
 
     public ColumnWriterBuffer() {
-        this.columnWriter = new ByteArrayWriter(ClickHouseDefines.COLUMN_BUFFER_BYTES);
+        this.columnWriter = new ByteArrayWriter(TimeplusDefines.COLUMN_BUFFER_BYTES);
         this.column = new BinarySerializer(columnWriter, false);
     }
 

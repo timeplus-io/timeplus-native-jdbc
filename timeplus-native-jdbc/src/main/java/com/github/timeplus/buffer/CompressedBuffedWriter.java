@@ -22,8 +22,8 @@ import io.airlift.compress.zstd.ZstdCompressor;
 
 import java.io.IOException;
 
-import static com.github.timeplus.settings.ClickHouseDefines.CHECKSUM_LENGTH;
-import static com.github.timeplus.settings.ClickHouseDefines.COMPRESSION_HEADER_LENGTH;
+import static com.github.timeplus.settings.TimeplusDefines.CHECKSUM_LENGTH;
+import static com.github.timeplus.settings.TimeplusDefines.COMPRESSION_HEADER_LENGTH;
 
 public class CompressedBuffedWriter implements BuffedWriter, BytesHelper {
 

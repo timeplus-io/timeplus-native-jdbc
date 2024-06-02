@@ -15,7 +15,7 @@
 package com.github.timeplus.jdbc;
 
 import com.github.timeplus.exception.InvalidValueException;
-import com.github.timeplus.settings.ClickHouseConfig;
+import com.github.timeplus.settings.TimeplusConfig;
 import com.github.timeplus.settings.SettingKey;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,7 +51,7 @@ public class ConnectionParamITest extends AbstractITest {
         };
 
         for (String jdbc : jdbcFalse) {
-            assertFalse(ClickhouseJdbcUrlParser.CONNECTION_PATTERN.matcher(jdbc).matches());
+            assertFalse(TimeplusJdbcUrlParser.CONNECTION_PATTERN.matcher(jdbc).matches());
         }
 
         String[] jdbcTrue = new String[]{
@@ -67,8 +67,8 @@ public class ConnectionParamITest extends AbstractITest {
         };
 
         for (String jdbc : jdbcTrue) {
-            ClickHouseConfig cfg = ClickHouseConfig.Builder.builder()
-                    .withJdbcUrl(ClickhouseJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX + jdbc)
+            TimeplusConfig cfg = TimeplusConfig.Builder.builder()
+                    .withJdbcUrl(TimeplusJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX + jdbc)
                     .build();
 
             if (jdbc.contains("?")) {
@@ -93,8 +93,8 @@ public class ConnectionParamITest extends AbstractITest {
         };
 
         for (String jdbc : fullJdbc) {
-            jdbc = ClickhouseJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX + jdbc;
-            ClickHouseConfig cfg = ClickHouseConfig.Builder.builder()
+            jdbc = TimeplusJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX + jdbc;
+            TimeplusConfig cfg = TimeplusConfig.Builder.builder()
                     .withJdbcUrl(jdbc)
                     .build();
 
@@ -141,7 +141,7 @@ public class ConnectionParamITest extends AbstractITest {
     @Test
     public void successfullyUrlParser() {
         String url = "jdbc:clickhouse://127.0.0.1/system?min_insert_block_size_rows=1000&connect_timeout=50";
-        ClickHouseConfig config = ClickHouseConfig.Builder.builder().withJdbcUrl(url).build();
+        TimeplusConfig config = TimeplusConfig.Builder.builder().withJdbcUrl(url).build();
         assertEquals("system", config.database());
         assertEquals(1000L, config.settings().get(SettingKey.min_insert_block_size_rows));
 
@@ -151,7 +151,7 @@ public class ConnectionParamITest extends AbstractITest {
     @Test
     public void successfullyHostNameOnly() {
         String url = "jdbc:clickhouse://my_clickhouse_sever_host_name/system?min_insert_block_size_rows=1000&connect_timeout=50";
-        ClickHouseConfig config = ClickHouseConfig.Builder.builder().withJdbcUrl(url).build();
+        TimeplusConfig config = TimeplusConfig.Builder.builder().withJdbcUrl(url).build();
         assertEquals("my_clickhouse_sever_host_name", config.host());
         assertEquals(9000, config.port());
         assertEquals("system", config.database());
@@ -162,7 +162,7 @@ public class ConnectionParamITest extends AbstractITest {
     @Test
     public void successfullyHostNameWithDefaultPort() {
         String url = "jdbc:clickhouse://my_clickhouse_sever_host_name:9000/system?min_insert_block_size_rows=1000&connect_timeout=50";
-        ClickHouseConfig config = ClickHouseConfig.Builder.builder().withJdbcUrl(url).build();
+        TimeplusConfig config = TimeplusConfig.Builder.builder().withJdbcUrl(url).build();
         assertEquals("my_clickhouse_sever_host_name", config.host());
         assertEquals(9000, config.port());
         assertEquals("system", config.database());
@@ -173,7 +173,7 @@ public class ConnectionParamITest extends AbstractITest {
     @Test
     public void successfullyHostNameWithCustomPort() {
         String url = "jdbc:clickhouse://my_clickhouse_sever_host_name:1940/system?min_insert_block_size_rows=1000&connect_timeout=50";
-        ClickHouseConfig config = ClickHouseConfig.Builder.builder().withJdbcUrl(url).build();
+        TimeplusConfig config = TimeplusConfig.Builder.builder().withJdbcUrl(url).build();
         assertEquals("my_clickhouse_sever_host_name", config.host());
         assertEquals(1940, config.port());
         assertEquals("system", config.database());
@@ -184,7 +184,7 @@ public class ConnectionParamITest extends AbstractITest {
     @Test
     public void successfullyFailoverHostNameWithCustomPort() {
         String url = "jdbc:clickhouse://my_clickhouse_sever_host_name1:1940,my_clickhouse_sever_host_name2:1941/system?min_insert_block_size_rows=1000&connect_timeout=50";
-        ClickHouseConfig config = ClickHouseConfig.Builder.builder().withJdbcUrl(url).build();
+        TimeplusConfig config = TimeplusConfig.Builder.builder().withJdbcUrl(url).build();
         assertEquals("my_clickhouse_sever_host_name1:1940,my_clickhouse_sever_host_name2:1941", config.host());
         assertEquals(2, config.hosts().size());
         assertEquals(9000, config.port());
@@ -196,7 +196,7 @@ public class ConnectionParamITest extends AbstractITest {
     @Test
     public void successfullyFailoverHostNameWithDefaultPort() {
         String url = "jdbc:clickhouse://my_clickhouse_sever_host_name1,my_clickhouse_sever_host_name2/system?min_insert_block_size_rows=1000&connect_timeout=50";
-        ClickHouseConfig config = ClickHouseConfig.Builder.builder().withJdbcUrl(url).build();
+        TimeplusConfig config = TimeplusConfig.Builder.builder().withJdbcUrl(url).build();
         assertEquals("my_clickhouse_sever_host_name1,my_clickhouse_sever_host_name2", config.host());
         assertEquals(2, config.hosts().size());
         assertEquals(9000, config.port());
@@ -208,7 +208,7 @@ public class ConnectionParamITest extends AbstractITest {
     @Test
     public void successWrongUrlParser() {
         String url = "jdbc:clickhouse://127.0.0. 1/system?min_insert_block_size_rows=1000&connect_timeout=50";
-        assertThrows(InvalidValueException.class, () -> ClickHouseConfig.Builder.builder().withJdbcUrl(url).build());
+        assertThrows(InvalidValueException.class, () -> TimeplusConfig.Builder.builder().withJdbcUrl(url).build());
     }
 
     @Test

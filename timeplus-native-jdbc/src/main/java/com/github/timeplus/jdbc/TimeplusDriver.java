@@ -14,8 +14,8 @@
 
 package com.github.timeplus.jdbc;
 
-import com.github.timeplus.settings.ClickHouseConfig;
-import com.github.timeplus.settings.ClickHouseDefines;
+import com.github.timeplus.settings.TimeplusConfig;
+import com.github.timeplus.settings.TimeplusDefines;
 import com.github.timeplus.settings.SettingKey;
 
 import java.io.Serializable;
@@ -23,11 +23,11 @@ import java.sql.*;
 import java.util.Map;
 import java.util.Properties;
 
-public class ClickHouseDriver implements Driver {
+public class TimeplusDriver implements Driver {
 
     static {
         try {
-            DriverManager.registerDriver(new ClickHouseDriver());
+            DriverManager.registerDriver(new TimeplusDriver());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -35,32 +35,32 @@ public class ClickHouseDriver implements Driver {
 
     @Override
     public boolean acceptsURL(String url) throws SQLException {
-        return url.startsWith(ClickhouseJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX);
+        return url.startsWith(TimeplusJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX);
     }
 
     @Override
-    public ClickHouseConnection connect(String url, Properties properties) throws SQLException {
+    public TimeplusConnection connect(String url, Properties properties) throws SQLException {
         if (!this.acceptsURL(url)) {
             return null;
         }
 
-        ClickHouseConfig cfg = ClickHouseConfig.Builder.builder()
+        TimeplusConfig cfg = TimeplusConfig.Builder.builder()
                 .withJdbcUrl(url)
                 .withProperties(properties)
                 .build();
         return connect(url, cfg);
     }
 
-    ClickHouseConnection connect(String url, ClickHouseConfig cfg) throws SQLException {
+    TimeplusConnection connect(String url, TimeplusConfig cfg) throws SQLException {
         if (!this.acceptsURL(url)) {
             return null;
         }
-        return ClickHouseConnection.createClickHouseConnection(cfg.withJdbcUrl(url));
+        return TimeplusConnection.createClickHouseConnection(cfg.withJdbcUrl(url));
     }
 
     @Override
     public DriverPropertyInfo[] getPropertyInfo(String url, Properties properties) throws SQLException {
-        ClickHouseConfig cfg = ClickHouseConfig.Builder.builder()
+        TimeplusConfig cfg = TimeplusConfig.Builder.builder()
                 .withJdbcUrl(url)
                 .withProperties(properties)
                 .build();
@@ -81,12 +81,12 @@ public class ClickHouseDriver implements Driver {
 
     @Override
     public int getMajorVersion() {
-        return ClickHouseDefines.MAJOR_VERSION;
+        return TimeplusDefines.MAJOR_VERSION;
     }
 
     @Override
     public int getMinorVersion() {
-        return ClickHouseDefines.MINOR_VERSION;
+        return TimeplusDefines.MINOR_VERSION;
     }
 
     @Override

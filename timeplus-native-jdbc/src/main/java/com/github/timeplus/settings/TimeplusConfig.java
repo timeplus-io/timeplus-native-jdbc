@@ -14,7 +14,7 @@
 
 package com.github.timeplus.settings;
 
-import com.github.timeplus.jdbc.ClickhouseJdbcUrlParser;
+import com.github.timeplus.jdbc.TimeplusJdbcUrlParser;
 import com.github.timeplus.misc.CollectionUtil;
 import com.github.timeplus.misc.StrUtil;
 
@@ -29,10 +29,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import static com.github.timeplus.jdbc.ClickhouseJdbcUrlParser.HOST_DELIMITER;
+import static com.github.timeplus.jdbc.TimeplusJdbcUrlParser.HOST_DELIMITER;
 
 @Immutable
-public class ClickHouseConfig implements Serializable {
+public class TimeplusConfig implements Serializable {
 
     private final String host;
     private final List<String> hosts;
@@ -49,10 +49,10 @@ public class ClickHouseConfig implements Serializable {
     private final String sslMode;
     private final String clientName;
 
-    private ClickHouseConfig(String host, int port, String database, String user, String password,
-                             Duration queryTimeout, Duration connectTimeout, boolean tcpKeepAlive,
-                             boolean ssl, String sslMode, String charset, String clientName,
-                             Map<SettingKey, Serializable> settings) {
+    private TimeplusConfig(String host, int port, String database, String user, String password,
+                           Duration queryTimeout, Duration connectTimeout, boolean tcpKeepAlive,
+                           boolean ssl, String sslMode, String charset, String clientName,
+                           Map<SettingKey, Serializable> settings) {
         this.host = host;
         this.hosts = Arrays.asList(host.split(HOST_DELIMITER));
         this.port = port;
@@ -118,7 +118,7 @@ public class ClickHouseConfig implements Serializable {
     }
 
     public String jdbcUrl() {
-        StringBuilder builder = new StringBuilder(ClickhouseJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX)
+        StringBuilder builder = new StringBuilder(TimeplusJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX)
                 .append("//").append(host);
 
         if (hosts.size() == 1) {
@@ -142,81 +142,81 @@ public class ClickHouseConfig implements Serializable {
         return settings;
     }
 
-    public ClickHouseConfig withHostPort(String host, int port) {
+    public TimeplusConfig withHostPort(String host, int port) {
         return Builder.builder(this)
                 .host(host)
                 .port(port)
                 .build();
     }
 
-    public ClickHouseConfig withDatabase(String database) {
+    public TimeplusConfig withDatabase(String database) {
         return Builder.builder(this)
                 .database(database)
                 .build();
     }
 
-    public ClickHouseConfig withCredentials(String user, String password) {
+    public TimeplusConfig withCredentials(String user, String password) {
         return Builder.builder(this)
                 .user(user)
                 .password(password)
                 .build();
     }
 
-    public ClickHouseConfig withQueryTimeout(Duration timeout) {
+    public TimeplusConfig withQueryTimeout(Duration timeout) {
         return Builder.builder(this)
                 .queryTimeout(timeout)
                 .build();
     }
 
-    public ClickHouseConfig withTcpKeepAlive(boolean enable) {
+    public TimeplusConfig withTcpKeepAlive(boolean enable) {
         return Builder.builder(this)
                 .tcpKeepAlive(enable)
                 .build();
     }
 
-    public ClickHouseConfig withSSL(boolean enable) {
+    public TimeplusConfig withSSL(boolean enable) {
         return Builder.builder(this)
                 .ssl(enable)
                 .build();
     }
 
-    public ClickHouseConfig withSSLMode(String mode) {
+    public TimeplusConfig withSSLMode(String mode) {
         return Builder.builder(this)
                 .sslMode(mode)
                 .build();
     }
 
-    public ClickHouseConfig withCharset(Charset charset) {
+    public TimeplusConfig withCharset(Charset charset) {
         return Builder.builder(this)
                 .charset(charset)
                 .build();
     }
 
-    public ClickHouseConfig withClientName(String clientName) {
+    public TimeplusConfig withClientName(String clientName) {
         return Builder.builder(this)
                 .clientName(clientName)
                 .build();
     }
 
-    public ClickHouseConfig withSettings(Map<SettingKey, Serializable> settings) {
+    public TimeplusConfig withSettings(Map<SettingKey, Serializable> settings) {
         return Builder.builder(this)
                 .withSettings(settings)
                 .build();
     }
 
-    public ClickHouseConfig withJdbcUrl(String url) {
+    public TimeplusConfig withJdbcUrl(String url) {
         return Builder.builder(this)
                 .withJdbcUrl(url)
                 .build();
     }
 
-    public ClickHouseConfig withProperties(Properties properties) {
+    public TimeplusConfig withProperties(Properties properties) {
         return Builder.builder(this)
                 .withProperties(properties)
                 .build();
     }
 
-    public ClickHouseConfig with(String url, Properties properties) {
+    public TimeplusConfig with(String url, Properties properties) {
         return Builder.builder(this)
                 .withJdbcUrl(url)
                 .withProperties(properties)
@@ -249,7 +249,7 @@ public class ClickHouseConfig implements Serializable {
             return new Builder();
         }
 
-        public static Builder builder(ClickHouseConfig cfg) {
+        public static Builder builder(TimeplusConfig cfg) {
             return new Builder()
                     .host(cfg.host())
                     .port(cfg.port())
@@ -352,14 +352,14 @@ public class ClickHouseConfig implements Serializable {
         }
 
         public Builder withJdbcUrl(String jdbcUrl) {
-            return this.withSettings(ClickhouseJdbcUrlParser.parseJdbcUrl(jdbcUrl));
+            return this.withSettings(TimeplusJdbcUrlParser.parseJdbcUrl(jdbcUrl));
         }
 
         public Builder withProperties(Properties properties) {
-            return this.withSettings(ClickhouseJdbcUrlParser.parseProperties(properties));
+            return this.withSettings(TimeplusJdbcUrlParser.parseProperties(properties));
         }
 
-        public ClickHouseConfig build() {
+        public TimeplusConfig build() {
             this.host = (String) this.settings.getOrDefault(SettingKey.host, "127.0.0.1");
             this.port = ((Number) this.settings.getOrDefault(SettingKey.port, 9000)).intValue();
             this.user = (String) this.settings.getOrDefault(SettingKey.user, "default");
@@ -372,12 +372,12 @@ public class ClickHouseConfig implements Serializable {
             this.sslMode = (String) this.settings.getOrDefault(SettingKey.sslMode, "disabled");
             this.charset = Charset.forName((String) this.settings.getOrDefault(SettingKey.charset, "UTF-8"));
             this.clientName = (String) this.settings.getOrDefault(SettingKey.client_name,
-                    String.format(Locale.ROOT, "%s %s", ClickHouseDefines.NAME, "client"));
+                    String.format(Locale.ROOT, "%s %s", TimeplusDefines.NAME, "client"));
 
             revisit();
             purgeSettings();
 
-            return new ClickHouseConfig(host, port, database, user, password, queryTimeout, connectTimeout,
+            return new TimeplusConfig(host, port, database, user, password, queryTimeout, connectTimeout,
                     tcpKeepAlive, ssl, sslMode, charset.name(), clientName, settings);
         }
 

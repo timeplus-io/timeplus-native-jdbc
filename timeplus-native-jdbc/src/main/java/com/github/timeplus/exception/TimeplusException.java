@@ -15,26 +15,26 @@
 package com.github.timeplus.exception;
 
 /**
- * Use {@link ClickHouseException} internal, wrapped with {@link java.sql.SQLException} only on JDBC interfaces.
+ * Use {@link TimeplusException} internal, wrapped with {@link java.sql.SQLException} only on JDBC interfaces.
  * throw unchecked exception rather than checked exception.
  * <p>
  * Please avoid using CheckedException internal. See detail at <a>https://www.artima.com/intv/handcuffs.html</a>.
  */
-public class ClickHouseException extends RuntimeException {
+public class TimeplusException extends RuntimeException {
 
     protected int errCode;
 
-    public ClickHouseException(int errCode, String message) {
+    public TimeplusException(int errCode, String message) {
         super(message);
         this.errCode = errCode;
     }
 
-    public ClickHouseException(int errCode, String message, Throwable cause) {
+    public TimeplusException(int errCode, String message, Throwable cause) {
         super(message, cause);
         this.errCode = errCode;
     }
 
-    public ClickHouseException(int errCode, Throwable cause) {
+    public TimeplusException(int errCode, Throwable cause) {
         super(cause);
         this.errCode = errCode;
     }

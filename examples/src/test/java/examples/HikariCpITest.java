@@ -14,7 +14,7 @@
 
 package examples;
 
-import com.github.timeplus.jdbc.BalancedClickhouseDataSource;
+import com.github.timeplus.jdbc.BalancedTimeplusDataSource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +42,7 @@ public class HikariCpITest extends DataSourceITest {
 
     @Test
     public void testHikariWrappedDataSource() throws Exception {
-        DataSource balancedCkDs = new BalancedClickhouseDataSource(getJdbcUrl());
+        DataSource balancedCkDs = new BalancedTimeplusDataSource(getJdbcUrl());
         HikariConfig conf = new HikariConfig();
         conf.setDataSource(balancedCkDs);
         try (HikariDataSource ds = new HikariDataSource(conf)) {

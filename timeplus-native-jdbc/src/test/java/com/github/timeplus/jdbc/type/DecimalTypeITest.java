@@ -15,7 +15,7 @@
 package com.github.timeplus.jdbc.type;
 
 import com.github.timeplus.jdbc.AbstractITest;
-import com.github.timeplus.jdbc.ClickHouseArray;
+import com.github.timeplus.jdbc.TimeplusArray;
 import com.github.timeplus.misc.BytesHelper;
 import com.google.common.base.Strings;
 import org.junit.jupiter.api.Test;
@@ -92,7 +92,7 @@ public class DecimalTypeITest extends AbstractITest implements BytesHelper {
                 BigDecimal rsValue256Neg = rs.getBigDecimal(5);
                 assertEquals(value256Neg, rsValue256Neg);
 
-                ClickHouseArray rsValueArray = (ClickHouseArray) rs.getArray(6);
+                TimeplusArray rsValueArray = (TimeplusArray) rs.getArray(6);
                 Object[] decimalArray = rsValueArray.getArray();
                 assertEquals(decimalArray.length, valueArray.length);
                 for (int i = 0; i < valueArray.length; i++) {

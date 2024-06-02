@@ -14,7 +14,7 @@
 
 package com.github.timeplus.data;
 
-import com.github.timeplus.jdbc.ClickHouseStruct;
+import com.github.timeplus.jdbc.TimeplusStruct;
 import com.github.timeplus.data.type.complex.DataTypeTuple;
 import com.github.timeplus.serde.BinarySerializer;
 
@@ -38,7 +38,7 @@ public class ColumnTuple extends AbstractColumn {
 
     @Override
     public void write(Object object) throws IOException, SQLException {
-        ClickHouseStruct tuple = (ClickHouseStruct) object;
+        TimeplusStruct tuple = (TimeplusStruct) object;
         for (int i = 0; i < columnDataArray.length; i++) {
             columnDataArray[i].write(tuple.getAttributes()[i]);
         }
