@@ -103,7 +103,7 @@
         <aircompressor.version>0.21</aircompressor.version>
         <google.jsr305.version>3.0.2</google.jsr305.version>
         <jmh.version>1.27</jmh.version>
-        <yandex-timeplus-jdbc.version>0.3.1-patch</yandex-timeplus-jdbc.version>
+        <yandex-clickhouse-jdbc.version>0.3.1-patch</yandex-clickhouse-jdbc.version>
         <mockito.version>3.6.28</mockito.version>
         <guava.version>16.0.1</guava.version>
         <jackson.version>2.10.3</jackson.version>
@@ -188,8 +188,8 @@
                 <version>${jmh.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.timeplus</groupId>
-                <artifactId>timeplus-jdbc</artifactId>
+                <groupId>com.clickhouse</groupId>
+                <artifactId>clickhouse-jdbc</artifactId>
                 <version>0.4.6</version>
                 <!-- use uber jar with all dependencies included, change classifier to http for smaller jar -->
                 <classifier>all</classifier>
