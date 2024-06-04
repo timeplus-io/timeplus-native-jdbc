@@ -3,4 +3,4 @@ Troubleshooting
 
 ## Class Conflict
 
-Use `com.github.housepower:clickhouse-native-jdbc-shaded` instead of `com.github.housepower:clickhouse-native-jdbc`.
+Use `com.github.timeplus:timeplus-native-jdbc-shaded` instead of `com.github.timeplus:timeplus-native-jdbc`.

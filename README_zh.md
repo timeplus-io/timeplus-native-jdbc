@@ -100,3 +100,6 @@ compile "com.github.timeplus-io:timeplus-integration-spark_2.11:${timeplus_nativ
 ## 开源协议
 
 Apache License (Version 2.0)。详情参考 [LICENSE](LICENSE).
+
+## 额外补充
+这个repo是https://github.com/housepower/ClickHouse-Native-JDBC的一个fork, 为流式处理做了调整和增强

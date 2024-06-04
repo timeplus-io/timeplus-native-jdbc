@@ -1,4 +1,4 @@
-ClickHouse C/S Native Protocol
+Timeplus C/S Native Protocol
 ===
 
 ## Connection
@@ -17,7 +17,7 @@ Note left of Client: I got server infos
 
 - There are many kinds of requests/response, the above `hello` is one of them.
 
-- You can find all the request/response type in `com.github.housepower.protocol` package.
+- You can find all the request/response type in `com.github.timeplus.protocol` package.
 
 ## Query
 
@@ -34,7 +34,7 @@ Note left of Client: I will deserialize them to the ResultSets.
 
 ## Insert
 
-The plain query which send sql literal to the server, but it's not efficient for batch inserts. ClickHouse provides another type of data request for batch inserts that we can send blocks to the server directly.
+The plain query which send sql literal to the server, but it's not efficient for batch inserts. Timeplus provides another type of data request for batch inserts that we can send blocks to the server directly.
 
 ```mermaid
 sequenceDiagram

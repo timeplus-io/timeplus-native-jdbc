@@ -5,7 +5,7 @@
 - Java 8, Scala 2.11/2.12, Spark 2.4
 - 或者 Java 8/11, Scala 2.12, Spark 3.0/3.1
 
-Spark 3.2 推荐使用 [Spark ClickHouse Connector](https://github.com/housepower/spark-clickhouse-connector)
+Spark 3.2 推荐使用 [Spark Timeplus Connector](https://github.com/timeplus-io/spark-timeplus-connector)
 
 **注意:** Spark 2.3.x(EOL) 理论上也支持。但我们只对 Java 8 和 Java 11 做测试，Spark 自 3.0.0 起官方支持 Java 11。
 
@@ -15,7 +15,7 @@ Spark 3.2 推荐使用 [Spark ClickHouse Connector](https://github.com/housepowe
 
 ```groovy
 // 自 2.4.0 起可用
-compile "com.github.housepower:clickhouse-integration-spark_2.11:${clickhouse_native_jdbc_version}"
+compile "com.github.timeplus:timeplus-integration-spark_2.11:${timeplus_native_jdbc_version}"
 ```
 
 - Maven
@@ -24,40 +24,40 @@ compile "com.github.housepower:clickhouse-integration-spark_2.11:${clickhouse_na
 <!-- 自 2.4.0 起可用 -->
 <dependency>
     <groupId>com.github.timeplus</groupId>
-    <artifactId>clickhouse-integration-spark_2.11</artifactId>
-    <version>${clickhouse-native-jdbc.version}</version>
+    <artifactId>timeplus-integration-spark_2.11</artifactId>
+    <version>${timeplus-native-jdbc.version}</version>
 </dependency>
 ```
 
 ### 示例
 
-请确保在使用前注册 `ClickHouseDialect` 
+请确保在使用前注册 `TimeplusDialect` 
 
 ```scala
-    JdbcDialects.registerDialect(ClickHouseDialect)
+    JdbcDialects.registerDialect(TimeplusDialect)
 ```
 
-读取 ClickHouse 表数据到 DataFrame
+读取 Timeplus 表数据到 DataFrame
 
 ```scala
 val df = spark.read
     .format("jdbc")
-    .option("driver", "com.github.housepower.jdbc.ClickHouseDriver")
-    .option("url", "jdbc:clickhouse://127.0.0.1:9000")
+    .option("driver", "com.github.timeplus.jdbc.TimeplusDriver")
+    .option("url", "jdbc:timeplus://127.0.0.1:8463")
     .option("user", "default")
     .option("password", "")
     .option("dbtable", "db.test_source")
     .load
 ```
 
-将 DataFrame 写入 ClickHouse 表 (支持 `truncate table`)
+将 DataFrame 写入 Timeplus 表 (支持 `truncate table`)
 
 ```scala
 df.write
     .format("jdbc")
     .mode("overwrite")
-    .option("driver", "com.github.housepower.jdbc.ClickHouseDriver")
-    .option("url", "jdbc:clickhouse://127.0.0.1:9000")
+    .option("driver", "com.github.timeplus.jdbc.TimeplusDriver")
+    .option("url", "jdbc:timeplus://127.0.0.1:8463")
     .option("user", "default")
     .option("password", "")
     .option("dbtable", "db.test_target")
@@ -67,4 +67,4 @@ df.write
     .save
 ```
 
-更多参考 [SparkOnClickHouseITest](https://github.com/housepower/ClickHouse-Native-JDBC/clickhouse-integration/clickhouse-integration-spark/src/test/scala/com.github.housepower.jdbc.spark/SparkOnClickHouseITest.scala)
+更多参考 [SparkOnTimeplusITest](https://github.com/timeplus-io/timeplus-native-jdbc/timeplus-integration/timeplus-integration-spark/src/test/scala/com.github.timeplus-io.jdbc.spark/SparkOnTimeplusITest.scala)

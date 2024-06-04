@@ -1,5 +1,5 @@
 {
-  "name": "clickhouse-native-jdbc",
+  "name": "timeplus-native-jdbc",
   "version": "1.0.0",
   "dependencies": {},
   "devDependencies": {
@@ -12,8 +12,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/housepower/ClickHouse-Native-JDBC.git"
+    "url": "git+https://github.com/timeplus-io/timeplus-native-jdbc.git"
   },
   "license": "Apache-2.0",
-  "homepage": "https://github.com/housepower/ClickHouse-Native-JDBC#readme"
+  "homepage": "https://github.com/timeplus-io/timeplus-native-jdbc#readme"
 }

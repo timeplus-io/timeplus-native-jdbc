@@ -138,7 +138,7 @@ class SparkOnClickHouseITest extends AbstractITest with Logging {
       .write
       .format("jdbc")
       .mode("overwrite")
-      .option("driver", "com.github.housepower.jdbc.ClickHouseDriver")
+      .option("driver", "com.github.timeplus.jdbc.TimeplusDriver")
       .option("url", getJdbcUrl)
       .option("user", "default")
       .option("password", "")
@@ -152,7 +152,7 @@ class SparkOnClickHouseITest extends AbstractITest with Logging {
   private def doSparkJdbcReadAndWrite(sourceTable: String, targetTable: String): Unit = {
     spark.read
       .format("jdbc")
-      .option("driver", "com.github.housepower.jdbc.ClickHouseDriver")
+      .option("driver", "com.github.timeplus.jdbc.TimeplusDriver")
       .option("url", getJdbcUrl)
       .option("user", "default")
       .option("password", "")
@@ -161,7 +161,7 @@ class SparkOnClickHouseITest extends AbstractITest with Logging {
       .write
       .format("jdbc")
       .mode("overwrite")
-      .option("driver", "com.github.housepower.jdbc.ClickHouseDriver")
+      .option("driver", "com.github.timeplus.jdbc.TimeplusDriver")
       .option("url", getJdbcUrl)
       .option("user", "default")
       .option("password", "")
@@ -175,7 +175,7 @@ class SparkOnClickHouseITest extends AbstractITest with Logging {
   private def doSparkJdbcReadAndCreateTableWrite(sourceTable: String, targetTable: String): Unit = {
     val df = spark.read
       .format("jdbc")
-      .option("driver", "com.github.housepower.jdbc.ClickHouseDriver")
+      .option("driver", "com.github.timeplus.jdbc.TimeplusDriver")
       .option("url", getJdbcUrl)
       .option("user", "default")
       .option("password", "")
@@ -204,7 +204,7 @@ class SparkOnClickHouseITest extends AbstractITest with Logging {
       .format("jdbc")
       .mode("errorifexists")
       .option("createTableOptions", "ENGINE=Log()")
-      .option("driver", "com.github.housepower.jdbc.ClickHouseDriver")
+      .option("driver", "com.github.timeplus.jdbc.TimeplusDriver")
       .option("url", getJdbcUrl)
       .option("user", "default")
       .option("password", "")
