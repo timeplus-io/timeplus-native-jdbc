@@ -22,7 +22,7 @@ import java.sql.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//Refer to [[https://github.com/housepower/ClickHouse-Native-JDBC/issues/442]] for more details.
+//Refer to [[https://github.com/timeplus-io/timeplus-native-jdbc/issues/442]] for more details.
 public class LowCardinalityTypeTest extends AbstractITest implements BytesHelper {
     @Test
     public void testAllLowCardinalityTypes() throws Exception {

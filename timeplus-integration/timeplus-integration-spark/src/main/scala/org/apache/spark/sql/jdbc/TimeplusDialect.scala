@@ -28,17 +28,17 @@ import scala.util.matching.Regex
  */
 object TimeplusDialect extends JdbcDialect with Logging {
 
-  private[jdbc] val arrayTypePattern: Regex = "^Array\\((.*)\\)$".r
+  private[jdbc] val arrayTypePattern: Regex = "^array\\((.*)\\)$".r
   private[jdbc] val dateTypePattern: Regex = "^[dD][aA][tT][eE]$".r
   private[jdbc] val dateTimeTypePattern: Regex = "^[dD][aA][tT][eE][tT][iI][mM][eE](64)?(\\((.*)\\))?$".r
   private[jdbc] val decimalTypePattern: Regex = "^[dD][eE][cC][iI][mM][aA][lL]\\((\\d+),\\s*(\\d+)\\)$".r
   private[jdbc] val decimalTypePattern2: Regex = "^[dD][eE][cC][iI][mM][aA][lL](32|64|128|256)\\((\\d+)\\)$".r
-  private[jdbc] val enumTypePattern: Regex = "^Enum(8|16)$".r
-  private[jdbc] val fixedStringTypePattern: Regex = "^FixedString\\((\\d+)\\)$".r
-  private[jdbc] val nullableTypePattern: Regex = "^Nullable\\((.*)\\)".r
+  private[jdbc] val enumTypePattern: Regex = "^enum(8|16)$".r
+  private[jdbc] val fixedStringTypePattern: Regex = "^fixed_string\\((\\d+)\\)$".r
+  private[jdbc] val nullableTypePattern: Regex = "^nullable\\((.*)\\)".r
 
   override def canHandle(url: String): Boolean =
-    url.toLowerCase(Locale.ROOT).startsWith("jdbc:clickhouse")
+    url.toLowerCase(Locale.ROOT).startsWith("jdbc:timeplus")
 
   /**
    * Inferred schema always nullable.
@@ -70,14 +70,14 @@ object TimeplusDialect extends JdbcDialect with Logging {
                                    scale: Int): Option[(Boolean, DataType)] = {
     val (nullable, _typeName) = unwrapNullable(typeName)
     val dataType = _typeName match {
-      case "String" | "UUID" | fixedStringTypePattern() | enumTypePattern(_) => Some(StringType)
-      case "Int8" => Some(ByteType)
-      case "UInt8" | "Int16" => Some(ShortType)
-      case "UInt16" | "Int32" => Some(IntegerType)
-      case "UInt32" | "Int64" | "UInt64" | "IPv4" => Some(LongType) // UInt64 is not fully support
-      case "Int128" | "Int256" | "UInt256" => None // not support
-      case "Float32" => Some(FloatType)
-      case "Float64" => Some(DoubleType)
+      case "string" | "uuid" | fixedStringTypePattern() | enumTypePattern(_) => Some(StringType)
+      case "int8" => Some(ByteType)
+      case "uint8" | "int16" => Some(ShortType)
+      case "uint16" | "int32" => Some(IntegerType)
+      case "uint32" | "int64" | "uint64" | "ipv4" => Some(LongType) // UInt64 is not fully support
+      case "int128" | "int256" | "uint256" => None // not support
+      case "float32" => Some(FloatType)
+      case "float64" => Some(DoubleType)
       case dateTypePattern() => Some(DateType)
       case dateTimeTypePattern() => Some(TimestampType)
       case decimalTypePattern(precision, scale) => Some(DecimalType(precision.toInt, scale.toInt))
@@ -98,29 +98,28 @@ object TimeplusDialect extends JdbcDialect with Logging {
   }
 
   /**
-   * NOT recommend auto create ClickHouse table by Spark JDBC, the reason is it's hard to handle nullable because
-   * ClickHouse use `T` to represent ANSI SQL `T NOT NULL` and `Nullable(T)` to represent ANSI SQL `T NULL`,
+   * NOT recommend auto create Timeplus stream by Spark JDBC, the reason is it's hard to handle nullable because
+   * Timeplus use `T` to represent ANSI SQL `T NOT NULL` and `Nullable(T)` to represent ANSI SQL `T NULL`,
    */
   override def getJDBCType(dt: DataType): Option[JdbcType] = dt match {
-    case StringType => Some(JdbcType("String", Types.VARCHAR))
-    // ClickHouse doesn't have the concept of encodings. Strings can contain an arbitrary set of bytes,
+    case StringType => Some(JdbcType("string", Types.VARCHAR))
+    // Timeplus doesn't have the concept of encodings. Strings can contain an arbitrary set of bytes,
     // which are stored and output as-is.
-    // See detail at https://clickhouse.tech/docs/en/sql-reference/data-types/string/
-    case BinaryType => Some(JdbcType("String", Types.BINARY))
-    case BooleanType => Some(JdbcType("UInt8", Types.BOOLEAN))
-    case ByteType => Some(JdbcType("Int8", Types.TINYINT))
-    case ShortType => Some(JdbcType("Int16", Types.SMALLINT))
-    case IntegerType => Some(JdbcType("Int32", Types.INTEGER))
-    case LongType => Some(JdbcType("Int64", Types.BIGINT))
-    case FloatType => Some(JdbcType("Float32", Types.FLOAT))
-    case DoubleType => Some(JdbcType("Float64", Types.DOUBLE))
-    case t: DecimalType => Some(JdbcType(s"Decimal(${t.precision},${t.scale})", Types.DECIMAL))
-    case DateType => Some(JdbcType("Date", Types.DATE))
-    case TimestampType => Some(JdbcType("DateTime", Types.TIMESTAMP))
+    case BinaryType => Some(JdbcType("string", Types.BINARY))
+    case BooleanType => Some(JdbcType("uint8", Types.BOOLEAN))
+    case ByteType => Some(JdbcType("int8", Types.TINYINT))
+    case ShortType => Some(JdbcType("int16", Types.SMALLINT))
+    case IntegerType => Some(JdbcType("int32", Types.INTEGER))
+    case LongType => Some(JdbcType("int64", Types.BIGINT))
+    case FloatType => Some(JdbcType("float32", Types.FLOAT))
+    case DoubleType => Some(JdbcType("float64", Types.DOUBLE))
+    case t: DecimalType => Some(JdbcType(s"decimal(${t.precision},${t.scale})", Types.DECIMAL))
+    case DateType => Some(JdbcType("date", Types.DATE))
+    case TimestampType => Some(JdbcType("datetime", Types.TIMESTAMP))
     case ArrayType(et, _) if et.isInstanceOf[AtomicType] =>
       getJDBCType(et)
         .orElse(JdbcUtils.getCommonJDBCType(et))
-        .map(jdbcType => JdbcType(s"Array(${jdbcType.databaseTypeDefinition})", Types.ARRAY))
+        .map(jdbcType => JdbcType(s"array(${jdbcType.databaseTypeDefinition})", Types.ARRAY))
     case _ => None
   }
 

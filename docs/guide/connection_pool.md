@@ -25,10 +25,10 @@ try (HikariDataSource ds = new HikariDataSource(conf)) {
 }
 ```
 
-Use `HikariDataSource` wrap `BalancedClickhouseDataSource` to connect clickhouse cluster.
+Use `HikariDataSource` wrap `BalancedTimeplusDataSource` to connect Timeplus cluster.
 
 ```java
-DataSource balancedCkDs = new BalancedClickhouseDataSource(getJdbcUrl());
+DataSource balancedCkDs = new BalancedTimeplusDataSource(getJdbcUrl());
 HikariConfig conf = new HikariConfig();
 conf.setDataSource(balancedCkDs);
 try (HikariDataSource ds = new HikariDataSource(conf)) {

@@ -79,7 +79,7 @@ Go to [Sonatype Repository](https://oss.sonatype.org/#stagingRepositories)
 
 ## Announce on GitHub
 
-Edit at [GitHub Release Page](https://github.com/housepower/ClickHouse-Native-JDBC/releases)
+Edit at [GitHub Release Page](https://github.com/timeplus-io/timeplus-native-jdbc/releases)
 
 ## Bump Development Version
 

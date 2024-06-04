@@ -25,10 +25,10 @@ try (HikariDataSource ds = new HikariDataSource(conf)) {
 }
 ```
 
-使用 `HikariDataSource` 包装 `BalancedClickhouseDataSource` 来连接 ClickHouse 集群.
+使用 `HikariDataSource` 包装 `BalancedTimeplusDataSource` 来连接 Timeplus 集群.
 
 ```java
-DataSource balancedCkDs = new BalancedClickhouseDataSource(getJdbcUrl());
+DataSource balancedCkDs = new BalancedTimeplusDataSource(getJdbcUrl());
 HikariConfig conf = new HikariConfig();
 conf.setDataSource(balancedCkDs);
 try (HikariDataSource ds = new HikariDataSource(conf)) {

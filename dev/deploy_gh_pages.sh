@@ -8,4 +8,4 @@ git config --global user.email 'dummy@dummy.dummy'
 git init
 git add -A
 git commit -m 'Deploy GitHub Pages'
-git push -f https://pan3793:${GITHUB_TOKEN}@github.com/housepower/ClickHouse-Native-JDBC.git master:gh-pages
+git push -f https://pan3793:${GITHUB_TOKEN}@github.com/timeplus-io/timeplus-native-jdbc.git master:gh-pages

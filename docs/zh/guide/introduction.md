@@ -1,12 +1,12 @@
-ClickHouse Native JDBC
+Timeplus Native JDBC
 ======================
-这是一个用原生(TCP)协议实现的 JDBC 驱动，用来访问 [ClickHouse](https://clickhouse.yandex/) ，同时也支持与 [Apache Spark](https://github.com/apache/spark/) 的集成。
+这是一个用原生(TCP)协议实现的 JDBC 驱动，用来访问 [Timeplus](https://timeplus.com/) ，同时也支持与 [Apache Spark](https://github.com/apache/spark/) 的集成。
 
-本项目受 [JetBrains Open Source License](https://www.jetbrains.com/?from=ClickHouse-Native-JDBC) 2020-2021 赞助支持. 
+本项目受 [JetBrains Open Source License](https://www.jetbrains.com/?from=timeplus-native-jdbc) 2020-2021 赞助支持. 
 
 ## JDBC 驱动
 
-### 与 [yandex/clickhouse-jdbc](https://github.com/yandex/clickhouse-jdbc) 驱动的不同点
+### 与 Timeplus [proton-jdbc-driver](https://github.com/timeplus-io/proton-jdbc-driver) 驱动的不同点
 
 * 写入时，数据按照列式格式组织并压缩
 * 基于 TCP 协议实现，比 HTTP 协议更高效，参考 [性能测试报告](docs/dev/benchmark.md)。
@@ -23,4 +23,4 @@ ClickHouse Native JDBC
 
 ## 开源协议
 
-Apache License (Version 2.0)。详情参考 [LICENSE](https://github.com/housepower/ClickHouse-Native-JDBC/LICENSE).
+Apache License (Version 2.0)。详情参考 [LICENSE](https://github.com/timeplus-io/timeplus-native-jdbc/LICENSE).
