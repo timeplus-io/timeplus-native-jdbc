@@ -78,7 +78,7 @@ mvn clean deploy -DskipTests -Prelease -Pscala-2.12 -Pspark-3.0
 
 ## 在 GitHub 上声明
 
-编辑 [GitHub 发布页](https://github.com/housepower/ClickHouse-Native-JDBC/releases)
+编辑 [GitHub 发布页](https://github.com/timeplus-io/timeplus-native-jdbc/releases)
 
 ## 切换开发版本
 

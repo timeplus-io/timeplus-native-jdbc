@@ -4,7 +4,7 @@ We welcome anyone that wants to help out in any way, whether that includes repor
 
 ### Create issue
 
-You can report problems or request features by creating [GitHub Issues](https://github.com/housepower/ClickHouse-Native-JDBC/issues).
+You can report problems or request features by creating [GitHub Issues](https://github.com/timeplus-io/timeplus-native-jdbc/issues).
 
 ### Install the tools
 
@@ -28,25 +28,25 @@ If you don't already have a GitHub account you'll need to [join](https://github.
 
 ### Fork the repository
 
-Go to the [ClickHouse-Native-JDBC repository](https://github.com/housepower/ClickHouse-Native-JDBC) and press the "Fork" button near the upper right corner of the page. When finished, you will have your own "fork" at `https://github.com/<your-username>/ClickHouse-Native-JDBC`, and this is the repository to which you will upload your proposed changes and create pull requests. For details, see the [GitHub documentation](https://help.github.com/articles/fork-a-repo/).
+Go to the [timeplus-native-jdbc repository](https://github.com/timeplus-io/timeplus-native-jdbc) and press the "Fork" button near the upper right corner of the page. When finished, you will have your own "fork" at `https://github.com/<your-username>/timeplus-native-jdbc`, and this is the repository to which you will upload your proposed changes and create pull requests. For details, see the [GitHub documentation](https://help.github.com/articles/fork-a-repo/).
 
 ### Clone your fork
 
-At a terminal, go to the directory in which you want to place a local clone of the ClickHouse-Native-JDBC repository, and run the following commands to use HTTPS authentication:
+At a terminal, go to the directory in which you want to place a local clone of the timeplus-native-jdbc repository, and run the following commands to use HTTPS authentication:
 
-    $ git clone https://github.com/<your-username>/ClickHouse-Native-JDBC.git
+    $ git clone https://github.com/<your-username>/timeplus-native-jdbc.git
 
 If you prefer to use SSH and have [uploaded your public key to your GitHub account](https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/), you can instead use SSH:
 
-    $ git clone git@github.com:<your-username>/ClickHouse-Native-JDBC.git
+    $ git clone git@github.com:<your-username>/timeplus-native-jdbc.git
 
-This will create a `ClickHouse-Native-JDBC` directory, so change into that directory:
+This will create a `timeplus-native-jdbc` directory, so change into that directory:
 
-    $ cd ClickHouse-Native-JDBC
+    $ cd timeplus-native-jdbc
 
-This repository knows about your fork, but it doesn't yet know about the official or ["upstream" housepower repository](https://github.com/housepower/ClickHouse-Native-JDBC). Run the following commands:
+This repository knows about your fork, but it doesn't yet know about the official or ["upstream" timeplus-io repository](https://github.com/timeplus-io/timeplus-native-jdbc). Run the following commands:
 
-    $ git remote add upstream https://github.com/housepower/ClickHouse-Native-JDBC.git
+    $ git remote add upstream https://github.com/timeplus-io/timeplus-native-jdbc.git
     $ git fetch upstream
     $ git branch --set-upstream-to=upstream/master master
 
@@ -83,7 +83,7 @@ Please ensure that you have a docker daemon available when run integration tests
 
 ### Making changes
 
-Everything the community does with the codebase -- fixing bugs, adding features, making improvements, adding tests, etc. -- should be described by [GitHub Issue](https://github.com/housepower/ClickHouse-Native-JDBC/issues). If no such issue exists for what you want to do, please create an issue with a meaningful and easy-to-understand description.
+Everything the community does with the codebase -- fixing bugs, adding features, making improvements, adding tests, etc. -- should be described by [GitHub Issue](https://github.com/timeplus-io/timeplus-native-jdbc/issues). If no such issue exists for what you want to do, please create an issue with a meaningful and easy-to-understand description.
 If you are going to work on a specific issue and it's your first contribution, please add a short comment to the issue, so other people know you're working on it.
 If you are contributing repeatedly, you will be invited to be a Core Team member so you can assign issues to yourself.
 
@@ -163,7 +163,7 @@ If your changes are compatible with the latest changes on `master`, this will co
 When adding new features or configuration options, they must be documented accordingly in the Documents.
 The same applies when changing existing behaviors, e.g. type mappings, removing options etc.
 
-The documentation is written using Markdown and can be found in the ClickHouse-Native-JDBC [source code repository](https://github.com/housepower/ClickHouse-Native-JDBC/docs).
+The documentation is written using Markdown and can be found in the timeplus-native-jdbc [source code repository](https://github.com/timeplus-io/timeplus-native-jdbc/docs).
 Any documentation update should be part of the pull request you submit for the code change.
 
 The documentation will be published on the website when PR merged into master branch.
@@ -174,7 +174,7 @@ Once you're finished making your changes, your topic branch should have your com
 
     $ git push origin gh-1234
 
-Then, in a browser go to https://github.com/housepower/ClickHouse-Native-JDBC, and you should see a small section near the top of the page with a button labeled "Create pull request". GitHub recognized that you pushed a new topic branch to your fork of the upstream repository, and it knows you probably want to create a pull request with those changes. Click on the button, and GitHub will present you with a short form that you should fill out with information about your pull request. The title should start with the GitHub issue and ending with a short phrase that summarizes the changes included in the pull request. (If the pull request contains a single commit, GitHub will automatically prepopulate the title and description fields from the commit message.)
+Then, in a browser go to https://github.com/timeplus-io/timeplus-native-jdbc, and you should see a small section near the top of the page with a button labeled "Create pull request". GitHub recognized that you pushed a new topic branch to your fork of the upstream repository, and it knows you probably want to create a pull request with those changes. Click on the button, and GitHub will present you with a short form that you should fill out with information about your pull request. The title should start with the GitHub issue and ending with a short phrase that summarizes the changes included in the pull request. (If the pull request contains a single commit, GitHub will automatically prepopulate the title and description fields from the commit message.)
 
 At this point, you can switch to another issue and another topic branch. The maintainers will be notified of your new pull request, and will review it in short order. They may ask questions or make remarks using line notes or comments on the pull request. (By default, GitHub will send you an email notification of such changes, although you can control this via your GitHub preferences.)
 
@@ -204,7 +204,7 @@ and in your fork:
 
 The project currently builds its jobs in two environments:
 
-- GitHub Actions for pull requests: https://github.com/housepower/ClickHouse-Native-JDBC/actions
+- GitHub Actions for pull requests: https://github.com/timeplus-io/timeplus-native-jdbc/actions
 
 ### Summary
 

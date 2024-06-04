@@ -11,10 +11,10 @@
 - Gradle
 ```groovy
 // (recommended) shaded version, available since 2.3-stable
-compile "com.github.housepower:clickhouse-native-jdbc-shaded:${clickhouse_native_jdbc_version}"
+compile "com.github.timeplus:timeplus-native-jdbc-shaded:${timeplus_native_jdbc_version}"
 
 // normal version
-compile "com.github.housepower:clickhouse-native-jdbc:${clickhouse_native_jdbc_version}"
+compile "com.github.timeplus:timeplus-native-jdbc:${timeplus_native_jdbc_version}"
 ```
 
 - Maven
@@ -23,25 +23,25 @@ compile "com.github.housepower:clickhouse-native-jdbc:${clickhouse_native_jdbc_v
 <!-- (recommended) shaded version, available since 2.3-stable -->
 <dependency>
     <groupId>com.github.timeplus</groupId>
-    <artifactId>clickhouse-native-jdbc-shaded</artifactId>
-    <version>${clickhouse-native-jdbc.version}</version>
+    <artifactId>timeplus-native-jdbc-shaded</artifactId>
+    <version>${timeplus-native-jdbc.version}</version>
 </dependency>
 
         <!-- normal version -->
 <dependency>
 <groupId>com.github.timeplus</groupId>
-<artifactId>clickhouse-native-jdbc</artifactId>
-<version>${clickhouse-native-jdbc.version}</version>
+<artifactId>timeplus-native-jdbc</artifactId>
+<version>${timeplus-native-jdbc.version}</version>
 </dependency>
 ```
 
 
 ### Examples
 
-Select query, see also [SimpleQuery](https://github.com/housepower/ClickHouse-Native-JDBC/tree/master/examples/src/main/java/examples/SimpleQuery.java)
+Select query, see also [SimpleQuery](https://github.com/timeplus-io/timeplus-native-jdbc/tree/master/examples/src/main/java/examples/SimpleQuery.java)
 
 ```java
-try (Connection connection = DriverManager.getConnection("jdbc:clickhouse://127.0.0.1:9000")) {
+try (Connection connection = DriverManager.getConnection("jdbc:timeplus://127.0.0.1:8463")) {
     try (Statement stmt = connection.createStatement()) {
         try (ResultSet rs = stmt.executeQuery(
                 "SELECT (number % 3 + 1) as n, sum(number) FROM numbers(10000000) GROUP BY n")) {
@@ -53,10 +53,10 @@ try (Connection connection = DriverManager.getConnection("jdbc:clickhouse://127.
 }
 ```
 
-All DDL,DML queries, see also [ExecuteQuery](https://github.com/housepower/ClickHouse-Native-JDBC/tree/master/examples/src/main/java/examples/ExecuteQuery.java)
+All DDL,DML queries, see also [ExecuteQuery](https://github.com/timeplus-io/timeplus-native-jdbc/tree/master/examples/src/main/java/examples/ExecuteQuery.java)
 
 ```java
-try (Connection connection = DriverManager.getConnection("jdbc:clickhouse://127.0.0.1:9000")) {
+try (Connection connection = DriverManager.getConnection("jdbc:timeplus://127.0.0.1:8463")) {
     try (Statement stmt = connection.createStatement()) {
         stmt.executeQuery("drop table if exists test_jdbc_example");
         stmt.executeQuery("create table test_jdbc_example(" +
@@ -71,10 +71,10 @@ try (Connection connection = DriverManager.getConnection("jdbc:clickhouse://127.
 }
 ```
 
-Batch insert query, see also [BatchQuery](https://github.com/housepower/ClickHouse-Native-JDBC/tree/master/examples/src/main/java/examples/BatchQuery.java)
+Batch insert query, see also [BatchQuery](https://github.com/timeplus-io/timeplus-native-jdbc/tree/master/examples/src/main/java/examples/BatchQuery.java)
 
 ```java
-try (Connection connection = DriverManager.getConnection("jdbc:clickhouse://127.0.0.1:9000")) {
+try (Connection connection = DriverManager.getConnection("jdbc:timeplus://127.0.0.1:9000")) {
     try (Statement stmt = connection.createStatement()) {
         try (ResultSet rs = stmt.executeQuery("drop table if exists test_jdbc_example")) {
             System.out.println(rs.next());

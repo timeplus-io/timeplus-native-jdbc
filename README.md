@@ -100,3 +100,6 @@ compile "com.github.timeplus:timeplus-integration-spark_2.11:${timeplus_native_j
 ## License
 
 This project is distributed under the terms of the Apache License (Version 2.0). See [LICENSE](LICENSE) for details.
+
+## Additional Notes
+This JDBC is a fork of https://github.com/housepower/ClickHouse-Native-JDBC, but revised and enhanced for streaming query processing 

@@ -41,7 +41,7 @@ class SparkDateITest extends AbstractITest with Logging {
 
   @Test
   @Issue(channel = "GitHub", value = "#343",
-    link = "https://github.com/housepower/ClickHouse-Native-JDBC/issues/343")
+    link = "https://github.com/timeplus/ClickHouse-Native-JDBC/issues/343")
   def testSparkJdbcWrite(): Unit = {
     val helper = new TestHarness("Date")
     helper.clean()
@@ -78,7 +78,7 @@ class SparkDateITest extends AbstractITest with Logging {
       .write
       .format("jdbc")
       .mode("overwrite")
-      .option("driver", "com.github.housepower.jdbc.ClickHouseDriver")
+      .option("driver", "com.github.timeplus.jdbc.TimeplusDriver")
       .option("url", getJdbcUrl)
       .option("user", "default")
       .option("password", "")
@@ -90,7 +90,7 @@ class SparkDateITest extends AbstractITest with Logging {
 
     val rows = spark.read
       .format("jdbc")
-      .option("driver", "com.github.housepower.jdbc.ClickHouseDriver")
+      .option("driver", "com.github.timeplus.jdbc.TimeplusDriver")
       .option("url", getJdbcUrl)
       .option("user", "default")
       .option("password", "")

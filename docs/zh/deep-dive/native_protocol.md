@@ -1,4 +1,4 @@
-ClickHouse 客户端-服务端原生通信协议
+Timeplus 客户端-服务端原生通信协议
 ===
 
 ## 建立连接
@@ -17,7 +17,7 @@ Note left of 客户端: 获取到了服务相关信息
 
 - 请求有非常多种不同的 requests/response, 上述 `hello` 为其中一种。
 
-- 可以在 `com.github.housepower.protocol` 包下面找到所有的 requests/response 类型。
+- 可以在 `com.github.timeplus.protocol` 包下面找到所有的 requests/response 类型。
 
 ## 查询
 
@@ -34,7 +34,7 @@ Note left of 客户端: 我将解析 DataResponse 成 ResultSet
 
 ## 插入
 
-一些小的查询请求，可以以字符串SQL的方式和服务端交互，但这不利于批量数据的插入。ClickHouse 提供了另外原生的批量导入协议支持，这样我们可以直接往ClickHouse发送block数据。
+一些小的查询请求，可以以字符串SQL的方式和服务端交互，但这不利于批量数据的插入。Timeplus 提供了另外原生的批量导入协议支持，这样我们可以直接往Timeplus发送block数据。
 
 
 ```mermaid

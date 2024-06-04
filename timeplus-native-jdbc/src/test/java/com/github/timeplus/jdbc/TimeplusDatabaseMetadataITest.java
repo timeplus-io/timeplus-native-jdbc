@@ -120,7 +120,7 @@ class TimeplusDatabaseMetadataITest extends AbstractITest {
     void getDriverName() throws Exception {
         withNewConnection(connection -> {
             DatabaseMetaData dm = connection.getMetaData();
-            assertEquals("com.github.housepower.clickhouse.native.jdbc", dm.getDriverName());
+            assertEquals("com.github.timeplus.timeplus.native.jdbc", dm.getDriverName());
         });
     }
 
