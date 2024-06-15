@@ -30,6 +30,7 @@ import com.github.timeplus.data.type.DataTypeInt16;
 import com.github.timeplus.data.type.DataTypeInt32;
 import com.github.timeplus.data.type.DataTypeInt64;
 import com.github.timeplus.data.type.DataTypeInt8;
+import com.github.timeplus.data.type.DataTypeBool;
 import com.github.timeplus.data.type.DataTypeUInt16;
 import com.github.timeplus.data.type.DataTypeUInt32;
 import com.github.timeplus.data.type.DataTypeUInt64;
@@ -109,6 +110,7 @@ public class DataTypeFactory {
         registerType(creators, new DataTypeFloat32());
         registerType(creators, new DataTypeFloat64());
 
+        registerType(creators, new DataTypeBool());
         registerType(creators, new DataTypeInt8());
         registerType(creators, new DataTypeInt16());
         registerType(creators, new DataTypeInt32());
