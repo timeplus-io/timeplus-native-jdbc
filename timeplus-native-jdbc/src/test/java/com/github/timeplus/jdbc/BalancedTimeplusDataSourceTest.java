@@ -27,28 +27,28 @@ public class BalancedTimeplusDataSourceTest {
 
     @Test
     public void testUrlSplit() {
-        assertEquals(Collections.singletonList("jdbc:clickhouse://localhost:1234/ppc"),
-                BalancedTimeplusDataSource.splitUrl("jdbc:clickhouse://localhost:1234/ppc"));
+        assertEquals(Collections.singletonList("jdbc:timeplus://localhost:1234/ppc"),
+                BalancedTimeplusDataSource.splitUrl("jdbc:timeplus://localhost:1234/ppc"));
 
-        assertEquals(Arrays.asList("jdbc:clickhouse://localhost:1234/ppc",
-                "jdbc:clickhouse://another.host.com:4321/ppc"),
+        assertEquals(Arrays.asList("jdbc:timeplus://localhost:1234/ppc",
+                "jdbc:timeplus://another.host.com:4321/ppc"),
                 BalancedTimeplusDataSource.splitUrl(
-                        "jdbc:clickhouse://localhost:1234,another.host.com:4321/ppc"));
+                        "jdbc:timeplus://localhost:1234,another.host.com:4321/ppc"));
 
-        assertEquals(Arrays.asList("jdbc:clickhouse://localhost:1234", "jdbc:clickhouse://another.host.com:4321"),
+        assertEquals(Arrays.asList("jdbc:timeplus://localhost:1234", "jdbc:timeplus://another.host.com:4321"),
                 BalancedTimeplusDataSource.splitUrl(
-                        "jdbc:clickhouse://localhost:1234,another.host.com:4321"));
+                        "jdbc:timeplus://localhost:1234,another.host.com:4321"));
     }
 
     @Test
     public void testUrlSplitValidHostName() {
-        assertEquals(Arrays.asList("jdbc:clickhouse://localhost:1234", "jdbc:clickhouse://_0another-host.com:4321"),
-                BalancedTimeplusDataSource.splitUrl("jdbc:clickhouse://localhost:1234,_0another-host.com:4321"));
+        assertEquals(Arrays.asList("jdbc:timeplus://localhost:1234", "jdbc:timeplus://_0another-host.com:4321"),
+                BalancedTimeplusDataSource.splitUrl("jdbc:timeplus://localhost:1234,_0another-host.com:4321"));
     }
 
     @Test
     public void testUrlSplitInvalidHostName() {
         assertThrows(InvalidValueException.class, () ->
-                BalancedTimeplusDataSource.splitUrl("jdbc:clickhouse://localhost:1234,_0ano^ther-host.com:4321"));
+                BalancedTimeplusDataSource.splitUrl("jdbc:timeplus://localhost:1234,_0ano^ther-host.com:4321"));
     }
 }

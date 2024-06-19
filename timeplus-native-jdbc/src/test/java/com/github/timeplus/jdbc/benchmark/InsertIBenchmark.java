@@ -33,8 +33,8 @@ public class InsertIBenchmark extends AbstractInsertIBenchmark {
         String testTable = "test_" + tableId;
 
         withStatement(connection, stmt -> {
-            stmt.executeQuery("DROP TABLE IF EXISTS " + testTable);
-            stmt.executeQuery("CREATE TABLE " + testTable + " (number UInt32, name String, birthTime DateTime, birthDay Date) Engine = Log");
+            stmt.executeQuery("DROP STREAM IF EXISTS " + testTable);
+            stmt.executeQuery("CREATE STREAM " + testTable + " (number UInt32, name String, birthTime DateTime, birthDay Date) Engine = Log");
         });
 
         withPreparedStatement(connection,
@@ -52,7 +52,7 @@ public class InsertIBenchmark extends AbstractInsertIBenchmark {
                 }
         );
 
-        withStatement(connection, stmt -> stmt.executeQuery("DROP TABLE " + testTable));
+        withStatement(connection, stmt -> stmt.executeQuery("DROP STREAM " + testTable));
     };
 
     @Benchmark

@@ -53,13 +53,13 @@ public class DecimalTypeITest extends AbstractITest implements BytesHelper {
                     BigDecimal.valueOf(512341.25D).setScale(3, RoundingMode.HALF_UP)
             };
 
-            statement.execute("DROP TABLE IF EXISTS decimal_test");
-            statement.execute("CREATE TABLE IF NOT EXISTS decimal_test (value32 Decimal(7,2), "
-                    + "value64 Decimal(15,5), "
-                    + "value128 Decimal(38, 16),"
-                    + "value256 Decimal(76, 26),"
-                    + "value256_neg Decimal(76, 26),"
-                    + "value_array Array(Decimal(5,3))) Engine=Memory()");
+            statement.execute("DROP STREAM IF EXISTS decimal_test");
+            statement.execute("CREATE STREAM IF NOT EXISTS decimal_test (value32 Decimal(7,2), "
+                    + "value64 decimal(15,5), "
+                    + "value128 decimal(38, 16),"
+                    + "value256 decimal(76, 26),"
+                    + "value256_neg decimal(76, 26),"
+                    + "value_array array(decimal(5,3))) Engine=Memory()");
 
             try (PreparedStatement pstmt = statement.getConnection().prepareStatement("INSERT INTO decimal_test"
                     + "(value32,value64,value128,value256,value256_neg,value_array) "
@@ -100,7 +100,7 @@ public class DecimalTypeITest extends AbstractITest implements BytesHelper {
                 }
             }
             assertEquals(300, size);
-            statement.execute("DROP TABLE IF EXISTS decimal_test");
+            statement.execute("DROP STREAM IF EXISTS decimal_test");
         }, "allow_experimental_bigint_types", 1);
     }
 

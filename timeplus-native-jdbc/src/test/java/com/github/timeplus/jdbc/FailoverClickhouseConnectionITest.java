@@ -37,10 +37,10 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
     protected static int HA_PORT;
 
     @Container
-    public static ClickHouseContainer containerHA = (ClickHouseContainer) new ClickHouseContainer(CLICKHOUSE_IMAGE)
-            .withEnv("CLICKHOUSE_USER", CLICKHOUSE_USER)
-            .withEnv("CLICKHOUSE_PASSWORD", CLICKHOUSE_PASSWORD)
-            .withEnv("CLICKHOUSE_DB", CLICKHOUSE_DB);
+    public static ClickHouseContainer containerHA = (ClickHouseContainer) new ClickHouseContainer(TIMEPLUS_IMAGE)
+            .withEnv("CLICKHOUSE_USER", TIMEPLUS_USER)
+            .withEnv("CLICKHOUSE_PASSWORD", TIMEPLUS_PASSWORD)
+            .withEnv("CLICKHOUSE_DB", TIMEPLUS_DB);
 
 
     @BeforeEach
@@ -49,19 +49,19 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
         container.start();
         containerHA.start();
 
-        CK_PORT = container.getMappedPort(ClickHouseContainer.NATIVE_PORT);
+        TP_PORT = container.getMappedPort(ClickHouseContainer.NATIVE_PORT);
         HA_HOST = containerHA.getHost();
         HA_PORT = containerHA.getMappedPort(ClickHouseContainer.NATIVE_PORT);
-        LOG.info("Port1 {}, Port2 {}", CK_PORT, HA_PORT);
+        LOG.info("Port1 {}, Port2 {}", TP_PORT, HA_PORT);
     }
 
     @Test
     public void testClickhouseDownBeforeConnect() throws Exception {
-        String haHost = String.format(Locale.ROOT, "%s:%s,%s:%s", CK_HOST, CK_PORT, HA_HOST, HA_PORT);
+        String haHost = String.format(Locale.ROOT, "%s:%s,%s:%s", TP_HOST, TP_PORT, HA_HOST, HA_PORT);
 
         container.stop();
         try (Connection connection = DriverManager
-                .getConnection(String.format(Locale.ROOT, "jdbc:clickhouse://%s/default", haHost))
+                .getConnection(String.format(Locale.ROOT, "jdbc:timeplus://%s/default", haHost))
         ) {
             withStatement(connection, stmt -> {
                 ResultSet rs = stmt.executeQuery("select count() from system.tables");
@@ -75,10 +75,10 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
 
     @Test
     public void testClickhouseDownBeforeStatement() throws Exception {
-        String haHost = String.format(Locale.ROOT, "%s:%s,%s:%s", CK_HOST, CK_PORT, HA_HOST, HA_PORT);
+        String haHost = String.format(Locale.ROOT, "%s:%s,%s:%s", TP_HOST, TP_PORT, HA_HOST, HA_PORT);
 
         try (Connection connection = DriverManager
-                .getConnection(String.format(Locale.ROOT, "jdbc:clickhouse://%s/default", haHost))
+                .getConnection(String.format(Locale.ROOT, "jdbc:timeplus://%s/default", haHost))
         ) {
             container.stop();
             withStatement(connection, stmt -> {
@@ -93,10 +93,10 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
 
     @Test
     public void testClickhouseDownBeforePrepareStatement() throws Exception {
-        String haHost = String.format(Locale.ROOT, "%s:%s,%s:%s", CK_HOST, CK_PORT, HA_HOST, HA_PORT);
+        String haHost = String.format(Locale.ROOT, "%s:%s,%s:%s", TP_HOST, TP_PORT, HA_HOST, HA_PORT);
 
         try (Connection connection = DriverManager
-                .getConnection(String.format(Locale.ROOT, "jdbc:clickhouse://%s/default", haHost))
+                .getConnection(String.format(Locale.ROOT, "jdbc:timeplus://%s/default", haHost))
         ) {
             container.stop();
             withPreparedStatement(connection, "select count() from system.tables", stmt -> {
@@ -111,10 +111,10 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
 
     @Test
     public void testClickhouseDownBeforeExecute() throws Exception {
-        String haHost = String.format(Locale.ROOT, "%s:%s,%s:%s", CK_HOST, CK_PORT, HA_HOST, HA_PORT);
+        String haHost = String.format(Locale.ROOT, "%s:%s,%s:%s", TP_HOST, TP_PORT, HA_HOST, HA_PORT);
 
         try (Connection connection = DriverManager
-                .getConnection(String.format(Locale.ROOT, "jdbc:clickhouse://%s/default", haHost))
+                .getConnection(String.format(Locale.ROOT, "jdbc:timeplus://%s/default", haHost))
         ) {
             withStatement(connection, stmt -> {
                 container.stop();
@@ -129,12 +129,12 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
 
     @Test
     public void testClickhouseDownBeforeAndAfterConnect() {
-        String haHost = String.format(Locale.ROOT, "%s:%s,%s:%s", CK_HOST, CK_PORT, HA_HOST, HA_PORT);
+        String haHost = String.format(Locale.ROOT, "%s:%s,%s:%s", TP_HOST, TP_PORT, HA_HOST, HA_PORT);
 
         Exception ex = null;
         container.stop();
         try (Connection connection = DriverManager
-                .getConnection(String.format(Locale.ROOT, "jdbc:clickhouse://%s/default?query_id=xxx", haHost))
+                .getConnection(String.format(Locale.ROOT, "jdbc:timeplus://%s/default?query_id=xxx", haHost))
         ) {
             containerHA.stop();
             withStatement(connection, stmt -> {
@@ -153,13 +153,13 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
 
     @Test
     public void testClickhouseAllDownBeforeConnect() throws Exception {
-        String haHost = String.format(Locale.ROOT, "%s:%s,%s", CK_HOST, CK_PORT, HA_HOST);
+        String haHost = String.format(Locale.ROOT, "%s:%s,%s", TP_HOST, TP_PORT, HA_HOST);
 
         Exception ex = null;
         container.stop();
         containerHA.stop();
         try (Connection connection = DriverManager
-                .getConnection(String.format(Locale.ROOT, "jdbc:clickhouse://%s/default", haHost))
+                .getConnection(String.format(Locale.ROOT, "jdbc:timeplus://%s/default", haHost))
         ) {
             withStatement(connection, stmt -> {
 

@@ -47,7 +47,7 @@ class TimeplusDatabaseMetadataITest extends AbstractITest {
     void getURL() throws Exception {
         withNewConnection(connection -> {
             DatabaseMetaData dm = connection.getMetaData();
-            assertEquals(String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s/default?query_timeout=0&connect_timeout=0&charset=UTF-8&client_name=ClickHouse client&tcp_keep_alive=false", CK_HOST, CK_PORT),
+            assertEquals(String.format(Locale.ROOT, "jdbc:timeplus://%s:%s/default?query_timeout=0&connect_timeout=0&charset=UTF-8&client_name=Timeplus client&tcp_keep_alive=false", TP_HOST, TP_PORT),
                     dm.getURL());
         });
     }

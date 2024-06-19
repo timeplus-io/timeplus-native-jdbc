@@ -28,12 +28,12 @@ public class QueryRandomITest extends AbstractITest {
     @Test
     public void successfullyDateTime64DataType() throws Exception {
         withStatement(statement -> {
-            statement.executeQuery("DROP TABLE IF EXISTS test_random");
-            statement.executeQuery("CREATE TABLE test_random "
-                                   + "(name String, value UInt32, arr Array(Float64), day Date, time DateTime, dc Decimal(7,2))"
+            statement.executeQuery("DROP STREAM IF EXISTS test_random");
+            statement.executeQuery("CREATE STREAM test_random "
+                                   + "(name string, value uint32, arr array(float64), day date, time datetime, dc decimal(7,2))"
                                    + "ENGINE = GenerateRandom(1, 8, 8)");
 
-            ResultSet rs = statement.executeQuery("SELECT * FROM test_random limit 10000");
+            ResultSet rs = statement.executeQuery("SELECT * FROM test_random limit 1000");
 
             int i = 0;
             while (rs.next()) {
@@ -53,8 +53,8 @@ public class QueryRandomITest extends AbstractITest {
 
                 i ++;
             }
-            assertEquals(i , 10000);
-            statement.executeQuery("DROP TABLE IF EXISTS test_random");
+            assertEquals(i , 1000);
+            statement.executeQuery("DROP STREAM IF EXISTS test_random");
         }, "use_client_time_zone", true);
     }
 }

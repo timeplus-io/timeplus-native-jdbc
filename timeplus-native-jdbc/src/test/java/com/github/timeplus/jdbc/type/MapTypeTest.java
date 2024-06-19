@@ -15,53 +15,51 @@
 package com.github.timeplus.jdbc.type;
 
 import com.github.timeplus.jdbc.AbstractITest;
-import com.github.timeplus.jdbc.TimeplusResultSet;
 import com.github.timeplus.misc.BytesHelper;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigInteger;
 import java.sql.PreparedStatement;
-import java.sql.Types;
+import java.sql.ResultSet;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class IPv6TypeITest extends AbstractITest implements BytesHelper {
+public class MapTypeTest extends AbstractITest implements BytesHelper {
 
+    // test for map(string, int)
     @Test
-    public void testIPv6Type() throws Exception {
+    public void testMapType() throws Exception {
         withStatement(statement -> {
-            statement.execute("DROP STREAM IF EXISTS ipv6_test");
-            statement.execute("CREATE STREAM IF NOT EXISTS ipv6_test (value ipv6, nullableValue nullable(ipv6)) Engine=Memory()");
+            statement.execute("DROP STREAM IF EXISTS map_test");
+            statement.execute(
+                    "CREATE STREAM IF NOT EXISTS map_test (value map(string, int)) Engine=Memory()");
 
             Integer rowCnt = 300;
-
-            BigInteger testIPv6Value1 = new BigInteger("20010db885a3000000008a2e03707334", 16);
-            BigInteger testIPv6Value2 = new BigInteger("1", 16);
-
             try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
-                    "INSERT INTO ipv6_test (value, nullableValue) values(?, ?);")) {
+                    "INSERT INTO map_test (value) values(?);")) {
                 for (int i = 0; i < rowCnt; i++) {
-                    pstmt.setObject(1, testIPv6Value1, Types.BIGINT);
-                    pstmt.setObject(2, testIPv6Value2, Types.BIGINT);
+                    
+                    Map<String, Integer> map = Map.of("key", 1);
+
+                    pstmt.setObject(1, map);
                     pstmt.addBatch();
                 }
                 pstmt.executeBatch();
             }
 
-            TimeplusResultSet rs = (TimeplusResultSet) statement.executeQuery("SELECT * FROM ipv6_test;");
+            ResultSet rs = statement.executeQuery("SELECT * FROM map_test;");
             int size = 0;
             while (rs.next()) {
                 size++;
-                BigInteger value = rs.getBigInteger(1);
-                assertEquals(value, testIPv6Value1);
-                BigInteger nullableValue = rs.getBigInteger(2);
-                assertEquals(nullableValue, testIPv6Value2);
+                // check the value
+                Map<String, Integer> value = (Map<String, Integer>) rs.getObject(1);
+                assertEquals(value.get("key"), 1);
             }
 
-            assertEquals(size, (int) rowCnt);
+            assertEquals(size, rowCnt);
 
-            statement.execute("DROP STREAM IF EXISTS ipv6_test");
+            statement.execute("DROP STREAM IF EXISTS map_test");
         });
-    }
 
+    }
 }

@@ -38,14 +38,14 @@ class TimeplusConfigTest {
         assertEquals(StandardCharsets.UTF_8, cfg.charset());
         assertFalse(cfg.tcpKeepAlive());
         assertEquals("default", cfg.database());
-        assertEquals("jdbc:clickhouse://127.0.0.1:9000/default?query_timeout=0&connect_timeout=0&charset=UTF-8&client_name=ClickHouse client&tcp_keep_alive=false",
+        assertEquals("jdbc:timeplus://127.0.0.1:9000/default?query_timeout=0&connect_timeout=0&charset=UTF-8&client_name=Timeplus client&tcp_keep_alive=false",
                 cfg.jdbcUrl());
     }
 
     @Test
     public void testClickHouseConfig() {
         TimeplusConfig cfg = TimeplusConfig.Builder.builder()
-                .withJdbcUrl("jdbc:clickhouse://1.2.3.4:8123/db2")
+                .withJdbcUrl("jdbc:timeplus://1.2.3.4:8123/db2")
                 .charset("GBK")
                 .clientName("ck-test")
                 .withSetting(SettingKey.allow_distributed_ddl, true)
@@ -60,7 +60,7 @@ class TimeplusConfigTest {
         assertEquals(Charset.forName("GBK"), cfg.charset());
         assertFalse(cfg.tcpKeepAlive());
         assertEquals("db2", cfg.database());
-        assertEquals("jdbc:clickhouse://1.2.3.4:8123/db2?query_timeout=0&connect_timeout=0&charset=GBK&client_name=ck-test&tcp_keep_alive=false&allow_distributed_ddl=true",
+        assertEquals("jdbc:timeplus://1.2.3.4:8123/db2?query_timeout=0&connect_timeout=0&charset=GBK&client_name=ck-test&tcp_keep_alive=false&allow_distributed_ddl=true",
                 cfg.jdbcUrl());
     }
 

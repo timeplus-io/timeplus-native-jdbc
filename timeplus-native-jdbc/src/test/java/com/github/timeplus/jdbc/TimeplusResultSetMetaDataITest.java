@@ -29,8 +29,8 @@ class TimeplusResultSetMetaDataITest extends AbstractITest {
                                          .builder(8, ((TimeplusConnection) connection).serverContext())
                                          .cfg(((TimeplusConnection) connection).cfg())
                                          .columnNames("a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8")
-                                         .columnTypes("String", "UInt32", "Int64", "Float32", "Float64", "Decimal(76, 26)",
-                                                 "Nullable(Int64)", "Nullable(UInt64)")
+                                         .columnTypes("string", "uint32", "int64", "float32", "float64", "decimal(76, 26)",
+                                                 "nullable(int64)", "nullable(uint64)")
                                          .build();
 
             assertEquals("a1", rs.getMetaData().getColumnName(1));
@@ -51,7 +51,7 @@ class TimeplusResultSetMetaDataITest extends AbstractITest {
             assertEquals(26, rs.getMetaData().getScale(6));
 
             assertEquals("a4", rs.getMetaData().getColumnName(4));
-            assertEquals("Float64", rs.getMetaData().getColumnTypeName(5));
+            assertEquals("float64", rs.getMetaData().getColumnTypeName(5));
             assertEquals(Types.DECIMAL, rs.getMetaData().getColumnType(6));
 
             assertFalse(rs.next());

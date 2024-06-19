@@ -33,16 +33,16 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
 
     @BeforeEach
     public void reset() {
-        singleDs = new BalancedTimeplusDataSource(String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s", CK_HOST, CK_PORT));
-        dualDs = new BalancedTimeplusDataSource(String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s,%s:%s", CK_HOST, CK_PORT, CK_HOST, CK_PORT));
+        singleDs = new BalancedTimeplusDataSource(String.format(Locale.ROOT, "jdbc:timeplus://%s:%s", TP_HOST, TP_PORT));
+        dualDs = new BalancedTimeplusDataSource(String.format(Locale.ROOT, "jdbc:timeplus://%s:%s,%s:%s", TP_HOST, TP_PORT, TP_HOST, TP_PORT));
     }
 
     @Test
     public void testSingleDatabaseConnection() throws Exception {
         withNewConnection(singleDs, connection -> {
             withStatement(connection, stmt -> stmt.execute("CREATE DATABASE IF NOT EXISTS test"));
-            withStatement(connection, stmt -> stmt.execute("DROP TABLE IF EXISTS test.insert_test"));
-            withStatement(connection, stmt -> stmt.execute("CREATE TABLE IF NOT EXISTS test.insert_test (i Int32, s String) ENGINE = TinyLog"));
+            withStatement(connection, stmt -> stmt.execute("DROP STREAM IF EXISTS test.insert_test"));
+            withStatement(connection, stmt -> stmt.execute("CREATE STREAM IF NOT EXISTS test.insert_test (i int32, s string) ENGINE = MergeTree()"));
 
             withPreparedStatement(connection, "INSERT INTO test.insert_test (s, i) VALUES (?, ?)", pstmt -> {
                 pstmt.setString(1, "asd");
@@ -65,8 +65,8 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
         );
 
         withNewConnection(dualDs, connection -> {
-            withStatement(connection, stmt -> stmt.execute("DROP TABLE IF EXISTS test.insert_test"));
-            withStatement(connection, stmt -> stmt.execute("CREATE TABLE IF NOT EXISTS test.insert_test (i Int32, s String) ENGINE = TinyLog"));
+            withStatement(connection, stmt -> stmt.execute("DROP STREAM IF EXISTS test.insert_test"));
+            withStatement(connection, stmt -> stmt.execute("CREATE STREAM IF NOT EXISTS test.insert_test (i int32, s string) ENGINE = MergeTree()"));
         });
 
         withNewConnection(dualDs, connection -> {
@@ -109,7 +109,7 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
     @Test
     public void testDisableConnection() {
         BalancedTimeplusDataSource badDatasource = new BalancedTimeplusDataSource(
-                "jdbc:clickhouse://not.existed.url:" + CK_PORT, new Properties());
+                "jdbc:timeplus://not.existed.url:" + TP_PORT, new Properties());
         badDatasource.actualize();
         try (Connection ignored = badDatasource.getConnection()) {
             fail();
@@ -121,7 +121,7 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
     @Test
     public void testWorkWithEnabledUrl() throws Exception {
         BalancedTimeplusDataSource halfDatasource = new BalancedTimeplusDataSource(
-                String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s,%s:%s", "not.existed.url", CK_PORT, CK_HOST, CK_PORT), new Properties());
+                String.format(Locale.ROOT, "jdbc:timeplus://%s:%s,%s:%s", "not.existed.url", TP_PORT, TP_HOST, TP_PORT), new Properties());
 
         halfDatasource.actualize();
 
@@ -130,8 +130,8 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
         );
 
         withNewConnection(halfDatasource, connection -> {
-            withStatement(connection, stmt -> stmt.execute("DROP TABLE IF EXISTS test.insert_test"));
-            withStatement(connection, stmt -> stmt.execute("CREATE TABLE IF NOT EXISTS test.insert_test (i Int32, s String) ENGINE = TinyLog"));
+            withStatement(connection, stmt -> stmt.execute("DROP STREAM IF EXISTS test.insert_test"));
+            withStatement(connection, stmt -> stmt.execute("CREATE STREAM IF NOT EXISTS test.insert_test (i int32, s string) ENGINE = MergeTree()"));
         });
 
         withNewConnection(halfDatasource, connection -> {
@@ -173,29 +173,29 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
 
         // without connection parameters
         BalancedTimeplusDataSource dataSource = new BalancedTimeplusDataSource(
-                String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s,%s:%s/click", CK_HOST, CK_PORT, CK_HOST, CK_PORT), properties);
+                String.format(Locale.ROOT, "jdbc:timeplus://%s:%s,%s:%s/click", TP_HOST, TP_PORT, TP_HOST, TP_PORT), properties);
         TimeplusConfig cfg = dataSource.getCfg();
         assertEquals(Duration.ofSeconds(6789), cfg.queryTimeout());
         assertEquals("888888", cfg.password());
         assertEquals("click", cfg.database());
         assertEquals(2, dataSource.getAllClickhouseUrls().size());
-        assertEquals(String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s/click", CK_HOST, CK_PORT),
+        assertEquals(String.format(Locale.ROOT, "jdbc:timeplus://%s:%s/click", TP_HOST, TP_PORT),
                 dataSource.getAllClickhouseUrls().get(0));
-        assertEquals(String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s/click", CK_HOST, CK_PORT),
+        assertEquals(String.format(Locale.ROOT, "jdbc:timeplus://%s:%s/click", TP_HOST, TP_PORT),
                 dataSource.getAllClickhouseUrls().get(1));
 
         // with connection parameters
         dataSource = new BalancedTimeplusDataSource(
-                String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s,%s:%s/click?query_timeout=12345&user=readonly", CK_HOST, CK_PORT, CK_HOST, CK_PORT), properties);
+                String.format(Locale.ROOT, "jdbc:timeplus://%s:%s,%s:%s/click?query_timeout=12345&user=readonly", TP_HOST, TP_PORT, TP_HOST, TP_PORT), properties);
         cfg = dataSource.getCfg();
         assertEquals(Duration.ofSeconds(6789), cfg.queryTimeout());
         assertEquals("readonly", cfg.user());
         assertEquals("888888", cfg.password());
         assertEquals("click", cfg.database());
         assertEquals(2, dataSource.getAllClickhouseUrls().size());
-        assertEquals(String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s/click?query_timeout=12345&user=readonly", CK_HOST, CK_PORT),
+        assertEquals(String.format(Locale.ROOT, "jdbc:timeplus://%s:%s/click?query_timeout=12345&user=readonly", TP_HOST, TP_PORT),
                 dataSource.getAllClickhouseUrls().get(0));
-        assertEquals(String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s/click?query_timeout=12345&user=readonly", CK_HOST, CK_PORT),
+        assertEquals(String.format(Locale.ROOT, "jdbc:timeplus://%s:%s/click?query_timeout=12345&user=readonly", TP_HOST, TP_PORT),
                 dataSource.getAllClickhouseUrls().get(1));
     }
 }
