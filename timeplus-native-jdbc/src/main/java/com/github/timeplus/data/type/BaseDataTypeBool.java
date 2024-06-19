@@ -14,57 +14,12 @@
 
  package com.github.timeplus.data.type;
 
- import com.github.timeplus.misc.SQLLexer;
- import com.github.timeplus.serde.BinaryDeserializer;
- import com.github.timeplus.serde.BinarySerializer;
- 
- import java.io.IOException;
- import java.sql.SQLException;
- 
- public class DataTypeBool implements BaseDataTypeBool<Byte, Byte> {
- 
-     @Override
-     public String name() {
-         return "bool";
-     }
- 
-     @Override
-     public Byte defaultValue() {
-         return 0;
-     }
- 
-     @Override
-     public Class<Byte> javaType() {
-         return Byte.class;
-     }
- 
-     @Override
-     public int getPrecision() {
-         return 4;
-     }
- 
-     @Override
-     public void serializeBinary(Byte data, BinarySerializer serializer) throws SQLException, IOException {
-         serializer.writeByte(data);
-     }
- 
-     @Override
-     public Byte deserializeBinary(BinaryDeserializer deserializer) throws IOException {
-         return deserializer.readByte();
-     }
- 
-     @Override
-     public String[] getAliases() {
-         return new String[]{"TINYINT"};
-     }
- 
-     @Override
-     public Byte deserializeText(SQLLexer lexer) throws SQLException {
-         return lexer.numberLiteral().byteValue();
-     }
- 
-     @Override
-     public boolean isSigned() {
-         return true;
-     }
- }
+import java.sql.Types;
+
+public interface BaseDataTypeBool<CK, JDBC> extends BaseDataTypeInt<CK, JDBC> {
+
+    @Override
+    default int sqlTypeId() {
+        return Types.TINYINT;
+    }
+}
