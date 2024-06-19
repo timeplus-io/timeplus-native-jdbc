@@ -30,16 +30,16 @@ public class IssueReproduceITest extends AbstractITest {
     public void testIssue63() throws Exception {
         withStatement(statement -> {
             int columnNum = 36;
-            statement.executeQuery("DROP TABLE IF EXISTS test");
+            statement.executeQuery("DROP STREAM IF EXISTS test");
             String params = Strings.repeat("?, ", columnNum);
             StringBuilder columnTypes = new StringBuilder();
             for (int i = 0; i < columnNum; i++) {
                 if (i != 0) {
                     columnTypes.append(", ");
                 }
-                columnTypes.append("t_").append(i).append(" String");
+                columnTypes.append("t_").append(i).append(" string");
             }
-            statement.executeQuery("CREATE TABLE test( " + columnTypes + ")ENGINE=Log");
+            statement.executeQuery("CREATE STREAM test( " + columnTypes + ")ENGINE=Memory");
 
             withPreparedStatement(statement.getConnection(), "INSERT INTO test values(" + params.substring(0, params.length() - 2) + ")", pstmt -> {
                 for (int i = 0; i < 100; ++i) {
@@ -54,7 +54,7 @@ public class IssueReproduceITest extends AbstractITest {
             ResultSet rs = statement.executeQuery("SELECT count(1) FROM test limit 1");
             assertTrue(rs.next());
             assertEquals(100, rs.getInt(1));
-            statement.executeQuery("DROP TABLE IF EXISTS test");
+            statement.executeQuery("DROP STREAM IF EXISTS test");
         });
     }
 }

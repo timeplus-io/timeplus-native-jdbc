@@ -40,16 +40,15 @@ public class QueryScanStatTest extends AbstractITest {
         long lines = (long) (random * 100000000);
 
         try (Connection connection = DriverManager
-                .getConnection(String.format(Locale.ROOT, "jdbc:clickhouse://%s:%s?query_id=%s", CK_HOST, CK_PORT,
+                .getConnection(String.format(Locale.ROOT, "jdbc:timeplus://%s:%s?query_id=%s", TP_HOST, TP_PORT,
                         queryId))
         ) {
             withStatement(connection, stmt -> {
-                stmt.executeQuery("DROP TABLE IF EXISTS test_scan_stat1");
-                stmt.executeQuery("CREATE TABLE test_scan_stat1 "
-                        + "(c1 UInt32) "
+                stmt.executeQuery("DROP STREAM IF EXISTS test_scan_stat1");
+                stmt.executeQuery("CREATE STREAM test_scan_stat1 "
+                        + "(c1 uint32) "
                         + "ENGINE = MergeTree() "
-                        + "PARTITION BY tuple()"
-                        + "ORDER BY tuple() ");
+                        + "ORDER BY c1 ");
                 stmt.executeQuery("INSERT INTO test_scan_stat1 SELECT number FROM system.numbers LIMIT " + lines);
 
                 long readRows;
@@ -68,7 +67,7 @@ public class QueryScanStatTest extends AbstractITest {
 
                 try (ResultSet rs = stmt.executeQuery(String.format(Locale.ROOT,
                         "SELECT read_rows,read_bytes FROM system.query_log WHERE query_id='%s'"
-                                + " and type='QueryFinish' and startsWith(query, 'SELECT') ORDER BY query_start_time asc", queryId))) {
+                                + " and type='QueryFinish' and starts_with(query, 'SELECT') ORDER BY query_start_time asc", queryId))) {
                     if (rs.next()) {
                         assertEquals(rs.getLong("read_rows"), readRows);
                         assertEquals(rs.getLong("read_bytes"), readBytes);
@@ -85,12 +84,11 @@ public class QueryScanStatTest extends AbstractITest {
 
 
         withStatement( stmt -> {
-            stmt.executeQuery("DROP TABLE IF EXISTS test_scan_stat2");
-            stmt.executeQuery("CREATE TABLE test_scan_stat2 "
-                    + "(c1 UInt32) "
+            stmt.executeQuery("DROP STREAM IF EXISTS test_scan_stat2");
+            stmt.executeQuery("CREATE STREAM test_scan_stat2 "
+                    + "(c1 uint32) "
                     + "ENGINE = MergeTree() "
-                    + "PARTITION BY tuple()"
-                    + "ORDER BY tuple() ");
+                    + "order by c1");
             stmt.executeQuery("INSERT INTO test_scan_stat2 SELECT number FROM system.numbers LIMIT " + lines);
 
             try (ResultSet rs = stmt.executeQuery("SELECT count(distinct c1) FROM test_scan_stat2")) {

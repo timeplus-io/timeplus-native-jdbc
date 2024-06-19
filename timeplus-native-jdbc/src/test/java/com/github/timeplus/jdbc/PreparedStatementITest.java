@@ -98,7 +98,7 @@ public class PreparedStatementITest extends AbstractITest {
 
     @Test
     public void successfullyNullable() throws Exception {
-        withPreparedStatement("SELECT arrayJoin([?,?])", pstmt -> {
+        withPreparedStatement("SELECT array_join([?,?])", pstmt -> {
             pstmt.setString(1, null);
             pstmt.setString(2, "test2");
             ResultSet rs = pstmt.executeQuery();
@@ -134,8 +134,8 @@ public class PreparedStatementITest extends AbstractITest {
 
         // use server_time_zone
         withPreparedStatement("SELECT " +
-                "toDate('" + dateLiteral + "'),               toDate(?),     toDate(?),     toDate(?), " +
-                "toDateTime('" + serverDateTimeLiteral + "'), toDateTime(?), toDateTime(?), toDateTime(?)", pstmt -> {
+                "to_date('" + dateLiteral + "'),               to_date(?),     to_date(?),     to_date(?), " +
+                "to_datetime('" + serverDateTimeLiteral + "'), to_datetime(?), to_datetime(?), to_datetime(?)", pstmt -> {
             pstmt.setDate(1, Date.valueOf(date));
             pstmt.setString(2, dateLiteral);
             pstmt.setShort(3, (short) date.toEpochDay());
@@ -165,8 +165,8 @@ public class PreparedStatementITest extends AbstractITest {
 
         // use client_time_zone
         withPreparedStatement("SELECT " +
-                "toDate('" + dateLiteral + "'),               toDate(?),     toDate(?),     toDate(?), " +
-                "toDateTime('" + serverDateTimeLiteral + "'), toDateTime(?), toDateTime(?), toDateTime(?)", pstmt -> {
+                "to_date('" + dateLiteral + "'),               to_date(?),     to_date(?),     to_Date(?), " +
+                "to_datetime('" + serverDateTimeLiteral + "'), to_datetime(?), to_datetime(?), to_datetime(?)", pstmt -> {
             pstmt.setDate(1, Date.valueOf(date));
             pstmt.setString(2, dateLiteral);
             pstmt.setShort(3, (short) date.toEpochDay());
@@ -199,13 +199,13 @@ public class PreparedStatementITest extends AbstractITest {
     public void successfullyInsertData() throws Exception {
         withStatement(stmt -> {
 
-            stmt.execute("DROP TABLE IF EXISTS test");
-            stmt.execute("CREATE TABLE test(" +
-                    "id UInt8, " +
-                    "day Date, " +
-                    "time DateTime, " +
+            stmt.execute("DROP STREAM IF EXISTS test");
+            stmt.execute("CREATE STREAM test(" +
+                    "id uint8, " +
+                    "day date, " +
+                    "time datetime, " +
                     "flag Boolean" +
-                    ")ENGINE = Log");
+                    ")ENGINE = Memory");
 
             withPreparedStatement(stmt.getConnection(), "INSERT INTO test VALUES(?, ?, ?, ?)", pstmt -> {
                 // 2018-07-01 19:00:00  GMT

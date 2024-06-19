@@ -15,53 +15,53 @@
 package com.github.timeplus.jdbc.type;
 
 import com.github.timeplus.jdbc.AbstractITest;
-import com.github.timeplus.jdbc.TimeplusResultSet;
+import com.github.timeplus.jdbc.TimeplusStruct;
 import com.github.timeplus.misc.BytesHelper;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigInteger;
 import java.sql.PreparedStatement;
-import java.sql.Types;
+import java.sql.ResultSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class IPv6TypeITest extends AbstractITest implements BytesHelper {
+public class TupleTypeTest extends AbstractITest implements BytesHelper {
 
+    // test for tuple(int, string)
     @Test
-    public void testIPv6Type() throws Exception {
+    public void testTupleType() throws Exception {
         withStatement(statement -> {
-            statement.execute("DROP STREAM IF EXISTS ipv6_test");
-            statement.execute("CREATE STREAM IF NOT EXISTS ipv6_test (value ipv6, nullableValue nullable(ipv6)) Engine=Memory()");
+            statement.execute("DROP STREAM IF EXISTS tuple_test");
+            statement.execute(
+                    "CREATE STREAM IF NOT EXISTS tuple_test (value tuple(int, string)) Engine=Memory()");
 
             Integer rowCnt = 300;
-
-            BigInteger testIPv6Value1 = new BigInteger("20010db885a3000000008a2e03707334", 16);
-            BigInteger testIPv6Value2 = new BigInteger("1", 16);
-
             try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
-                    "INSERT INTO ipv6_test (value, nullableValue) values(?, ?);")) {
+                    "INSERT INTO tuple_test (value) values(?);")) {
                 for (int i = 0; i < rowCnt; i++) {
-                    pstmt.setObject(1, testIPv6Value1, Types.BIGINT);
-                    pstmt.setObject(2, testIPv6Value2, Types.BIGINT);
+                    Object[] tupleValue = new Object[]{1, "test"};
+                    TimeplusStruct tuple = new TimeplusStruct("tuple", tupleValue);
+                    // convert to TimeplusStruct
+
+                    pstmt.setObject(1, tuple);
                     pstmt.addBatch();
                 }
                 pstmt.executeBatch();
             }
 
-            TimeplusResultSet rs = (TimeplusResultSet) statement.executeQuery("SELECT * FROM ipv6_test;");
+            ResultSet rs = statement.executeQuery("SELECT * FROM tuple_test;");
             int size = 0;
             while (rs.next()) {
                 size++;
-                BigInteger value = rs.getBigInteger(1);
-                assertEquals(value, testIPv6Value1);
-                BigInteger nullableValue = rs.getBigInteger(2);
-                assertEquals(nullableValue, testIPv6Value2);
+                Object obj1 = rs.getObject(1);
+                TimeplusStruct tuple = (TimeplusStruct) obj1;
+                Object[] tupleValue = (Object[]) tuple.getAttributes();
+                assertEquals(tupleValue[0], 1);
+                assertEquals(tupleValue[1], "test");
             }
-
-            assertEquals(size, (int) rowCnt);
-
-            statement.execute("DROP STREAM IF EXISTS ipv6_test");
+            assertEquals(size, rowCnt);
+            statement.execute("DROP STREAM IF EXISTS tuple_test");
         });
+
     }
 
 }
