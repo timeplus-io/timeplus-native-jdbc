@@ -35,11 +35,11 @@ public abstract class AbstractITest implements Serializable {
     protected static final ZoneId SERVER_TZ = ZoneId.of("UTC");
     protected static final String DRIVER_CLASS_NAME = "com.github.timeplus.jdbc.TimeplusDriver";
 
-    public static final String TIMEPLUS_IMAGE = System.getProperty("TIMEPLUS_IMAGE", "ghcr.io/timeplus-io/proton:latest");
+    public static final String TIMEPLUS_IMAGE = System.getProperty("TIMEPLUS_IMAGE", "timeplus/timeplusd:develop");
     // public static DockerImageName proton_image = DockerImageName.parse(CLICKHOUSE_IMAGE).asCompatibleSubstituteFor("clickhouse/clickhouse-server");
 
-    protected static final String TIMEPLUS_USER = SystemUtil.loadProp("CLICKHOUSE_USER", "proton");
-    protected static final String TIMEPLUS_PASSWORD = SystemUtil.loadProp("CLICKHOUSE_PASSWORD", "proton@t+");
+    protected static final String TIMEPLUS_USER = SystemUtil.loadProp("CLICKHOUSE_USER", "system");
+    protected static final String TIMEPLUS_PASSWORD = SystemUtil.loadProp("CLICKHOUSE_PASSWORD", "sys@t+");
     protected static final String TIMEPLUS_DB = SystemUtil.loadProp("CLICKHOUSE_DB", "");
 
     protected static final int TIMEPLUS_HTTP_PORT = 8123;
