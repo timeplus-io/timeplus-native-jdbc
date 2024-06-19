@@ -35,6 +35,7 @@ import com.github.timeplus.client.NativeContext;
 import com.github.timeplus.data.Block;
 import com.github.timeplus.data.IColumn;
 import com.github.timeplus.data.IDataType;
+import com.github.timeplus.data.type.DataTypeBool;
 import com.github.timeplus.data.type.DataTypeDate;
 import com.github.timeplus.data.type.DataTypeDate32;
 import com.github.timeplus.data.type.DataTypeFloat32;
@@ -259,6 +260,10 @@ public class TimeplusPreparedInsertStatement extends AbstractPreparedStatement {
         if (type instanceof DataTypeInt8) {
             if (obj instanceof Number)
                 return ((Number) obj).byteValue();
+        }
+        if (type instanceof DataTypeBool) {
+            if (obj instanceof Boolean)
+                return ((Boolean) obj).booleanValue();
         }
         if (type instanceof DataTypeUInt8 || type instanceof DataTypeInt16) {
             if (obj instanceof Number)
