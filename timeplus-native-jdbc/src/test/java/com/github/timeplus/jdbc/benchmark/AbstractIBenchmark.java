@@ -35,17 +35,17 @@ public class AbstractIBenchmark {
     /*
     * HTTP API Port for http requests. used by JDBC, ODBC and web interfaces.
     * */
-    protected static final int CLICKHOUSE_HTTP_PORT = 8123;
-    protected static final int CLICKHOUSE_NATIVE_PORT = 9000;
+    protected static final int TIMEPLUS_HTTP_PORT = 8123;
+    protected static final int TIMEPLUS_NATIVE_PORT = 8463;
 
     public static final ClickHouseContainer container;
 
     static {
-        container = new ClickHouseContainer(AbstractITest.CLICKHOUSE_IMAGE);
+        container = new ClickHouseContainer(AbstractITest.TIMEPLUS_IMAGE);
         container.start();
     }
 
-    private final Driver clickhouseJdbcDriver = new com.clickhouse.jdbc.ClickHouseDriver();
+    private final Driver timeplusJdbcDriver = new com.timeplus.proton.jdbc.ProtonDriver();
     private final Driver nativeDriver = new TimeplusDriver();
 
     public static void main(String[] args) throws RunnerException {
@@ -71,19 +71,19 @@ public class AbstractIBenchmark {
             case NATIVE:
                 Class.forName("com.github.timeplus.jdbc.TimeplusDriver");
                 DriverManager.registerDriver(nativeDriver);
-                port = container.getMappedPort(CLICKHOUSE_NATIVE_PORT);
+                port = container.getMappedPort(TIMEPLUS_NATIVE_PORT);
                 break;
 
             case JDBC:
-                Class.forName("com.clickhouse.jdbc.ClickHouseDriver");
-                DriverManager.registerDriver(clickhouseJdbcDriver);
-                port = container.getMappedPort(CLICKHOUSE_HTTP_PORT);
+                Class.forName("com.timeplus.proton.jdbc.ProtonDriver");
+                DriverManager.registerDriver(timeplusJdbcDriver);
+                port = container.getMappedPort(TIMEPLUS_HTTP_PORT);
                 break;
 
             default:
                 throw new RuntimeException("Never happen");
         }
-        try (Connection connection = DriverManager.getConnection("jdbc:clickhouse://" + container.getHost() + ":" + port)) {
+        try (Connection connection = DriverManager.getConnection("jdbc:timeplus://" + container.getHost() + ":" + port)) {
             withConnection.apply(connection);
         }
     }

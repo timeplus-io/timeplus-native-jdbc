@@ -28,8 +28,8 @@ public class BooleanTypeITest extends AbstractITest implements BytesHelper {
     @Test
     public void testBooleanType() throws Exception {
         withStatement(statement -> {
-            statement.execute("DROP TABLE IF EXISTS bool_test");
-            statement.execute("CREATE TABLE IF NOT EXISTS bool_test (value Bool, nullableValue Nullable(Bool)) Engine=Memory()");
+            statement.execute("DROP STREAM IF EXISTS bool_test");
+            statement.execute("CREATE STREAM IF NOT EXISTS bool_test (value bool, nullableValue nullable(bool)) Engine=Memory()");
 
             Integer rowCnt = 300;
             try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
@@ -54,7 +54,7 @@ public class BooleanTypeITest extends AbstractITest implements BytesHelper {
 
             assertEquals(size, rowCnt);
 
-            statement.execute("DROP TABLE IF EXISTS bool_test");
+            statement.execute("DROP STREAM IF EXISTS bool_test");
         });
 
     }

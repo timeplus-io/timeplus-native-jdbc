@@ -27,7 +27,7 @@ public class ClickHouseSQLExceptionITest extends AbstractITest {
     public void errorCodeShouldBeAssigned() throws Exception {
         withStatement(statement -> {
             try {
-                statement.executeQuery("DROP TABLE test");
+                statement.executeQuery("DROP STREAM test");
             } catch (SQLException e) {
                 assertTrue(e instanceof TimeplusSQLException);
                 assertNotEquals(0, e.getErrorCode());

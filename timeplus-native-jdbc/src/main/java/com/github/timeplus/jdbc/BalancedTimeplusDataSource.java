@@ -71,8 +71,8 @@ public final class BalancedTimeplusDataSource implements DataSource, SQLWrapper 
      * create Datasource for clickhouse JDBC connections
      *
      * @param url address for connection to the database, must have the next format
-     *            {@code jdbc:clickhouse://<first-host>:<port>,<second-host>:<port>/<database>?param1=value1&param2=value2 }
-     *            for example, {@code jdbc:clickhouse://localhost:9000,localhost:9000/database?compress=1&decompress=2 }
+     *            {@code jdbc:timeplus://<first-host>:<port>,<second-host>:<port>/<database>?param1=value1&param2=value2 }
+     *            for example, {@code jdbc:timeplus://localhost:8463,localhost:8463/database?compress=1&decompress=2 }
      * @throws IllegalArgumentException if param have not correct format,
      *                                  or error happens when checking host availability
      */

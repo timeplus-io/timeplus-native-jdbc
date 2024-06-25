@@ -38,107 +38,107 @@ public class TestHarness extends AbstractITest {
 
     static {
         ALL_TYPES.add(new DataTypeApply(
-                "Int8",
+                "int8",
                 (i) -> i % 128,
                 MAX_EXPR,
                 (rows) -> 127.0)
         );
 
         ALL_TYPES.add(new DataTypeApply(
-                "Int16",
+                "int16",
                 (i) -> i % 32768,
                 MAX_EXPR,
                 (rows) -> 32767.0)
         );
 
         ALL_TYPES.add(new DataTypeApply(
-                "Int32",
+                "int32",
                 (i) -> 3,
                 SUM_EXPR,
                 (rows) -> rows * 3.0)
         );
 
         ALL_TYPES.add(new DataTypeApply(
-                "Int64",
+                "int64",
                 (i) -> 4,
                 SUM_EXPR,
                 (rows) -> rows * 4.0)
         );
 
         ALL_TYPES.add(new DataTypeApply(
-                "UInt8",
+                "uint8",
                 (i) -> i % 256,
                 MAX_EXPR,
                 (rows) -> 255.0)
         );
 
         ALL_TYPES.add(new DataTypeApply(
-                "UInt16",
+                "uint16",
                 (i) -> i % 65536,
                 MAX_EXPR,
                 (rows) -> 65535.0)
         );
 
         ALL_TYPES.add(new DataTypeApply(
-                "UInt32",
+                "uint32",
                 (i) -> 3,
                 SUM_EXPR,
                 (rows) -> rows * 3.0)
         );
 
         ALL_TYPES.add(new DataTypeApply(
-                "UInt64",
+                "uint64",
                 (i) -> 4,
                 SUM_EXPR,
                 (rows) -> rows * 4.0)
         );
 
         ALL_TYPES.add(new DataTypeApply(
-                "Float32",
+                "float32",
                 (i) -> 5.0f,
                 SUM_EXPR,
                 (rows) -> rows * 5.0)
         );
 
         ALL_TYPES.add(new DataTypeApply(
-                "Float64",
+                "float64",
                 (i) -> 6.0,
                 SUM_EXPR,
                 (rows) -> rows * 6.0)
         );
 
         ALL_TYPES.add(new DataTypeApply(
-                "Nullable(Float64)",
+                "nullable(float64)",
                 (i) -> 6.0,
                 SUM_EXPR,
                 (rows) -> rows * 6.0)
         );
 
         ALL_TYPES.add(new DataTypeApply(
-                "String",
+                "string",
                 (i) -> "00" + i,
-                (col) -> "sum(toInt64(" + col + ") % 4)",
+                (col) -> "sum(to_int64(" + col + ") % 4)",
                 (rows) -> (rows / 4.0 * (1 + 2 + 3)))
         );
 
         ALL_TYPES.add(new DataTypeApply(
-                "Date",
+                "date",
                 (i) -> Date.valueOf(LocalDate.ofEpochDay(i / 10000)),
                 MAX_EXPR,
                 (rows) -> rows / 10000 * 1.0)
         );
 
         ALL_TYPES.add(new DataTypeApply(
-                "DateTime",
+                "datetime",
                 (i) -> new Timestamp(i / 1000 * 1000),
                 MAX_EXPR,
                 (rows) -> new Timestamp(rows).getTime() / 1000 * 1.0)
         );
 
         ALL_TYPES.add(new DataTypeApply(
-                "Array(String)",
+                "array(string)",
                 (i) -> new Object[]{"00" + i},
-                (col) -> "sum(toInt64(" + col + "[1]) % 4)",
+                (col) -> "sum(to_int64(" + col + "[1]) % 4)",
                 (rows) -> (rows / 4.0 * (1 + 2 + 3)))
         );
     }
@@ -170,8 +170,8 @@ public class TestHarness extends AbstractITest {
         withPreparedStatement(sql, pstmt -> {
             for (int row = 0; row < RECORD_COUNT; row++) {
                 for (int i = 0; i < types.length; i++) {
-                    if ("Array(String)".equals(types[i].name)) { // only support Array(String) here
-                        Array array = pstmt.getConnection().createArrayOf("String", (Object[]) types[i].data.apply(row));
+                    if ("array(string)".equals(types[i].name)) { // only support Array(String) here
+                        Array array = pstmt.getConnection().createArrayOf("string", (Object[]) types[i].data.apply(row));
                         pstmt.setObject(i + 1, array);
                     } else {
                         pstmt.setObject(i + 1, types[i].data.apply(row));
@@ -242,7 +242,7 @@ public class TestHarness extends AbstractITest {
     }
 
     private String buildCreateTableSQL() {
-        StringBuilder sb = new StringBuilder("CREATE TABLE " + tableName + " (");
+        StringBuilder sb = new StringBuilder("CREATE STREAM " + tableName + " (");
         for (int i = 0; i < types.length; i++) {
             if (i != 0) {
                 sb.append(",\n");
@@ -251,7 +251,7 @@ public class TestHarness extends AbstractITest {
         }
         sb.append(" ) Engine=Memory");
         String sql = sb.toString();
-        LOG.trace("CREATE TABLE DDL: \n{}", sql);
+        LOG.trace("CREATE STREAM DDL: \n{}", sql);
         return sql;
     }
 
@@ -275,7 +275,7 @@ public class TestHarness extends AbstractITest {
     private String buildSelectAggSQL() {
         List<String> aggCols = new ArrayList<>();
         for (int i = 0; i < types.length; i++) {
-            aggCols.add("toFloat64(" + types[i].expr.apply("col_" + i) + ")");
+            aggCols.add("to_float64(" + types[i].expr.apply("col_" + i) + ")");
         }
         return String.format(Locale.ROOT, "SELECT %s FROM %s",
                 Joiner.on(",").join(aggCols),
@@ -283,7 +283,7 @@ public class TestHarness extends AbstractITest {
     }
 
     private String buildDropTableSQL() {
-        return "DROP TABLE IF EXISTS " + tableName;
+        return "DROP STREAM IF EXISTS " + tableName;
     }
 
     public static class DataTypeApply {

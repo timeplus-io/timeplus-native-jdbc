@@ -27,7 +27,7 @@ class TimeplusResultSetBuilderITest extends AbstractITest {
                     .builder(1, ((TimeplusConnection) connection).serverContext())
                     .cfg(((TimeplusConnection) connection).cfg())
                     .columnNames("some")
-                    .columnTypes("String")
+                    .columnTypes("string")
                     .build();
             assertEquals(1, rs.getMetaData().getColumnCount());
             assertEquals("some", rs.getMetaData().getColumnName(1));
@@ -42,7 +42,7 @@ class TimeplusResultSetBuilderITest extends AbstractITest {
                     .builder(1, ((TimeplusConnection) connection).serverContext())
                     .cfg(((TimeplusConnection) connection).cfg())
                     .columnNames("some")
-                    .columnTypes("String")
+                    .columnTypes("string")
                     .addRow("A")
                     .addRow("B")
                     .build();

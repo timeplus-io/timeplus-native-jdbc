@@ -33,13 +33,13 @@ public class AbstractInsertIBenchmark extends AbstractIBenchmark {
 
     AtomicInteger tableMaxId = new AtomicInteger();
 
-    // drop table, create table
+    // DROP STREAM, CREATE STREAM
     protected void wideColumnPrepare(Connection connection, String columnType) throws Exception {
         int tableId = tableMaxId.incrementAndGet();
         String testTable = "test_" + tableId;
         withStatement(connection, stmt -> {
-            stmt.executeQuery("DROP TABLE IF EXISTS " + testTable);
-            StringBuilder createSQL = new StringBuilder("CREATE TABLE " + testTable + " (");
+            stmt.executeQuery("DROP STREAM IF EXISTS " + testTable);
+            StringBuilder createSQL = new StringBuilder("CREATE STREAM " + testTable + " (");
             for (int i = 0; i < columnNum; i++) {
                 createSQL.append("col_").append(i).append(" ").append(columnType);
                 if (i + 1 != columnNum) {
@@ -52,7 +52,7 @@ public class AbstractInsertIBenchmark extends AbstractIBenchmark {
     }
 
     protected void wideColumnAfter(Connection connection) throws Exception {
-        withStatement(connection, stmt -> stmt.executeQuery("DROP TABLE " + getTableName()));
+        withStatement(connection, stmt -> stmt.executeQuery("DROP STREAM " + getTableName()));
     }
 
     protected String getTableName() {

@@ -28,8 +28,8 @@ public class IPv4TypeITest extends AbstractITest implements BytesHelper {
     @Test
     public void testIPv4Type() throws Exception {
         withStatement(statement -> {
-            statement.execute("DROP TABLE IF EXISTS ipv4_test");
-            statement.execute("CREATE TABLE IF NOT EXISTS ipv4_test (value IPv4, nullableValue Nullable(IPv4)) Engine=Memory()");
+            statement.execute("DROP STREAM IF EXISTS ipv4_test");
+            statement.execute("CREATE STREAM IF NOT EXISTS ipv4_test (value ipv4, nullableValue nullable(ipv4)) Engine=Memory()");
 
             Integer rowCnt = 300;
             Long testIPv4Value1 = ipToLong("192.168.1.1");
@@ -57,7 +57,7 @@ public class IPv4TypeITest extends AbstractITest implements BytesHelper {
 
             assertEquals(size, (int) rowCnt);
 
-            statement.execute("DROP TABLE IF EXISTS ipv4_test");
+            statement.execute("DROP STREAM IF EXISTS ipv4_test");
         });
     }
 

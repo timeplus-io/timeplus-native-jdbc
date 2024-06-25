@@ -26,8 +26,8 @@ public class ResultSetMetadataITest extends AbstractITest {
     @Test
     public void successfullyMetaData() throws Exception {
         withStatement(statement -> {
-            statement.executeQuery("DROP TABLE IF EXISTS test");
-            statement.executeQuery("CREATE TABLE test(a UInt8, b UInt64, c FixedString(3) )ENGINE=Log");
+            statement.executeQuery("DROP STREAM IF EXISTS test");
+            statement.executeQuery("CREATE STREAM test(a uint8, b uint64, c fixed_string(3) )ENGINE=Memory");
             statement.executeQuery("INSERT INTO test VALUES (1, 2, '4' )");
             ResultSet rs = statement.executeQuery("SELECT * FROM test");
             ResultSetMetaData metadata = rs.getMetaData();
@@ -38,7 +38,7 @@ public class ResultSetMetadataITest extends AbstractITest {
             assertEquals(3, metadata.getPrecision(1));
             assertEquals(19, metadata.getPrecision(2));
             assertEquals(3, metadata.getPrecision(3));
-            statement.executeQuery("DROP TABLE IF EXISTS test");
+            statement.executeQuery("DROP STREAM IF EXISTS test");
         });
     }
 

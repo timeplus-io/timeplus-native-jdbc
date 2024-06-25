@@ -41,10 +41,10 @@ public class BatchInsertITest extends AbstractITest {
     @Test
     public void successfullyBatchInsert() throws Exception {
         withStatement(statement -> {
-            statement.execute("DROP TABLE IF EXISTS test");
-            statement.execute("CREATE TABLE test(id Int8, age UInt8, name String, name2 String)ENGINE=Log");
+            statement.execute("DROP STREAM IF EXISTS test");
+            statement.execute("CREATE STREAM test(id int8, age uint8, name string, name2 string) ENGINE=Memory");
 
-            withPreparedStatement(statement.getConnection(), "INSERT INTO test VALUES(?, 1, ?, ?)", pstmt -> {
+            withPreparedStatement(statement.getConnection(), "INSERT INTO test(id, age, name, name2) VALUES(?, 1, ?, ?)", pstmt -> {
                 for (int i = 0; i < Byte.MAX_VALUE; i++) {
                     pstmt.setByte(1, (byte) i);
                     pstmt.setString(2, "Zhang San" + i);
@@ -70,10 +70,10 @@ public class BatchInsertITest extends AbstractITest {
     @Test
     public void successfullyMultipleBatchInsert() throws Exception {
         withStatement(statement -> {
-            statement.execute("DROP TABLE IF EXISTS test");
-            statement.execute("CREATE TABLE test(id Int8, age UInt8, name String)ENGINE=Log");
+            statement.execute("DROP STREAM IF EXISTS test");
+            statement.execute("CREATE STREAM test(id int8, age uint8, name string)ENGINE=Memory");
 
-            withPreparedStatement(statement.getConnection(), "INSERT INTO test VALUES(?, 1, ?)", pstmt -> {
+            withPreparedStatement(statement.getConnection(), "INSERT INTO test(id, age, name) VALUES(?, 1, ?)", pstmt -> {
                 int insertBatchSize = 100;
 
                 for (int i = 0; i < insertBatchSize; i++) {
@@ -99,10 +99,10 @@ public class BatchInsertITest extends AbstractITest {
         withStatement(stmt -> {
             int insertBatchSize = 100;
 
-            stmt.executeQuery("DROP TABLE IF EXISTS test");
-            stmt.executeQuery("CREATE TABLE test(day Date, name Nullable(String), name2 Nullable(FixedString(10)) ) Engine=Memory");
+            stmt.executeQuery("DROP STREAM IF EXISTS test");
+            stmt.executeQuery("CREATE STREAM test(day date, name nullable(string), name2 nullable(fixed_string(10)) ) Engine=Memory");
 
-            withPreparedStatement(stmt.getConnection(), "INSERT INTO test VALUES(?, ?, ?)", pstmt -> {
+            withPreparedStatement(stmt.getConnection(), "INSERT INTO test(day, name, name2) VALUES(?, ?, ?)", pstmt -> {
                 for (int i = 0; i < insertBatchSize; i++) {
                     pstmt.setDate(1, new Date(System.currentTimeMillis()));
 
@@ -134,13 +134,13 @@ public class BatchInsertITest extends AbstractITest {
             }
 
             rs = stmt.executeQuery(
-                    "select countIf(isNull(name)), countIf(isNotNull(name)), countIf(isNotNull(name2))  from test;");
+                    "select count_if(is_null(name)), count_if(is_not_null(name)), count_if(is_not_null(name2)) from test;");
             assertTrue(rs.next());
             assertEquals(insertBatchSize / 2, rs.getInt(1));
             assertEquals(insertBatchSize / 2, rs.getInt(2));
             assertEquals(insertBatchSize / 2, rs.getInt(3));
 
-            stmt.executeQuery("DROP TABLE IF EXISTS test");
+            stmt.executeQuery("DROP STREAM IF EXISTS test");
         });
     }
 
@@ -149,18 +149,18 @@ public class BatchInsertITest extends AbstractITest {
         System.setProperty("illegal-access", "allow");
 
         withStatement(statement -> {
-            statement.execute("DROP TABLE IF EXISTS test");
-            statement.execute("CREATE TABLE test(value0 Array(String), value1 Array(Float64), value2 Array(Array(Int32)), array3 Array(Nullable(Float64)))ENGINE=Log");
+            statement.execute("DROP STREAM IF EXISTS test");
+            statement.execute("CREATE STREAM test(value0 array(string), value1 array(float64), value2 array(array(int32)), array3 array(nullable(float64)))ENGINE=Memory");
 
-            withPreparedStatement(statement.getConnection(), "INSERT INTO test VALUES(?, ?, [[1,2,3]], ?)", pstmt -> {
+            withPreparedStatement(statement.getConnection(), "INSERT INTO test(value0, value1, value2, array3) VALUES(?, ?, [[1,2,3]], ?)", pstmt -> {
                 List<String> array0 = Arrays.asList("aa", "bb", "cc");
                 List<Double> array1 = Arrays.asList(1.2, 2.2, 3.2);
                 List<Double> array3 = Arrays.asList(1.2, 2.2, 3.2, null);
 
                 for (int i = 0; i < Byte.MAX_VALUE; i++) {
-                    pstmt.setArray(1, pstmt.getConnection().createArrayOf("String", array0.toArray()));
-                    pstmt.setArray(2, pstmt.getConnection().createArrayOf("Float64", array1.toArray()));
-                    pstmt.setArray(3, pstmt.getConnection().createArrayOf("Nullable(Float64)", array3.toArray()));
+                    pstmt.setArray(1, pstmt.getConnection().createArrayOf("string", array0.toArray()));
+                    pstmt.setArray(2, pstmt.getConnection().createArrayOf("float64", array1.toArray()));
+                    pstmt.setArray(3, pstmt.getConnection().createArrayOf("nullable(float64)", array3.toArray()));
                     pstmt.addBatch();
                 }
 
@@ -183,8 +183,8 @@ public class BatchInsertITest extends AbstractITest {
             // 2018-07-01 00:00:00 Asia/Shanghai
             long time = 1530374400;
 
-            statement.execute("DROP TABLE IF EXISTS test");
-            statement.execute("CREATE TABLE test(time DateTime)ENGINE=Log");
+            statement.execute("DROP STREAM IF EXISTS test");
+            statement.execute("CREATE STREAM test(time datetime)ENGINE=Memory");
 
             withPreparedStatement(statement.getConnection(), "INSERT INTO test VALUES(?)", pstmt -> {
                 long insertTime = time;
@@ -208,16 +208,16 @@ public class BatchInsertITest extends AbstractITest {
     
     @Test
     public void successfullyBatchInsertMap() throws Exception {
-        String[] valueTypes = new String[]{"UInt32", "String", "Tuple(Int32, String)", "Array(UInt16)"};
+        String[] valueTypes = new String[]{"uint32", "string", "tuple(int32, string)", "array(uint16)"};
         for (int j = 0; j < valueTypes.length; j++) {
             final int m = j;
             String eachType = valueTypes[j];
             withStatement(statement -> {
                 statement.execute("SET allow_experimental_map_type = 1");
-                statement.execute("DROP TABLE IF EXISTS test");
-                statement.execute("CREATE TABLE test(tags Map(String, " + eachType + "))ENGINE=Log");
+                statement.execute("DROP STREAM IF EXISTS test");
+                statement.execute("CREATE STREAM test(tags map(string, " + eachType + "))ENGINE=Memory");
 
-                withPreparedStatement(statement.getConnection(), "INSERT INTO test VALUES(?)", pstmt -> {
+                withPreparedStatement(statement.getConnection(), "INSERT INTO test(tags) VALUES(?)", pstmt -> {
                     for (int i = 1; i <= 10; i++) {
                         Map<String, Object> map = new HashMap<>();
                         Object value = null;
