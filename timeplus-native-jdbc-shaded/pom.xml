@@ -52,6 +52,13 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass><!-- YOUR_APPLICATION_MAIN_CLASS --></mainClass>
+                                </transformer>
+                                <!-- This is needed if you have dependencies that use Service Loader. Most Google Cloud client libraries do. -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                            </transformers>
                             <createSourcesJar>true</createSourcesJar>
                             <shadeSourcesContent>true</shadeSourcesContent>
                             <createDependencyReducedPom>true</createDependencyReducedPom>
