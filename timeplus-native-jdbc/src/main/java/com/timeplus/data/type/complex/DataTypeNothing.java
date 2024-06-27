@@ -12,14 +12,14 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.data.type.complex;
+package com.timeplus.data.type.complex;
 
-import com.github.timeplus.client.NativeContext;
-import com.github.timeplus.data.IDataType;
-import com.github.timeplus.exception.InvalidOperationException;
-import com.github.timeplus.misc.SQLLexer;
-import com.github.timeplus.serde.BinaryDeserializer;
-import com.github.timeplus.serde.BinarySerializer;
+import com.timeplus.client.NativeContext;
+import com.timeplus.data.IDataType;
+import com.timeplus.exception.InvalidOperationException;
+import com.timeplus.misc.SQLLexer;
+import com.timeplus.serde.BinaryDeserializer;
+import com.timeplus.serde.BinarySerializer;
 
 import java.io.IOException;
 import java.sql.SQLException;

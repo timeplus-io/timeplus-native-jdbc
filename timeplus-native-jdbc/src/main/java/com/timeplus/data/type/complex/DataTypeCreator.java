@@ -12,11 +12,11 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.data.type.complex;
+package com.timeplus.data.type.complex;
 
-import com.github.timeplus.client.NativeContext;
-import com.github.timeplus.data.IDataType;
-import com.github.timeplus.misc.SQLLexer;
+import com.timeplus.client.NativeContext;
+import com.timeplus.data.IDataType;
+import com.timeplus.misc.SQLLexer;
 
 import java.sql.SQLException;
 

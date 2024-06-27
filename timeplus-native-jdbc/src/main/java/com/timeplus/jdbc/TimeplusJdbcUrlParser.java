@@ -12,13 +12,13 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.exception.InvalidValueException;
-import com.github.timeplus.log.Logger;
-import com.github.timeplus.log.LoggerFactory;
-import com.github.timeplus.misc.Validate;
-import com.github.timeplus.settings.SettingKey;
+import com.timeplus.exception.InvalidValueException;
+import com.timeplus.log.Logger;
+import com.timeplus.log.LoggerFactory;
+import com.timeplus.misc.Validate;
+import com.timeplus.settings.SettingKey;
 
 import java.io.Serializable;
 import java.util.HashMap;

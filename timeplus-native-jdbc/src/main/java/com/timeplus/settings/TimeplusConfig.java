@@ -12,11 +12,11 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.settings;
+package com.timeplus.settings;
 
-import com.github.timeplus.jdbc.TimeplusJdbcUrlParser;
-import com.github.timeplus.misc.CollectionUtil;
-import com.github.timeplus.misc.StrUtil;
+import com.timeplus.jdbc.TimeplusJdbcUrlParser;
+import com.timeplus.misc.CollectionUtil;
+import com.timeplus.misc.StrUtil;
 
 import javax.annotation.concurrent.Immutable;
 import java.io.Serializable;

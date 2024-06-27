@@ -36,7 +36,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package com.github.timeplus.log;
+package com.timeplus.log;
 
 import java.text.MessageFormat;
 import java.util.HashMap;

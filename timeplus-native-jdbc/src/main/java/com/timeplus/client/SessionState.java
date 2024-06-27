@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.client;
+package com.timeplus.client;
 
 public enum SessionState {
 

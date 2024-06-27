@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.client.ssl;
+package com.timeplus.client.ssl;
 
 import javax.net.ssl.X509TrustManager;
 import java.security.cert.X509Certificate;

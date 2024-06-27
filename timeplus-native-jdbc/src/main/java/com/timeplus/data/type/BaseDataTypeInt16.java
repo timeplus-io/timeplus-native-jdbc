@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.data.type;
+package com.timeplus.data.type;
 
 import java.sql.Types;
 

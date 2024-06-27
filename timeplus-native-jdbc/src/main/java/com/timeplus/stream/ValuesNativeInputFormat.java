@@ -12,11 +12,11 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.stream;
+package com.timeplus.stream;
 
-import com.github.timeplus.data.Block;
-import com.github.timeplus.misc.SQLLexer;
-import com.github.timeplus.misc.Validate;
+import com.timeplus.data.Block;
+import com.timeplus.misc.SQLLexer;
+import com.timeplus.misc.Validate;
 
 import java.sql.SQLException;
 import java.util.BitSet;

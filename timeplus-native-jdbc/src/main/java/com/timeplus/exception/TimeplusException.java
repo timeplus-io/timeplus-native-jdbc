@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.exception;
+package com.timeplus.exception;
 
 /**
  * Use {@link TimeplusException} internal, wrapped with {@link java.sql.SQLException} only on JDBC interfaces.

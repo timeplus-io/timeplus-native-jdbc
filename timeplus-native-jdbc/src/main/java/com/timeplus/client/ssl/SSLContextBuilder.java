@@ -12,14 +12,14 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.client.ssl;
+package com.timeplus.client.ssl;
 
-import com.github.timeplus.client.NativeClient;
-import com.github.timeplus.log.Logger;
-import com.github.timeplus.log.LoggerFactory;
-import com.github.timeplus.settings.TimeplusConfig;
-import com.github.timeplus.settings.KeyStoreConfig;
-import com.github.timeplus.settings.SettingKey;
+import com.timeplus.client.NativeClient;
+import com.timeplus.log.Logger;
+import com.timeplus.log.LoggerFactory;
+import com.timeplus.settings.TimeplusConfig;
+import com.timeplus.settings.KeyStoreConfig;
+import com.timeplus.settings.SettingKey;
 
 
 import javax.net.ssl.*;

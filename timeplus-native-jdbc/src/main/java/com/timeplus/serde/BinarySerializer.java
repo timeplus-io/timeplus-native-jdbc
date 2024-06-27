@@ -12,12 +12,12 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.serde;
+package com.timeplus.serde;
 
-import com.github.timeplus.buffer.BuffedWriter;
-import com.github.timeplus.buffer.CompressedBuffedWriter;
-import com.github.timeplus.misc.Switcher;
-import com.github.timeplus.settings.TimeplusDefines;
+import com.timeplus.buffer.BuffedWriter;
+import com.timeplus.buffer.CompressedBuffedWriter;
+import com.timeplus.misc.Switcher;
+import com.timeplus.settings.TimeplusDefines;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

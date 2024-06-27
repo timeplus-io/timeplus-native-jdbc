@@ -12,14 +12,14 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.data.DataTypeFactory;
-import com.github.timeplus.data.IDataType;
-import com.github.timeplus.log.Logger;
-import com.github.timeplus.log.LoggerFactory;
-import com.github.timeplus.settings.TimeplusDefines;
-import com.github.timeplus.jdbc.wrapper.SQLDatabaseMetadata;
+import com.timeplus.data.DataTypeFactory;
+import com.timeplus.data.IDataType;
+import com.timeplus.log.Logger;
+import com.timeplus.log.LoggerFactory;
+import com.timeplus.settings.TimeplusDefines;
+import com.timeplus.jdbc.wrapper.SQLDatabaseMetadata;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.exception;
+package com.timeplus.exception;
 
-import com.github.timeplus.settings.TimeplusErrCode;
+import com.timeplus.settings.TimeplusErrCode;
 
 public class TimeplusClientException extends TimeplusException {
 

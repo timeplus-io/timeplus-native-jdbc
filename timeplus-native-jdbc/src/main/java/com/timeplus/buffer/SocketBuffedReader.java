@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.buffer;
+package com.timeplus.buffer;
 
-import com.github.timeplus.settings.TimeplusDefines;
+import com.timeplus.settings.TimeplusDefines;
 
 import java.io.EOFException;
 import java.io.IOException;

@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.timeplus.data;
+package com.timeplus.data;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.github.timeplus.data.type.complex.DataTypeMap;
-import com.github.timeplus.serde.BinarySerializer;
+import com.timeplus.data.type.complex.DataTypeMap;
+import com.timeplus.serde.BinarySerializer;
 
 /**
  * @author liuxinghua02

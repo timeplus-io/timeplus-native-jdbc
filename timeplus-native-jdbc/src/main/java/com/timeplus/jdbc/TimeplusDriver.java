@@ -12,11 +12,11 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.settings.TimeplusConfig;
-import com.github.timeplus.settings.TimeplusDefines;
-import com.github.timeplus.settings.SettingKey;
+import com.timeplus.settings.TimeplusConfig;
+import com.timeplus.settings.TimeplusDefines;
+import com.timeplus.settings.SettingKey;
 
 import java.io.Serializable;
 import java.sql.*;

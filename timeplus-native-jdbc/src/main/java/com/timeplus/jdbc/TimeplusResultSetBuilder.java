@@ -12,14 +12,14 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.client.NativeContext;
-import com.github.timeplus.misc.Validate;
-import com.github.timeplus.settings.TimeplusConfig;
-import com.github.timeplus.settings.TimeplusDefines;
-import com.github.timeplus.stream.QueryResult;
-import com.github.timeplus.stream.QueryResultBuilder;
+import com.timeplus.client.NativeContext;
+import com.timeplus.misc.Validate;
+import com.timeplus.settings.TimeplusConfig;
+import com.timeplus.settings.TimeplusDefines;
+import com.timeplus.stream.QueryResult;
+import com.timeplus.stream.QueryResultBuilder;
 
 import java.sql.SQLException;
 import java.util.Arrays;

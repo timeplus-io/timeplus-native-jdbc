@@ -12,12 +12,12 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.data.type;
+package com.timeplus.data.type;
 
-import com.github.timeplus.data.IDataType;
-import com.github.timeplus.misc.SQLLexer;
-import com.github.timeplus.serde.BinaryDeserializer;
-import com.github.timeplus.serde.BinarySerializer;
+import com.timeplus.data.IDataType;
+import com.timeplus.misc.SQLLexer;
+import com.timeplus.serde.BinaryDeserializer;
+import com.timeplus.serde.BinarySerializer;
 
 import java.io.IOException;
 import java.math.BigInteger;

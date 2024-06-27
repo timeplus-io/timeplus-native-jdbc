@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc.wrapper;
+package com.timeplus.jdbc.wrapper;
 
 import java.sql.SQLException;
 import java.sql.Wrapper;

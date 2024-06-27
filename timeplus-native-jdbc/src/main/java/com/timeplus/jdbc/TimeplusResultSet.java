@@ -12,20 +12,20 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.data.Block;
-import com.github.timeplus.data.IColumn;
-import com.github.timeplus.exception.TimeplusSQLException;
-import com.github.timeplus.jdbc.statement.TimeplusStatement;
-import com.github.timeplus.jdbc.wrapper.SQLResultSet;
-import com.github.timeplus.log.Logger;
-import com.github.timeplus.log.LoggerFactory;
-import com.github.timeplus.misc.CheckedIterator;
-import com.github.timeplus.misc.DateTimeUtil;
-import com.github.timeplus.misc.Validate;
-import com.github.timeplus.protocol.DataResponse;
-import com.github.timeplus.settings.TimeplusConfig;
+import com.timeplus.data.Block;
+import com.timeplus.data.IColumn;
+import com.timeplus.exception.TimeplusSQLException;
+import com.timeplus.jdbc.statement.TimeplusStatement;
+import com.timeplus.jdbc.wrapper.SQLResultSet;
+import com.timeplus.log.Logger;
+import com.timeplus.log.LoggerFactory;
+import com.timeplus.misc.CheckedIterator;
+import com.timeplus.misc.DateTimeUtil;
+import com.timeplus.misc.Validate;
+import com.timeplus.protocol.DataResponse;
+import com.timeplus.settings.TimeplusConfig;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

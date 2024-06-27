@@ -12,11 +12,11 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.data;
+package com.timeplus.data;
 
-import com.github.timeplus.buffer.ByteArrayWriter;
-import com.github.timeplus.serde.BinarySerializer;
-import com.github.timeplus.settings.TimeplusDefines;
+import com.timeplus.buffer.ByteArrayWriter;
+import com.timeplus.serde.BinarySerializer;
+import com.timeplus.settings.TimeplusDefines;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

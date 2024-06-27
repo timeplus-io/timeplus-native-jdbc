@@ -12,11 +12,11 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.settings;
+package com.timeplus.settings;
 
-import com.github.timeplus.misc.StrUtil;
-import com.github.timeplus.misc.Validate;
-import com.github.timeplus.serde.SettingType;
+import com.timeplus.misc.StrUtil;
+import com.timeplus.misc.Validate;
+import com.timeplus.serde.SettingType;
 
 import java.io.Serializable;
 import java.util.HashMap;

@@ -15,7 +15,7 @@
  * Copyright (C) 2012 tamtam180
  */
 
-package com.github.timeplus.misc;
+package com.timeplus.misc;
 
 /**
  * @author tamtam180 - kirscheless at gmail.com

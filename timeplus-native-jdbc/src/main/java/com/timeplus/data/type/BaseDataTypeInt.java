@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.data.type;
+package com.timeplus.data.type;
 
-import com.github.timeplus.data.IDataType;
+import com.timeplus.data.IDataType;
 
 public interface BaseDataTypeInt<CK, JDBC> extends IDataType<CK, JDBC> {
 

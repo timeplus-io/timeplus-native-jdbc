@@ -12,11 +12,11 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.data;
+package com.timeplus.data;
 
-import com.github.timeplus.jdbc.TimeplusArray;
-import com.github.timeplus.data.type.complex.DataTypeArray;
-import com.github.timeplus.serde.BinarySerializer;
+import com.timeplus.jdbc.TimeplusArray;
+import com.timeplus.data.type.complex.DataTypeArray;
+import com.timeplus.serde.BinarySerializer;
 
 import java.io.IOException;
 import java.sql.SQLException;

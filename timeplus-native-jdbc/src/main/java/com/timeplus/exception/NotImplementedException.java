@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.exception;
+package com.timeplus.exception;
 
 public class NotImplementedException extends TimeplusClientException {
 

@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.serde;
+package com.timeplus.serde;
 
 import java.io.IOException;
 import java.io.Serializable;

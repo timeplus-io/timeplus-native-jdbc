@@ -12,23 +12,23 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.client;
+package com.timeplus.client;
 
-import com.github.timeplus.buffer.SocketBuffedReader;
-import com.github.timeplus.buffer.SocketBuffedWriter;
-import com.github.timeplus.client.ssl.SSLContextBuilder;
-import com.github.timeplus.data.Block;
-import com.github.timeplus.misc.Validate;
-import com.github.timeplus.protocol.*;
-import com.github.timeplus.serde.BinaryDeserializer;
-import com.github.timeplus.serde.BinarySerializer;
-import com.github.timeplus.settings.TimeplusConfig;
-import com.github.timeplus.settings.TimeplusDefines;
-import com.github.timeplus.settings.SettingKey;
-import com.github.timeplus.log.Logger;
-import com.github.timeplus.log.LoggerFactory;
-import com.github.timeplus.stream.QueryResult;
-import com.github.timeplus.stream.TimeplusQueryResult;
+import com.timeplus.buffer.SocketBuffedReader;
+import com.timeplus.buffer.SocketBuffedWriter;
+import com.timeplus.client.ssl.SSLContextBuilder;
+import com.timeplus.data.Block;
+import com.timeplus.misc.Validate;
+import com.timeplus.protocol.*;
+import com.timeplus.serde.BinaryDeserializer;
+import com.timeplus.serde.BinarySerializer;
+import com.timeplus.settings.TimeplusConfig;
+import com.timeplus.settings.TimeplusDefines;
+import com.timeplus.settings.SettingKey;
+import com.timeplus.log.Logger;
+import com.timeplus.log.LoggerFactory;
+import com.timeplus.stream.QueryResult;
+import com.timeplus.stream.TimeplusQueryResult;
 
 import javax.net.ssl.*;
 import java.io.IOException;

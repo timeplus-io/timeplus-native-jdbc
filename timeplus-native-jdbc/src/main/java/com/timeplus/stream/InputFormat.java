@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.stream;
+package com.timeplus.stream;
 
 // TODO remove E
 public interface InputFormat<T, E extends Throwable> {

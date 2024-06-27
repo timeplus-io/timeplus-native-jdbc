@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.misc;
+package com.timeplus.misc;
 
-import com.github.timeplus.exception.InvalidOperationException;
+import com.timeplus.exception.InvalidOperationException;
 
 import java.util.Locale;
 import java.util.function.Function;

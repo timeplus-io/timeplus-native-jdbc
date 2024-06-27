@@ -37,7 +37,7 @@
  *
  */
 
-package com.github.timeplus.log;
+package com.timeplus.log;
 
 /**
  * Holds the results of formatting done by {@link MessageFormatter}.
