@@ -12,10 +12,10 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc.spark
+package com.timeplus.jdbc.spark
 
-import com.github.timeplus.jdbc.AbstractITest
-import com.github.timeplus.jdbc.tool.TestHarness
+import com.timeplus.jdbc.AbstractITest
+import com.timeplus.jdbc.tool.TestHarness
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{to_date, to_timestamp}
