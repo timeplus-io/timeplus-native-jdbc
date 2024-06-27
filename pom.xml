@@ -488,7 +488,7 @@
                             <!-- disallow unsafe reflective access: -->
                             <bundledSignature>jdk-reflection</bundledSignature>
                         </bundledSignatures>
-                        <excludes>**/*jmhTest.class</excludes>
+                        <excludes>**/*jmhTest.class,**/Simple*.class</excludes>
                     </configuration>
                     <executions>
                         <execution>

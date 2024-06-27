@@ -1,3 +1,17 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package examples;
 
 import java.io.IOException;
@@ -11,19 +25,16 @@ public class SimpleStreamQueryWithRecovery {
     final String ckpt_file = "query.ckpt";
     final RandomAccessFile writer;
 
-    SimpleStreamQueryWithRecovery() throws IOException
-    {
+    SimpleStreamQueryWithRecovery() throws IOException {
         writer = new RandomAccessFile(ckpt_file, "rw");
     }
 
-    void checkpoint(long last_consumed_sn) throws IOException
-    {
+    void checkpoint(long last_consumed_sn) throws IOException {
         writer.seek(0);
         writer.writeLong(last_consumed_sn);
     }
 
-    long recover() throws IOException
-    {
+    long recover() throws IOException {
         try (RandomAccessFile reader = new RandomAccessFile(ckpt_file, "r")) {
             if (reader.length() > 0)
                 return reader.readLong() + 1; /// Add one to move to next sn, since checkpoint records what we have already consumed
@@ -33,8 +44,7 @@ public class SimpleStreamQueryWithRecovery {
         }
     }
 
-    void run() throws Exception
-    {
+    void run() throws Exception {
         long sn = recover();
         String query = String.format("SELECT *, _tp_sn FROM test settings seek_to='%d'", sn);
 
