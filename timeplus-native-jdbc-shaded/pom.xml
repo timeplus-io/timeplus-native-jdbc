@@ -35,7 +35,7 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.github.timeplus</groupId>
+            <groupId>com.timeplus</groupId>
             <artifactId>timeplus-native-jdbc</artifactId>
         </dependency>
     </dependencies>
@@ -72,7 +72,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>io.airlift</pattern>
-                                    <shadedPattern>com.github.timeplus.repackaged.io.airlift</shadedPattern>
+                                    <shadedPattern>com.timeplus.repackaged.io.airlift</shadedPattern>
                                 </relocation>
                             </relocations>
                             <filters>

@@ -14,7 +14,7 @@
 
 package com.timeplus.jdbc.statement;
 
-import static com.github.timeplus.misc.ExceptionUtil.unchecked;
+import static com.timeplus.misc.ExceptionUtil.unchecked;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

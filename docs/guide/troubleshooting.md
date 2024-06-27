@@ -3,4 +3,4 @@ Troubleshooting
 
 ## Class Conflict
 
-Use `com.github.timeplus:timeplus-native-jdbc-shaded` instead of `com.github.timeplus:timeplus-native-jdbc`.
+Use `com.timeplus:timeplus-native-jdbc-shaded` instead of `com.timeplus:timeplus-native-jdbc`.

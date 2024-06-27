@@ -125,7 +125,7 @@
                                         <argument>-classpath</argument>
                                         <classpath/>
                                         <argument>-Djava.library.path=${async-profiler.library-path}</argument>
-                                        <argument>com.github.timeplus.jdbc.benchmark.Benchmark</argument>
+                                        <argument>com.timeplus.jdbc.benchmark.Benchmark</argument>
                                     </arguments>
                                 </configuration>
                             </execution>

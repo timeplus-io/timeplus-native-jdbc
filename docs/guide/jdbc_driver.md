@@ -11,10 +11,10 @@
 - Gradle
 ```groovy
 // (recommended) shaded version, available since 2.3-stable
-compile "com.github.timeplus:timeplus-native-jdbc-shaded:${timeplus_native_jdbc_version}"
+compile "com.timeplus:timeplus-native-jdbc-shaded:${timeplus_native_jdbc_version}"
 
 // normal version
-compile "com.github.timeplus:timeplus-native-jdbc:${timeplus_native_jdbc_version}"
+compile "com.timeplus:timeplus-native-jdbc:${timeplus_native_jdbc_version}"
 ```
 
 - Maven
@@ -22,14 +22,14 @@ compile "com.github.timeplus:timeplus-native-jdbc:${timeplus_native_jdbc_version
 ```xml
 <!-- (recommended) shaded version, available since 2.3-stable -->
 <dependency>
-    <groupId>com.github.timeplus</groupId>
+    <groupId>com.timeplus</groupId>
     <artifactId>timeplus-native-jdbc-shaded</artifactId>
     <version>${timeplus-native-jdbc.version}</version>
 </dependency>
 
         <!-- normal version -->
 <dependency>
-<groupId>com.github.timeplus</groupId>
+<groupId>com.timeplus</groupId>
 <artifactId>timeplus-native-jdbc</artifactId>
 <version>${timeplus-native-jdbc.version}</version>
 </dependency>

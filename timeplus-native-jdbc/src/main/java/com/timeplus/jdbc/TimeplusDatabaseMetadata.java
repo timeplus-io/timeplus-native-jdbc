@@ -97,7 +97,7 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
 
     @Override
     public String getDriverName() throws SQLException {
-        return "com.github.timeplus.timeplus.native.jdbc";
+        return "com.timeplus.timeplus.native.jdbc";
     }
 
     @Override

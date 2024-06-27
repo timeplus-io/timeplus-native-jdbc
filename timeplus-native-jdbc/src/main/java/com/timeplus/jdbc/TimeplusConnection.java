@@ -55,7 +55,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.github.timeplus.jdbc.TimeplusJdbcUrlParser.PORT_DELIMITER;
+import static com.timeplus.jdbc.TimeplusJdbcUrlParser.PORT_DELIMITER;
 
 public class TimeplusConnection implements SQLConnection {
 
