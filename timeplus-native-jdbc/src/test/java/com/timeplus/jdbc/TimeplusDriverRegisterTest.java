@@ -12,10 +12,10 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.jdbc.tool.EmbeddedDriver;
-import com.github.timeplus.misc.SystemUtil;
+import com.timeplus.jdbc.tool.EmbeddedDriver;
+import com.timeplus.misc.SystemUtil;
 import org.junit.jupiter.api.Test;
 
 import java.sql.DriverManager;

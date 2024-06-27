@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc.benchmark;
+package com.timeplus.jdbc.benchmark;
 
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.profile.AsyncProfiler;

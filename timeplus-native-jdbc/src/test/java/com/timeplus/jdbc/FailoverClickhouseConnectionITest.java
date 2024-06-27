@@ -12,10 +12,10 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.log.Logger;
-import com.github.timeplus.log.LoggerFactory;
+import com.timeplus.log.Logger;
+import com.timeplus.log.LoggerFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.ClickHouseContainer;

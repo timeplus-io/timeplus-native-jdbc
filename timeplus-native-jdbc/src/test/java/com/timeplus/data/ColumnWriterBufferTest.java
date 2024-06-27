@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.data;
+package com.timeplus.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,8 +24,8 @@ import java.util.Random;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.github.timeplus.buffer.ByteArrayWriter;
-import com.github.timeplus.serde.BinarySerializer;
+import com.timeplus.buffer.ByteArrayWriter;
+import com.timeplus.serde.BinarySerializer;
 
 public class ColumnWriterBufferTest {
 

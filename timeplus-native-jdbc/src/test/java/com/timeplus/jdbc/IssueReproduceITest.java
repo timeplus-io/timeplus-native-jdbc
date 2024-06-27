@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.annotation.Issue;
+import com.timeplus.annotation.Issue;
 import com.google.common.base.Strings;
 import org.junit.jupiter.api.Test;
 

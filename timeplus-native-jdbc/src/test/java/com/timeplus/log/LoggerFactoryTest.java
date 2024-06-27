@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.log;
+package com.timeplus.log;
 
 import org.junit.jupiter.api.Test;
 

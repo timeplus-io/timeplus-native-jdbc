@@ -12,11 +12,11 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc.type;
+package com.timeplus.jdbc.type;
 
-import com.github.timeplus.jdbc.AbstractITest;
-import com.github.timeplus.jdbc.TimeplusArray;
-import com.github.timeplus.misc.BytesHelper;
+import com.timeplus.jdbc.AbstractITest;
+import com.timeplus.jdbc.TimeplusArray;
+import com.timeplus.misc.BytesHelper;
 import com.google.common.base.Strings;
 import org.junit.jupiter.api.Test;
 

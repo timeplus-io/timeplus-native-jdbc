@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.misc;
+package com.timeplus.misc;
 
-import com.github.timeplus.exception.InvalidOperationException;
+import com.timeplus.exception.InvalidOperationException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

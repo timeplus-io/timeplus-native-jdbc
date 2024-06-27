@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc.tool;
+package com.timeplus.jdbc.tool;
 
 import org.mockito.Mockito;
 

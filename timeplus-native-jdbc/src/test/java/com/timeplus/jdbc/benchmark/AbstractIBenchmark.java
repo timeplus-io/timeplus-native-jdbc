@@ -12,10 +12,10 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc.benchmark;
+package com.timeplus.jdbc.benchmark;
 
-import com.github.timeplus.jdbc.AbstractITest;
-import com.github.timeplus.jdbc.TimeplusDriver;
+import com.timeplus.jdbc.AbstractITest;
+import com.timeplus.jdbc.TimeplusDriver;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;

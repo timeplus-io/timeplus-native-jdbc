@@ -11,9 +11,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.exception.TimeplusSQLException;
+import com.timeplus.exception.TimeplusSQLException;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;

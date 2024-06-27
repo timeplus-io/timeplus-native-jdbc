@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.buffer;
+package com.timeplus.buffer;
 
-import com.github.timeplus.jdbc.tool.FragmentBuffedReader;
+import com.timeplus.jdbc.tool.FragmentBuffedReader;
 import io.airlift.compress.Compressor;
 import io.airlift.compress.lz4.Lz4Compressor;
 import org.junit.jupiter.api.Test;

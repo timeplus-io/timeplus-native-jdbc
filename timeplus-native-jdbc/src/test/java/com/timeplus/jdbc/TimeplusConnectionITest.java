@@ -12,10 +12,10 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.jdbc.tool.LocalKeyStoreConfig;
-import com.github.timeplus.settings.KeyStoreConfig;
+import com.timeplus.jdbc.tool.LocalKeyStoreConfig;
+import com.timeplus.settings.KeyStoreConfig;
 import org.junit.jupiter.api.Test;
 
 import java.sql.ResultSet;

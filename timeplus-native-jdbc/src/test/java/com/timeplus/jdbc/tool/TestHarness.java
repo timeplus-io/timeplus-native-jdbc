@@ -12,11 +12,11 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc.tool;
+package com.timeplus.jdbc.tool;
 
-import com.github.timeplus.jdbc.AbstractITest;
-import com.github.timeplus.log.Logger;
-import com.github.timeplus.log.LoggerFactory;
+import com.timeplus.jdbc.AbstractITest;
+import com.timeplus.log.Logger;
+import com.timeplus.log.LoggerFactory;
 import com.google.common.base.Joiner;
 
 import java.sql.Array;
