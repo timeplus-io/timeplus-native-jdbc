@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;

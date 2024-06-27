@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.jdbc.tool.TestHarness;
+import com.timeplus.jdbc.tool.TestHarness;
 import org.junit.jupiter.api.Test;
 
 /**

@@ -12,11 +12,11 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc.tool;
+package com.timeplus.jdbc.tool;
 
 import java.io.IOException;
 
-import com.github.timeplus.buffer.BuffedReader;
+import com.timeplus.buffer.BuffedReader;
 
 public class FragmentBuffedReader implements BuffedReader {
 

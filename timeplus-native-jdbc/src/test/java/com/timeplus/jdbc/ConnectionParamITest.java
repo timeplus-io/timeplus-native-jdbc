@@ -12,11 +12,11 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.exception.InvalidValueException;
-import com.github.timeplus.settings.TimeplusConfig;
-import com.github.timeplus.settings.SettingKey;
+import com.timeplus.exception.InvalidValueException;
+import com.timeplus.settings.TimeplusConfig;
+import com.timeplus.settings.SettingKey;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

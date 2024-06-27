@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc.tool;
+package com.timeplus.jdbc.tool;
 
-import com.github.timeplus.settings.KeyStoreConfig;
+import com.timeplus.settings.KeyStoreConfig;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

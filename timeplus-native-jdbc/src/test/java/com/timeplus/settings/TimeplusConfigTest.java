@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.settings;
+package com.timeplus.settings;
 
-import com.github.timeplus.serde.SettingType;
+import com.timeplus.serde.SettingType;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.Charset;

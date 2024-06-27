@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.exception.InvalidValueException;
+import com.timeplus.exception.InvalidValueException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;

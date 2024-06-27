@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.settings.TimeplusDefines;
+import com.timeplus.settings.TimeplusDefines;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;

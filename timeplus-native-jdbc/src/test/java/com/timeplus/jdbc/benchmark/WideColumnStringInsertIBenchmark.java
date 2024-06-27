@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc.benchmark;
+package com.timeplus.jdbc.benchmark;
 
 import com.google.common.base.Strings;
 import org.openjdk.jmh.annotations.Benchmark;

@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc.benchmark;
+package com.timeplus.jdbc.benchmark;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Param;

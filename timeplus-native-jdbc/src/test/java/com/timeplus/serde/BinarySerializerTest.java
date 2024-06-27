@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.serde;
+package com.timeplus.serde;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.github.timeplus.buffer.ByteArrayWriter;
+import com.timeplus.buffer.ByteArrayWriter;
 
 class BinarySerializerTest {
     private BinarySerializer serializer;

@@ -12,10 +12,10 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.misc.StrUtil;
-import com.github.timeplus.misc.SystemUtil;
+import com.timeplus.misc.StrUtil;
+import com.timeplus.misc.SystemUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.testcontainers.clickhouse.ClickHouseContainer;
 import org.testcontainers.junit.jupiter.Container;

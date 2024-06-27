@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.misc.DateTimeUtil;
+import com.timeplus.misc.DateTimeUtil;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Date;
