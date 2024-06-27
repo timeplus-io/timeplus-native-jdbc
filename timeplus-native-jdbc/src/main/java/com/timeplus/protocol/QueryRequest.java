@@ -12,12 +12,12 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.protocol;
+package com.timeplus.protocol;
 
-import com.github.timeplus.client.NativeContext;
-import com.github.timeplus.serde.BinarySerializer;
-import com.github.timeplus.serde.SettingType;
-import com.github.timeplus.settings.SettingKey;
+import com.timeplus.client.NativeContext;
+import com.timeplus.serde.BinarySerializer;
+import com.timeplus.serde.SettingType;
+import com.timeplus.settings.SettingKey;
 
 import java.io.IOException;
 import java.sql.SQLException;

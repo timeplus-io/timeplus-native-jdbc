@@ -12,24 +12,24 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.client.NativeClient;
-import com.github.timeplus.client.NativeContext;
-import com.github.timeplus.client.SessionState;
-import com.github.timeplus.data.Block;
-import com.github.timeplus.data.DataTypeFactory;
-import com.github.timeplus.jdbc.statement.TimeplusPreparedInsertStatement;
-import com.github.timeplus.jdbc.statement.TimeplusPreparedQueryStatement;
-import com.github.timeplus.jdbc.statement.TimeplusStatement;
-import com.github.timeplus.jdbc.wrapper.SQLConnection;
-import com.github.timeplus.log.Logger;
-import com.github.timeplus.log.LoggerFactory;
-import com.github.timeplus.misc.Validate;
-import com.github.timeplus.protocol.HelloResponse;
-import com.github.timeplus.settings.TimeplusConfig;
-import com.github.timeplus.settings.TimeplusDefines;
-import com.github.timeplus.stream.QueryResult;
+import com.timeplus.client.NativeClient;
+import com.timeplus.client.NativeContext;
+import com.timeplus.client.SessionState;
+import com.timeplus.data.Block;
+import com.timeplus.data.DataTypeFactory;
+import com.timeplus.jdbc.statement.TimeplusPreparedInsertStatement;
+import com.timeplus.jdbc.statement.TimeplusPreparedQueryStatement;
+import com.timeplus.jdbc.statement.TimeplusStatement;
+import com.timeplus.jdbc.wrapper.SQLConnection;
+import com.timeplus.log.Logger;
+import com.timeplus.log.LoggerFactory;
+import com.timeplus.misc.Validate;
+import com.timeplus.protocol.HelloResponse;
+import com.timeplus.settings.TimeplusConfig;
+import com.timeplus.settings.TimeplusDefines;
+import com.timeplus.stream.QueryResult;
 
 import javax.annotation.Nullable;
 import java.net.InetSocketAddress;

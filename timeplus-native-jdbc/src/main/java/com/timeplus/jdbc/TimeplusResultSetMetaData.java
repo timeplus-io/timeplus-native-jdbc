@@ -12,14 +12,14 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc;
+package com.timeplus.jdbc;
 
-import com.github.timeplus.data.Block;
-import com.github.timeplus.data.type.complex.DataTypeNullable;
-import com.github.timeplus.log.Logger;
-import com.github.timeplus.log.LoggerFactory;
-import com.github.timeplus.jdbc.wrapper.SQLResultSetMetaData;
-import com.github.timeplus.settings.TimeplusDefines;
+import com.timeplus.data.Block;
+import com.timeplus.data.type.complex.DataTypeNullable;
+import com.timeplus.log.Logger;
+import com.timeplus.log.LoggerFactory;
+import com.timeplus.jdbc.wrapper.SQLResultSetMetaData;
+import com.timeplus.settings.TimeplusDefines;
 
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;

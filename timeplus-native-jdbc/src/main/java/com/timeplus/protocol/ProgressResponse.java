@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.protocol;
+package com.timeplus.protocol;
 
-import com.github.timeplus.serde.BinaryDeserializer;
+import com.timeplus.serde.BinaryDeserializer;
 
 import java.io.IOException;
 

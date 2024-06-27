@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.settings;
+package com.timeplus.settings;
 
 public class KeyStoreConfig {
     private String keyStoreType;

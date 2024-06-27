@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.buffer;
+package com.timeplus.buffer;
 
 import java.io.IOException;
 

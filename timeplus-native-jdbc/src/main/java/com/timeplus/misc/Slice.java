@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.misc;
+package com.timeplus.misc;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;

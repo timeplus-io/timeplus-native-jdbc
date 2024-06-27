@@ -12,11 +12,11 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.misc;
+package com.timeplus.misc;
 
-import com.github.timeplus.exception.TimeplusException;
-import com.github.timeplus.exception.TimeplusSQLException;
-import com.github.timeplus.settings.TimeplusErrCode;
+import com.timeplus.exception.TimeplusException;
+import com.timeplus.exception.TimeplusSQLException;
+import com.timeplus.settings.TimeplusErrCode;
 
 import javax.annotation.Nullable;
 import java.util.function.BiFunction;

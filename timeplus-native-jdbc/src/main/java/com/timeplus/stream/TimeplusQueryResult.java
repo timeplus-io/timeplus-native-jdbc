@@ -12,16 +12,16 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.stream;
+package com.timeplus.stream;
 
-import com.github.timeplus.data.Block;
-import com.github.timeplus.misc.CheckedIterator;
-import com.github.timeplus.misc.CheckedSupplier;
-import com.github.timeplus.protocol.DataResponse;
-import com.github.timeplus.protocol.EOFStreamResponse;
-import com.github.timeplus.protocol.ProgressResponse;
-import com.github.timeplus.protocol.Response;
-import com.github.timeplus.protocol.listener.ProgressListener;
+import com.timeplus.data.Block;
+import com.timeplus.misc.CheckedIterator;
+import com.timeplus.misc.CheckedSupplier;
+import com.timeplus.protocol.DataResponse;
+import com.timeplus.protocol.EOFStreamResponse;
+import com.timeplus.protocol.ProgressResponse;
+import com.timeplus.protocol.Response;
+import com.timeplus.protocol.listener.ProgressListener;
 
 import java.sql.SQLException;
 

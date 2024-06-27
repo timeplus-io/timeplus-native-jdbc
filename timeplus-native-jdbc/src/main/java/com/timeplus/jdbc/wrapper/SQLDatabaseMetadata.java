@@ -12,10 +12,10 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc.wrapper;
+package com.timeplus.jdbc.wrapper;
 
-import com.github.timeplus.exception.NotImplementedException;
-import com.github.timeplus.log.Logging;
+import com.timeplus.exception.NotImplementedException;
+import com.timeplus.log.Logging;
 
 import java.sql.*;
 

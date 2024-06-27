@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.protocol.listener;
+package com.timeplus.protocol.listener;
 
-import com.github.timeplus.protocol.ProgressResponse;
+import com.timeplus.protocol.ProgressResponse;
 
 public interface ProgressListener {
     void onProgress(ProgressResponse progressResponse);

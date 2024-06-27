@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc.statement;
+package com.timeplus.jdbc.statement;
 
 import static com.github.timeplus.misc.ExceptionUtil.unchecked;
 
@@ -31,45 +31,45 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import com.github.timeplus.client.NativeContext;
-import com.github.timeplus.data.Block;
-import com.github.timeplus.data.IColumn;
-import com.github.timeplus.data.IDataType;
-import com.github.timeplus.data.type.DataTypeBool;
-import com.github.timeplus.data.type.DataTypeDate;
-import com.github.timeplus.data.type.DataTypeDate32;
-import com.github.timeplus.data.type.DataTypeFloat32;
-import com.github.timeplus.data.type.DataTypeFloat64;
-import com.github.timeplus.data.type.DataTypeInt16;
-import com.github.timeplus.data.type.DataTypeInt32;
-import com.github.timeplus.data.type.DataTypeInt64;
-import com.github.timeplus.data.type.DataTypeInt8;
-import com.github.timeplus.data.type.DataTypeUInt16;
-import com.github.timeplus.data.type.DataTypeUInt32;
-import com.github.timeplus.data.type.DataTypeUInt64;
-import com.github.timeplus.data.type.DataTypeUInt8;
-import com.github.timeplus.data.type.DataTypeUUID;
-import com.github.timeplus.data.type.complex.DataTypeArray;
-import com.github.timeplus.data.type.complex.DataTypeDateTime;
-import com.github.timeplus.data.type.complex.DataTypeDateTime64;
-import com.github.timeplus.data.type.complex.DataTypeDecimal;
-import com.github.timeplus.data.type.complex.DataTypeFixedString;
-import com.github.timeplus.data.type.complex.DataTypeMap;
-import com.github.timeplus.data.type.complex.DataTypeNothing;
-import com.github.timeplus.data.type.complex.DataTypeNullable;
-import com.github.timeplus.data.type.complex.DataTypeString;
-import com.github.timeplus.data.type.complex.DataTypeTuple;
-import com.github.timeplus.exception.TimeplusSQLException;
-import com.github.timeplus.jdbc.TimeplusArray;
-import com.github.timeplus.jdbc.TimeplusConnection;
-import com.github.timeplus.jdbc.TimeplusStruct;
-import com.github.timeplus.log.Logger;
-import com.github.timeplus.log.LoggerFactory;
-import com.github.timeplus.misc.BytesCharSeq;
-import com.github.timeplus.misc.DateTimeUtil;
-import com.github.timeplus.misc.ExceptionUtil;
-import com.github.timeplus.misc.Validate;
-import com.github.timeplus.stream.ValuesWithParametersNativeInputFormat;
+import com.timeplus.client.NativeContext;
+import com.timeplus.data.Block;
+import com.timeplus.data.IColumn;
+import com.timeplus.data.IDataType;
+import com.timeplus.data.type.DataTypeBool;
+import com.timeplus.data.type.DataTypeDate;
+import com.timeplus.data.type.DataTypeDate32;
+import com.timeplus.data.type.DataTypeFloat32;
+import com.timeplus.data.type.DataTypeFloat64;
+import com.timeplus.data.type.DataTypeInt16;
+import com.timeplus.data.type.DataTypeInt32;
+import com.timeplus.data.type.DataTypeInt64;
+import com.timeplus.data.type.DataTypeInt8;
+import com.timeplus.data.type.DataTypeUInt16;
+import com.timeplus.data.type.DataTypeUInt32;
+import com.timeplus.data.type.DataTypeUInt64;
+import com.timeplus.data.type.DataTypeUInt8;
+import com.timeplus.data.type.DataTypeUUID;
+import com.timeplus.data.type.complex.DataTypeArray;
+import com.timeplus.data.type.complex.DataTypeDateTime;
+import com.timeplus.data.type.complex.DataTypeDateTime64;
+import com.timeplus.data.type.complex.DataTypeDecimal;
+import com.timeplus.data.type.complex.DataTypeFixedString;
+import com.timeplus.data.type.complex.DataTypeMap;
+import com.timeplus.data.type.complex.DataTypeNothing;
+import com.timeplus.data.type.complex.DataTypeNullable;
+import com.timeplus.data.type.complex.DataTypeString;
+import com.timeplus.data.type.complex.DataTypeTuple;
+import com.timeplus.exception.TimeplusSQLException;
+import com.timeplus.jdbc.TimeplusArray;
+import com.timeplus.jdbc.TimeplusConnection;
+import com.timeplus.jdbc.TimeplusStruct;
+import com.timeplus.log.Logger;
+import com.timeplus.log.LoggerFactory;
+import com.timeplus.misc.BytesCharSeq;
+import com.timeplus.misc.DateTimeUtil;
+import com.timeplus.misc.ExceptionUtil;
+import com.timeplus.misc.Validate;
+import com.timeplus.stream.ValuesWithParametersNativeInputFormat;
 
 public class TimeplusPreparedInsertStatement extends AbstractPreparedStatement {
 

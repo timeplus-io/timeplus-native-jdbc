@@ -12,10 +12,10 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.protocol;
+package com.timeplus.protocol;
 
-import com.github.timeplus.data.Block;
-import com.github.timeplus.serde.BinarySerializer;
+import com.timeplus.data.Block;
+import com.timeplus.serde.BinarySerializer;
 
 import java.io.IOException;
 import java.sql.SQLException;

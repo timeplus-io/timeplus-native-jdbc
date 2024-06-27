@@ -12,35 +12,35 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.data;
+package com.timeplus.data;
 
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import com.github.timeplus.client.NativeContext;
-import com.github.timeplus.data.type.DataTypeDate;
-import com.github.timeplus.data.type.DataTypeDate32;
-import com.github.timeplus.data.type.DataTypeFloat32;
-import com.github.timeplus.data.type.DataTypeFloat64;
-import com.github.timeplus.data.type.DataTypeIPv4;
-import com.github.timeplus.data.type.DataTypeIPv6;
-import com.github.timeplus.data.type.DataTypeInt16;
-import com.github.timeplus.data.type.DataTypeInt32;
-import com.github.timeplus.data.type.DataTypeInt64;
-import com.github.timeplus.data.type.DataTypeInt8;
-import com.github.timeplus.data.type.DataTypeBool;
-import com.github.timeplus.data.type.DataTypeUInt16;
-import com.github.timeplus.data.type.DataTypeUInt32;
-import com.github.timeplus.data.type.DataTypeUInt64;
-import com.github.timeplus.data.type.DataTypeUInt8;
-import com.github.timeplus.data.type.DataTypeUUID;
-import com.github.timeplus.data.type.complex.*;
-import com.github.timeplus.misc.LRUCache;
-import com.github.timeplus.misc.SQLLexer;
-import com.github.timeplus.misc.Validate;
-import com.github.timeplus.settings.TimeplusDefines;
+import com.timeplus.client.NativeContext;
+import com.timeplus.data.type.DataTypeDate;
+import com.timeplus.data.type.DataTypeDate32;
+import com.timeplus.data.type.DataTypeFloat32;
+import com.timeplus.data.type.DataTypeFloat64;
+import com.timeplus.data.type.DataTypeIPv4;
+import com.timeplus.data.type.DataTypeIPv6;
+import com.timeplus.data.type.DataTypeInt16;
+import com.timeplus.data.type.DataTypeInt32;
+import com.timeplus.data.type.DataTypeInt64;
+import com.timeplus.data.type.DataTypeInt8;
+import com.timeplus.data.type.DataTypeBool;
+import com.timeplus.data.type.DataTypeUInt16;
+import com.timeplus.data.type.DataTypeUInt32;
+import com.timeplus.data.type.DataTypeUInt64;
+import com.timeplus.data.type.DataTypeUInt8;
+import com.timeplus.data.type.DataTypeUUID;
+import com.timeplus.data.type.complex.*;
+import com.timeplus.misc.LRUCache;
+import com.timeplus.misc.SQLLexer;
+import com.timeplus.misc.Validate;
+import com.timeplus.settings.TimeplusDefines;
 
 public class DataTypeFactory {
     private static final LRUCache<String, IDataType<?, ?>> DATA_TYPE_CACHE = new LRUCache<>(TimeplusDefines.DATA_TYPE_CACHE_SIZE);

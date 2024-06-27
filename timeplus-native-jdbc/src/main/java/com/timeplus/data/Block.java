@@ -12,13 +12,13 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.data;
+package com.timeplus.data;
 
-import com.github.timeplus.client.NativeContext;
-import com.github.timeplus.data.BlockInfo.Setting;
-import com.github.timeplus.misc.Validate;
-import com.github.timeplus.serde.BinaryDeserializer;
-import com.github.timeplus.serde.BinarySerializer;
+import com.timeplus.client.NativeContext;
+import com.timeplus.data.BlockInfo.Setting;
+import com.timeplus.misc.Validate;
+import com.timeplus.serde.BinaryDeserializer;
+import com.timeplus.serde.BinarySerializer;
 
 import java.io.IOException;
 import java.sql.SQLException;

@@ -12,11 +12,11 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.buffer;
+package com.timeplus.buffer;
 
 import java.io.IOException;
 
-import com.github.timeplus.misc.BytesHelper;
+import com.timeplus.misc.BytesHelper;
 import io.airlift.compress.Decompressor;
 import io.airlift.compress.lz4.Lz4Decompressor;
 import io.airlift.compress.zstd.ZstdDecompressor;

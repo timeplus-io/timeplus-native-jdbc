@@ -12,11 +12,11 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.protocol.listener;
+package com.timeplus.protocol.listener;
 
-import com.github.timeplus.log.Logger;
-import com.github.timeplus.log.LoggerFactory;
-import com.github.timeplus.protocol.ProgressResponse;
+import com.timeplus.log.Logger;
+import com.timeplus.log.LoggerFactory;
+import com.timeplus.protocol.ProgressResponse;
 
 public class DefaultProgressListener implements ProgressListener {
 

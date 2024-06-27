@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.log;
+package com.timeplus.log;
 
 public class Slf4jLogger implements Logger {
 

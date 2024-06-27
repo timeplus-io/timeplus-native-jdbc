@@ -12,10 +12,10 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.protocol;
+package com.timeplus.protocol;
 
-import com.github.timeplus.serde.BinaryDeserializer;
-import com.github.timeplus.settings.TimeplusDefines;
+import com.timeplus.serde.BinaryDeserializer;
+import com.timeplus.settings.TimeplusDefines;
 
 import java.io.IOException;
 import java.time.ZoneId;

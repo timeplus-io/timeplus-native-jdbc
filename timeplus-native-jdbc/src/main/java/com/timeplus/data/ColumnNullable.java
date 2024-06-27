@@ -12,10 +12,10 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.data;
+package com.timeplus.data;
 
-import com.github.timeplus.data.type.complex.DataTypeNullable;
-import com.github.timeplus.serde.BinarySerializer;
+import com.timeplus.data.type.complex.DataTypeNullable;
+import com.timeplus.serde.BinarySerializer;
 
 import javax.annotation.Nullable;
 import java.io.IOException;

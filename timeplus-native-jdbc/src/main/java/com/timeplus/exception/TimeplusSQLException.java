@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.exception;
+package com.timeplus.exception;
 
 import java.sql.SQLException;
 

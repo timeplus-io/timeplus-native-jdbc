@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.data.type.complex;
+package com.timeplus.data.type.complex;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -20,13 +20,13 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.time.*;
 
-import com.github.timeplus.client.NativeContext;
-import com.github.timeplus.data.IDataType;
-import com.github.timeplus.misc.DateTimeUtil;
-import com.github.timeplus.misc.SQLLexer;
-import com.github.timeplus.misc.Validate;
-import com.github.timeplus.serde.BinaryDeserializer;
-import com.github.timeplus.serde.BinarySerializer;
+import com.timeplus.client.NativeContext;
+import com.timeplus.data.IDataType;
+import com.timeplus.misc.DateTimeUtil;
+import com.timeplus.misc.SQLLexer;
+import com.timeplus.misc.Validate;
+import com.timeplus.serde.BinaryDeserializer;
+import com.timeplus.serde.BinarySerializer;
 
 public class DataTypeDateTime implements IDataType<ZonedDateTime, Timestamp> {
 

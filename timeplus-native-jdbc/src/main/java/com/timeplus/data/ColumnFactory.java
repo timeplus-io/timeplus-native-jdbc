@@ -12,12 +12,12 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.data;
+package com.timeplus.data;
 
-import com.github.timeplus.data.type.complex.DataTypeArray;
-import com.github.timeplus.data.type.complex.DataTypeMap;
-import com.github.timeplus.data.type.complex.DataTypeNullable;
-import com.github.timeplus.data.type.complex.DataTypeTuple;
+import com.timeplus.data.type.complex.DataTypeArray;
+import com.timeplus.data.type.complex.DataTypeMap;
+import com.timeplus.data.type.complex.DataTypeNullable;
+import com.timeplus.data.type.complex.DataTypeTuple;
 
 public class ColumnFactory {
 

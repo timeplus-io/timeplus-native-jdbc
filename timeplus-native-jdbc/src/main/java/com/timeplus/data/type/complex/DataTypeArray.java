@@ -12,16 +12,16 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.data.type.complex;
+package com.timeplus.data.type.complex;
 
-import com.github.timeplus.data.DataTypeFactory;
-import com.github.timeplus.data.IDataType;
-import com.github.timeplus.data.type.DataTypeInt64;
-import com.github.timeplus.jdbc.TimeplusArray;
-import com.github.timeplus.misc.SQLLexer;
-import com.github.timeplus.misc.Validate;
-import com.github.timeplus.serde.BinaryDeserializer;
-import com.github.timeplus.serde.BinarySerializer;
+import com.timeplus.data.DataTypeFactory;
+import com.timeplus.data.IDataType;
+import com.timeplus.data.type.DataTypeInt64;
+import com.timeplus.jdbc.TimeplusArray;
+import com.timeplus.misc.SQLLexer;
+import com.timeplus.misc.Validate;
+import com.timeplus.serde.BinaryDeserializer;
+import com.timeplus.serde.BinarySerializer;
 
 import java.io.IOException;
 import java.sql.Array;

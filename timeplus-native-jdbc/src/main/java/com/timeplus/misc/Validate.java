@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.misc;
+package com.timeplus.misc;
 
-import com.github.timeplus.exception.InvalidValueException;
+import com.timeplus.exception.InvalidValueException;
 
 import javax.annotation.Nullable;
 import java.sql.SQLException;

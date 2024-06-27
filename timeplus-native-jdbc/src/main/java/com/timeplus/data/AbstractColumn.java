@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.data;
+package com.timeplus.data;
 
 public abstract class AbstractColumn implements IColumn {
 

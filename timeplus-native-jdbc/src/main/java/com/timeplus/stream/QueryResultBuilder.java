@@ -12,13 +12,13 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.stream;
+package com.timeplus.stream;
 
-import com.github.timeplus.client.NativeContext;
-import com.github.timeplus.data.*;
-import com.github.timeplus.misc.CheckedIterator;
-import com.github.timeplus.misc.Validate;
-import com.github.timeplus.protocol.DataResponse;
+import com.timeplus.client.NativeContext;
+import com.timeplus.data.*;
+import com.timeplus.misc.CheckedIterator;
+import com.timeplus.misc.Validate;
+import com.timeplus.protocol.DataResponse;
 
 import java.sql.SQLException;
 import java.util.*;

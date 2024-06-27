@@ -12,10 +12,10 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.misc;
+package com.timeplus.misc;
 
-import com.github.timeplus.client.NativeContext;
-import com.github.timeplus.settings.SettingKey;
+import com.timeplus.client.NativeContext;
+import com.timeplus.settings.SettingKey;
 
 import javax.annotation.Nullable;
 import java.sql.Timestamp;

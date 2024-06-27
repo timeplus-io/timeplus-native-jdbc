@@ -12,12 +12,12 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc.statement;
+package com.timeplus.jdbc.statement;
 
 
-import com.github.timeplus.jdbc.TimeplusConnection;
-import com.github.timeplus.client.NativeContext;
-import com.github.timeplus.misc.DateTimeUtil;
+import com.timeplus.jdbc.TimeplusConnection;
+import com.timeplus.client.NativeContext;
+import com.timeplus.misc.DateTimeUtil;
 
 import java.sql.Date;
 import java.sql.ResultSet;

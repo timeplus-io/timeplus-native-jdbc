@@ -12,10 +12,10 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.protocol;
+package com.timeplus.protocol;
 
-import com.github.timeplus.exception.TimeplusSQLException;
-import com.github.timeplus.serde.BinaryDeserializer;
+import com.timeplus.exception.TimeplusSQLException;
+import com.timeplus.serde.BinaryDeserializer;
 
 import java.io.IOException;
 import java.sql.SQLException;

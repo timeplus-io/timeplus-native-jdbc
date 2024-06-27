@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.stream;
+package com.timeplus.stream;
 
-import com.github.timeplus.data.Block;
+import com.timeplus.data.Block;
 
 import java.sql.SQLException;
 

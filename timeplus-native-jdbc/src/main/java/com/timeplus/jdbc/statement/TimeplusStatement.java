@@ -12,23 +12,23 @@
  * limitations under the License.
  */
 
-package com.github.timeplus.jdbc.statement;
+package com.timeplus.jdbc.statement;
 
-import com.github.timeplus.client.NativeContext;
-import com.github.timeplus.data.Block;
-import com.github.timeplus.jdbc.TimeplusConnection;
-import com.github.timeplus.jdbc.TimeplusResultSet;
-import com.github.timeplus.jdbc.wrapper.SQLStatement;
-import com.github.timeplus.log.Logger;
-import com.github.timeplus.log.LoggerFactory;
-import com.github.timeplus.misc.ExceptionUtil;
-import com.github.timeplus.misc.Validate;
-import com.github.timeplus.protocol.listener.ProgressListener;
-import com.github.timeplus.settings.TimeplusConfig;
-import com.github.timeplus.settings.SettingKey;
-import com.github.timeplus.stream.TimeplusQueryResult;
-import com.github.timeplus.stream.QueryResult;
-import com.github.timeplus.stream.ValuesNativeInputFormat;
+import com.timeplus.client.NativeContext;
+import com.timeplus.data.Block;
+import com.timeplus.jdbc.TimeplusConnection;
+import com.timeplus.jdbc.TimeplusResultSet;
+import com.timeplus.jdbc.wrapper.SQLStatement;
+import com.timeplus.log.Logger;
+import com.timeplus.log.LoggerFactory;
+import com.timeplus.misc.ExceptionUtil;
+import com.timeplus.misc.Validate;
+import com.timeplus.protocol.listener.ProgressListener;
+import com.timeplus.settings.TimeplusConfig;
+import com.timeplus.settings.SettingKey;
+import com.timeplus.stream.TimeplusQueryResult;
+import com.timeplus.stream.QueryResult;
+import com.timeplus.stream.ValuesNativeInputFormat;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
