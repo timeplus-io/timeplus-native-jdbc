@@ -14,7 +14,7 @@
 
 package examples;
 
-import com.github.timeplus.jdbc.BalancedTimeplusDataSource;
+import com.timeplus.jdbc.BalancedTimeplusDataSource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.BeforeEach;
