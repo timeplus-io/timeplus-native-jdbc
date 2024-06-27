@@ -33,6 +33,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.timeplus</groupId>
+            <artifactId>proton-jdbc</artifactId>
+            <version>0.6.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>io.airlift</groupId>
             <artifactId>aircompressor</artifactId>
         </dependency>
