@@ -78,7 +78,7 @@ class SparkDateITest extends AbstractITest with Logging {
       .write
       .format("jdbc")
       .mode("overwrite")
-      .option("driver", "com.github.timeplus.jdbc.TimeplusDriver")
+      .option("driver", "com.timeplus.jdbc.TimeplusDriver")
       .option("url", getJdbcUrl)
       .option("user", "default")
       .option("password", "")
@@ -90,7 +90,7 @@ class SparkDateITest extends AbstractITest with Logging {
 
     val rows = spark.read
       .format("jdbc")
-      .option("driver", "com.github.timeplus.jdbc.TimeplusDriver")
+      .option("driver", "com.timeplus.jdbc.TimeplusDriver")
       .option("url", getJdbcUrl)
       .option("user", "default")
       .option("password", "")

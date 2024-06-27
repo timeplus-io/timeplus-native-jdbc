@@ -33,7 +33,7 @@ public abstract class AbstractITest implements Serializable {
 
     protected static final ZoneId CLIENT_TZ = ZoneId.systemDefault();
     protected static final ZoneId SERVER_TZ = ZoneId.of("UTC");
-    protected static final String DRIVER_CLASS_NAME = "com.github.timeplus.jdbc.TimeplusDriver";
+    protected static final String DRIVER_CLASS_NAME = "com.timeplus.jdbc.TimeplusDriver";
 
     public static final String TIMEPLUS_IMAGE = System.getProperty("TIMEPLUS_IMAGE", "timeplus/timeplusd:develop");
     // public static DockerImageName proton_image = DockerImageName.parse(CLICKHOUSE_IMAGE).asCompatibleSubstituteFor("clickhouse/clickhouse-server");

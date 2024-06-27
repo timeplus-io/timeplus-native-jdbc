@@ -15,7 +15,7 @@ Spark 3.2 推荐使用 [Spark Timeplus Connector](https://github.com/timeplus-io
 
 ```groovy
 // 自 2.4.0 起可用
-compile "com.github.timeplus:timeplus-integration-spark_2.11:${timeplus_native_jdbc_version}"
+compile "com.timeplus:timeplus-integration-spark_2.11:${timeplus_native_jdbc_version}"
 ```
 
 - Maven
@@ -23,7 +23,7 @@ compile "com.github.timeplus:timeplus-integration-spark_2.11:${timeplus_native_j
 ```xml
 <!-- 自 2.4.0 起可用 -->
 <dependency>
-    <groupId>com.github.timeplus</groupId>
+    <groupId>com.timeplus</groupId>
     <artifactId>timeplus-integration-spark_2.11</artifactId>
     <version>${timeplus-native-jdbc.version}</version>
 </dependency>
@@ -42,7 +42,7 @@ compile "com.github.timeplus:timeplus-integration-spark_2.11:${timeplus_native_j
 ```scala
 val df = spark.read
     .format("jdbc")
-    .option("driver", "com.github.timeplus.jdbc.TimeplusDriver")
+    .option("driver", "com.timeplus.jdbc.TimeplusDriver")
     .option("url", "jdbc:timeplus://127.0.0.1:8463")
     .option("user", "default")
     .option("password", "")
@@ -56,7 +56,7 @@ val df = spark.read
 df.write
     .format("jdbc")
     .mode("overwrite")
-    .option("driver", "com.github.timeplus.jdbc.TimeplusDriver")
+    .option("driver", "com.timeplus.jdbc.TimeplusDriver")
     .option("url", "jdbc:timeplus://127.0.0.1:8463")
     .option("user", "default")
     .option("password", "")
@@ -67,4 +67,4 @@ df.write
     .save
 ```
 
-更多参考 [SparkOnTimeplusITest](https://github.com/timeplus-io/timeplus-native-jdbc/timeplus-integration/timeplus-integration-spark/src/test/scala/com.github.timeplus-io.jdbc.spark/SparkOnTimeplusITest.scala)
+更多参考 [SparkOnTimeplusITest](https://github.com/timeplus-io/timeplus-native-jdbc/timeplus-integration/timeplus-integration-spark/src/test/scala/com.timeplus-io.jdbc.spark/SparkOnTimeplusITest.scala)

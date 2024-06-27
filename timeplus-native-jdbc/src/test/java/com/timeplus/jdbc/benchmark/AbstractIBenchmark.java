@@ -69,7 +69,7 @@ public class AbstractIBenchmark {
         int port;
         switch (connectionType) {
             case NATIVE:
-                Class.forName("com.github.timeplus.jdbc.TimeplusDriver");
+                Class.forName("com.timeplus.jdbc.TimeplusDriver");
                 DriverManager.registerDriver(nativeDriver);
                 port = container.getMappedPort(TIMEPLUS_NATIVE_PORT);
                 break;

@@ -3,7 +3,7 @@ Timeplus Native JDBC
 
 [![Build Status](https://github.com/timeplus-io/timeplus-native-jdbc/workflows/build/badge.svg?branch=master)](https://github.com/timeplus-io/timeplus-native-jdbc/actions?query=workflow%3Abuild+branch%3Amaster)
 [![codecov.io](https://codecov.io/github/timeplus-io/timepllus-native-jdbc/coverage.svg?branch=master)](https://codecov.io/github/timeplus-io/timeplus-native-jdbc?branch=master)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.timeplus-io/timeplus-native-jdbc-parent/badge.svg)](https://search.maven.org/search?q=com.github.timeplus)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.timeplus-io/timeplus-native-jdbc-parent/badge.svg)](https://search.maven.org/search?q=com.timeplus)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/timeplus-io/timeplus-native-jdbc.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/timeplus-io/timeplus-native-jdbc/alerts/)
 [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/timeplus-io/timeplus-native-jdbc.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/timeplus-io/timeplus-native-jdbc/context:java)
 [![License](https://img.shields.io/github/license/timeplus-io/timeplus-native-jdbc)](https://github.com/timeplus-io/timeplus-native-jdbc/blob/master/LICENSE)
@@ -41,10 +41,10 @@ We welcome anyone that wants to help out in any way, whether that includes repor
 - Gradle
 ```groovy
 // (recommended) shaded version, available since 2.3-stable
-compile "com.github.timeplus:timeplus-native-jdbc-shaded:${timeplus_native_jdbc_version}"
+compile "com.timeplus:timeplus-native-jdbc-shaded:${timeplus_native_jdbc_version}"
 
 // normal version
-compile "com.github.timeplus:timeplus-native-jdbc:${timeplus_native_jdbc_version}"
+compile "com.timeplus:timeplus-native-jdbc:${timeplus_native_jdbc_version}"
 ```
 
 - Maven
@@ -52,14 +52,14 @@ compile "com.github.timeplus:timeplus-native-jdbc:${timeplus_native_jdbc_version
 ```xml
 <!-- (recommended) shaded version, available since 2.3-stable -->
 <dependency>
-    <groupId>com.github.timeplus</groupId>
+    <groupId>com.timeplus</groupId>
     <artifactId>timeplus-native-jdbc-shaded</artifactId>
     <version>${timeplus-native-jdbc.version}</version>
 </dependency>
 
         <!-- normal version -->
 <dependency>
-<groupId>com.github.timeplus</groupId>
+<groupId>com.timeplus</groupId>
 <artifactId>timeplus-native-jdbc</artifactId>
 <version>${timeplus-native-jdbc.version}</version>
 </dependency>
@@ -83,7 +83,7 @@ but Spark official support on Java 11 since 3.0.0.
 
 ```groovy
 // available since 2.4.0
-compile "com.github.timeplus:timeplus-integration-spark_2.11:${timeplus_native_jdbc_version}"
+compile "com.timeplus:timeplus-integration-spark_2.11:${timeplus_native_jdbc_version}"
 ```
 
 - Maven
@@ -91,7 +91,7 @@ compile "com.github.timeplus:timeplus-integration-spark_2.11:${timeplus_native_j
 ```xml
 <!-- available since 2.4.0 -->
 <dependency>
-    <groupId>com.github.timeplus</groupId>
+    <groupId>com.timeplus</groupId>
     <artifactId>timeplus-integration-spark_2.11</artifactId>
     <version>${timeplus-native-jdbc.version}</version>
 </dependency>

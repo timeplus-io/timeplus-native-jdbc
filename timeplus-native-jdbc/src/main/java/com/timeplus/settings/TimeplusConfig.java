@@ -29,7 +29,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import static com.github.timeplus.jdbc.TimeplusJdbcUrlParser.HOST_DELIMITER;
+import static com.timeplus.jdbc.TimeplusJdbcUrlParser.HOST_DELIMITER;
 
 @Immutable
 public class TimeplusConfig implements Serializable {

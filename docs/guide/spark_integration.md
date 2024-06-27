@@ -16,7 +16,7 @@ but Spark official support on Java 11 since 3.0.0.
 
 ```groovy
 // available since 2.4.0
-compile "com.github.timeplus:timeplus-integration-spark_2.11:${timeplus_native_jdbc_version}"
+compile "com.timeplus:timeplus-integration-spark_2.11:${timeplus_native_jdbc_version}"
 ```
 
 - Maven
@@ -24,7 +24,7 @@ compile "com.github.timeplus:timeplus-integration-spark_2.11:${timeplus_native_j
 ```xml
 <!-- available since 2.4.0 -->
 <dependency>
-    <groupId>com.github.timeplus</groupId>
+    <groupId>com.timeplus</groupId>
     <artifactId>timeplus-integration-spark_2.11</artifactId>
     <version>${timeplus-native-jdbc.version}</version>
 </dependency>
@@ -43,7 +43,7 @@ Read from Timeplus to DataFrame
 ```scala
 val df = spark.read
     .format("jdbc")
-    .option("driver", "com.github.timeplus.jdbc.TimeplusDriver")
+    .option("driver", "com.timeplus.jdbc.TimeplusDriver")
     .option("url", "jdbc:timeplus://127.0.0.1:8463")
     .option("user", "default")
     .option("password", "")
@@ -57,7 +57,7 @@ Write DataFrame to Timeplus (support `truncate table`)
 df.write
     .format("jdbc")
     .mode("overwrite")
-    .option("driver", "com.github.timeplus.jdbc.TimeplusDriver")
+    .option("driver", "com.timeplus.jdbc.TimeplusDriver")
     .option("url", "jdbc:timeplus://127.0.0.1:8463")
     .option("user", "default")
     .option("password", "")
@@ -68,4 +68,4 @@ df.write
     .save
 ```
 
-See also [SparkOnTimeplusITest](https://github.com/timeplus-io/timeplus-native-jdbc/timeplus-integration/timeplus-integration-spark/src/test/scala/com.github.timeplus.jdbc.spark/SparkOnTimeplusITest.scala)
+See also [SparkOnTimeplusITest](https://github.com/timeplus-io/timeplus-native-jdbc/timeplus-integration/timeplus-integration-spark/src/test/scala/com.timeplus.jdbc.spark/SparkOnTimeplusITest.scala)

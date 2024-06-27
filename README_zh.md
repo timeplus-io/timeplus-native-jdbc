@@ -3,7 +3,7 @@ Timeplus Native JDBC
 
 [![Build Status](https://github.com/timeplus-io/timeplus-native-jdbc/workflows/build/badge.svg?branch=master)](https://github.com/timeplus-io/timeplus-native-jdbc/actions?query=workflow%3Abuild+branch%3Amaster)
 [![codecov.io](https://codecov.io/github/timeplus-io/timeplus-native-jdbc/coverage.svg?branch=master)](https://codecov.io/github/timeplus-io/timeplus-native-jdbc?branch=master)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.timeplus-io/timeplus-native-jdbc-parent/badge.svg)](https://search.maven.org/search?q=com.github.timeplus-io)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.timeplus-io/timeplus-native-jdbc-parent/badge.svg)](https://search.maven.org/search?q=com.timeplus-io)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/timeplus-io/timeplus-native-jdbc.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/timeplus-io/timeplus-native-jdbc/alerts/)
 [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/timeplus-io/timeplus-native-jdbc.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/timeplus-io/timeplus-native-jdbc/context:java)
 [![License](https://img.shields.io/github/license/timeplus-io/timeplus-native-jdbc)](https://github.com/timeplus-io/timeplus-native-jdbc/blob/master/LICENSE)
@@ -42,10 +42,10 @@ Timeplus Native JDBC
 - Gradle
 ```groovy
 // (推荐) shaded 版本，自 2.3-stable 起可用
-compile "com.github.timeplus-io:timeplus-native-jdbc-shaded:${timeplus_native_jdbc_version}"
+compile "com.timeplus-io:timeplus-native-jdbc-shaded:${timeplus_native_jdbc_version}"
 
 // 常规版本
-compile "com.github.timeplus-io:timeplus-native-jdbc:${timeplus_native_jdbc_version}"
+compile "com.timeplus-io:timeplus-native-jdbc:${timeplus_native_jdbc_version}"
 ```
 
 - Maven
@@ -53,14 +53,14 @@ compile "com.github.timeplus-io:timeplus-native-jdbc:${timeplus_native_jdbc_vers
 ```xml
 <!-- (推荐) shaded 版本，自 2.3-stable 起可用 -->
 <dependency>
-    <groupId>com.github.timeplus</groupId>
+    <groupId>com.timeplus</groupId>
     <artifactId>timeplus-native-jdbc-shaded</artifactId>
     <version>${timepus-native-jdbc.version}</version>
 </dependency>
 
         <!-- 常规版本 -->
 <dependency>
-<groupId>com.github.timeplus</groupId>
+<groupId>com.timeplus</groupId>
 <artifactId>timeplus-native-jdbc</artifactId>
 <version>${timeplus-native-jdbc.version}</version>
 </dependency>
@@ -83,7 +83,7 @@ Spark 3.2 推荐使用 [Spark Timeplus Connector](https://github.com/timeplus-io
 
 ```groovy
 // 自 2.4.0 起可用
-compile "com.github.timeplus-io:timeplus-integration-spark_2.11:${timeplus_native_jdbc_version}"
+compile "com.timeplus-io:timeplus-integration-spark_2.11:${timeplus_native_jdbc_version}"
 ```
 
 - Maven
@@ -91,7 +91,7 @@ compile "com.github.timeplus-io:timeplus-integration-spark_2.11:${timeplus_nativ
 ```xml
 <!-- 自 2.4.0 起可用 -->
 <dependency>
-    <groupId>com.github.timeplus</groupId>
+    <groupId>com.timeplus</groupId>
     <artifactId>timeplus-integration-spark_2.11</artifactId>
     <version>${timeplus-native-jdbc.version}</version>
 </dependency>

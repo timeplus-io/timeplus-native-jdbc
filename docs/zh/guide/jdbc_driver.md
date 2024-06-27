@@ -11,10 +11,10 @@
 - Gradle
 ```groovy
 // (推荐) shaded 版本，自 2.3-stable 起可用
-compile "com.github.timeplus:timeplus-native-jdbc-shaded:${timeplus_native_jdbc_version}"
+compile "com.timeplus:timeplus-native-jdbc-shaded:${timeplus_native_jdbc_version}"
 
 // 常规版本
-compile "com.github.timeplus:timeplus-native-jdbc:${timeplus_native_jdbc_version}"
+compile "com.timeplus:timeplus-native-jdbc:${timeplus_native_jdbc_version}"
 ```
 
 - Maven
@@ -22,14 +22,14 @@ compile "com.github.timeplus:timeplus-native-jdbc:${timeplus_native_jdbc_version
 ```xml
 <!-- (推荐) shaded 版本，自 2.3-stable 起可用 -->
 <dependency>
-    <groupId>com.github.timeplus</groupId>
+    <groupId>com.timeplus</groupId>
     <artifactId>timeplus-native-jdbc-shaded</artifactId>
     <version>${timeplus-native-jdbc.version}</version>
 </dependency>
 
         <!-- 常规版本 -->
 <dependency>
-<groupId>com.github.timeplus</groupId>
+<groupId>com.timeplus</groupId>
 <artifactId>timeplus-native-jdbc</artifactId>
 <version>${timeplus-native-jdbc.version}</version>
 </dependency>
