@@ -38,9 +38,6 @@ public class TimeplusJdbcUrlParser {
     public static final String PORT_DELIMITER = ":";
 
     /**
-     * Jdbc Url sames like:
-     * '//[host1][:port1],[host2][:port2],[host3][:port3]]...[/[database]][?propertyName1=propertyValue1[&propertyName2=propertyValue2]...]'
-     *
      * Default_port is used when port does not exist.
      */
     public static final Pattern CONNECTION_PATTERN = Pattern.compile("//(?<hosts>([^/?:,\\s]+(:\\d+)?)(,[^/?:,\\s]+(:\\d+)?)*)" // hosts: required; starts with "//" followed by any char except "/", "?"
