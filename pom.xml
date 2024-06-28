@@ -17,14 +17,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.timeplus</groupId>
+    <groupId>com.timeplus</groupId>
     <artifactId>timeplus-native-jdbc-parent</artifactId>
-    <version>2.8.0-SNAPSHOT</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
     <name>Timeplus Native JDBC POM</name>
     <description>Timeplus Native Protocol JDBC implementation</description>
     <url>https://github.com/timeplus-io/timeplus-native-jdbc</url>
+    <inceptionYear>2021</inceptionYear>
+
+    <organization>
+        <name>Timeplus, Inc.</name>
+        <url>https://timeplus.com/</url>
+    </organization>
 
     <scm>
         <url>https://github.com/timeplus-io/timeplus-native-jdbc</url>
@@ -58,20 +64,27 @@
             <email>379377944@qq.com</email>
             <timezone>8</timezone>
         </developer>
+        <developer>
+            <id>jovezhong</id>
+            <name>Jove Zhong</name>
+            <email>jove@timeplus.com</email>
+            <timezone>-1</timezone>
+        </developer>
     </developers>
 
     <modules>
-        <module>timeplus-integration</module>
         <module>timeplus-native-jdbc</module>
         <module>timeplus-native-jdbc-shaded</module>
         <module>examples</module>
     </modules>
 
     <properties>
-        <deploy.repo.snapshots.id>sonatype-nexus-snapshots</deploy.repo.snapshots.id>
-        <deploy.repo.snapshots.url>https://oss.sonatype.org/content/repositories/snapshots</deploy.repo.snapshots.url>
-        <deploy.repo.release.id>sonatype-nexus-staging</deploy.repo.release.id>
-        <deploy.repo.release.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</deploy.repo.release.url>
+        <revision>2.0.0</revision>
+
+        <deploy.repo.snapshots.id>ossrh</deploy.repo.snapshots.id>
+        <deploy.repo.snapshots.url>https://s01.oss.sonatype.org/content/repositories/snapshots</deploy.repo.snapshots.url>
+        <deploy.repo.release.id>ossrh</deploy.repo.release.id>
+        <deploy.repo.release.url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</deploy.repo.release.url>
 
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -137,33 +150,23 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.github.timeplus</groupId>
-                <artifactId>timeplus-integration</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.timeplus</groupId>
-                <artifactId>timeplus-integration-spark_${scala.binary.version}</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.timeplus</groupId>
+                <groupId>com.timeplus</groupId>
                 <artifactId>timeplus-native-jdbc</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.timeplus</groupId>
+                <groupId>com.timeplus</groupId>
                 <artifactId>timeplus-native-jdbc</artifactId>
                 <type>test-jar</type>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.timeplus</groupId>
+                <groupId>com.timeplus</groupId>
                 <artifactId>timeplus-native-jdbc-shaded</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.timeplus</groupId>
+                <groupId>com.timeplus</groupId>
                 <artifactId>examples</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -488,7 +491,7 @@
                             <!-- disallow unsafe reflective access: -->
                             <bundledSignature>jdk-reflection</bundledSignature>
                         </bundledSignatures>
-                        <excludes>**/*jmhTest.class</excludes>
+                        <excludes>**/*jmhTest.class,**/Simple*.class</excludes>
                     </configuration>
                     <executions>
                         <execution>
@@ -543,6 +546,30 @@
             <plugin>
                 <groupId>de.thetaphi</groupId>
                 <artifactId>forbiddenapis</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.5.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <deploymentName>com.timeplus:timeplus-native-jdbc:${revision}</deploymentName>
+                    <checksums>required</checksums>
+                    <excludeArtifacts>examples,timeplus-native-jdbc-shaded</excludeArtifacts>
+                    <skipPublishing>true</skipPublishing>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <!--<autoReleaseAfterClose>true</autoReleaseAfterClose>-->
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -624,6 +651,7 @@
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
+                                <phase>package</phase>
                                 <goals>
                                     <goal>jar</goal>
                                 </goals>
@@ -640,6 +668,14 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
+                                <configuration>
+                                    <keyname>0x30D1923D</keyname>
+                                    <passphraseServerId>0x30D1923D</passphraseServerId>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

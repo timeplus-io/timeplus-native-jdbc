@@ -534,16 +534,16 @@ remap_executable: false
 # * [Debian/Ubuntu]
 # export MVN_URL=https://repo1.maven.org/maven2/ru/yandex//proton-jdbc-bridge
 # export PKG_VER=$(curl -sL $MVN_URL/maven-metadata.xml | grep '<release>' | sed -e 's|.*>\(.*\)<.*|\1|')
-# wget https://github.com/proton/proton-jdbc-bridge/releases/download/v$PKG_VER/proton-jdbc-bridge_$PKG_VER-1_all.deb
+# wget https://github.com/clickhouse/clickhouse-jdbc-bridge/releases/download/v$PKG_VER/proton-jdbc-bridge_$PKG_VER-1_all.deb
 # apt install --no-install-recommends -f ./proton-jdbc-bridge_$PKG_VER-1_all.deb
 # proton-jdbc-bridge &
 # * [CentOS/RHEL]
 # export MVN_URL=https://repo1.maven.org/maven2/ru/yandex/proton/proton-jdbc-bridge
 # export PKG_VER=$(curl -sL $MVN_URL/maven-metadata.xml | grep '<release>' | sed -e 's|.*>\(.*\)<.*|\1|')
-# wget https://github.com/proton/proton-jdbc-bridge/releases/download/v$PKG_VER/proton-jdbc-bridge-$PKG_VER-1.noarch.rpm
-# yum localinstall -y proton-jdbc-bridge-$PKG_VER-1.noarch.rpm
+# wget https://github.com/clickhouse/clickhouse-jdbc-bridge/releases/download/v$PKG_VER/proton-jdbc-bridge-$PKG_VER-1.noarch.rpm
+# yum localinstall -y clickhouse-jdbc-bridge-$PKG_VER-1.noarch.rpm
 # proton-jdbc-bridge &
-# Please refer to https://github.com/proton/proton-jdbc-bridge#usage for more information.
+# Please refer to https://github.com/clickhouse/clickhouse-jdbc-bridge#usage for more information.
 
 # jdbc_bridge:
 #     host: 127.0.0.1
@@ -571,7 +571,7 @@ remap_executable: false
 
 # ZooKeeper is used to store metadata about replicas, when using Replicated tables.
 # Optional. If you don't use replicated tables, you could omit that.
-# See https://proton.tech/docs/en/engines/table-engines/mergetree-family/replication/
+# See https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/replication/
 
 # zookeeper:
 #     - node:
@@ -586,7 +586,7 @@ remap_executable: false
 
 # Substitutions for parameters of replicated tables.
 # Optional. If you don't use replicated tables, you could omit that.
-# See https://proton.tech/docs/en/engines/table-engines/mergetree-family/replication/#creating-replicated-tables
+# See https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/replication/#creating-replicated-tables
 # macros:
 #     shard: 01
 #     replica: example01-01-1
@@ -658,7 +658,7 @@ query_log:
   database: system
   table: query_log
 
-  # PARTITION BY expr: https://proton.yandex/docs/en/table_engines/mergetree-family/custom_partitioning_key/
+  # PARTITION BY expr: https://clickhouse.com/docs/en/table_engines/mergetree-family/custom_partitioning_key/
   # Example:
   # event_date
   # toMonday(event_date)
@@ -666,7 +666,7 @@ query_log:
   # toStartOfHour(event_time)
   partition_by: to_YYYYMM(event_date)
 
-  # Table TTL specification: https://proton.tech/docs/en/engines/table-engines/mergetree-family/mergetree/#mergetree-table-ttl
+  # Table TTL specification: https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/mergetree/#mergetree-table-ttl
   # Example:
   # event_date + INTERVAL 1 WEEK
   # event_date + INTERVAL 7 DAY DELETE
@@ -780,7 +780,7 @@ processors_profile_log:
   flush_interval_milliseconds: 7500
 
 # Parameters for embedded dictionaries, used in Yandex.Metrica.
-# See https://proton.yandex/docs/en/dicts/internal_dicts/
+# See https://clickhouse.com/docs/en/dicts/internal_dicts/
 
 # Path to file with region hierarchy.
 # path_to_regions_hierarchy_file: /opt/geo/regions_hierarchy.txt
@@ -800,7 +800,7 @@ top_level_domains_lists: ''
 # public_suffix_list: /path/to/public_suffix_list.dat
 
 # Configuration of external dictionaries. See:
-# https://proton.tech/docs/en/sql-reference/dictionaries/external-dictionaries/external-dicts
+# https://clickhouse.com/docs/en/sql-reference/dictionaries/external-dictionaries/external-dicts
 dictionaries_config: '*_dictionary.xml'
 
 # Uncomment if you want data to be compressed 30-100% better.
