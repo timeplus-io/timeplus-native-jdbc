@@ -202,6 +202,25 @@ The project currently builds its jobs in two environments:
 
 - GitHub Actions for pull requests: https://github.com/timeplus-io/timeplus-native-jdbc/actions
 
+### Publish new version to Maven
+Change the revision number in pom.xml and timeplus-native-jdbc/pom.xml
+
+Make sure you have proper codesign tool, then run the following commmands:
+
+```bash
+mvn clean  javadoc:jar source:jar package gpg:sign install deploy -DskipITs -DskipTests -e
+```
+
+This will geneate target/central-staging folder with required jar/asc/md5/sha1 files.
+
+In some cases,the `asc` file is not properly generated and cannot be verified via `gpg --verify target/central-staging/com/timeplus/timeplus-native-jdbc/2.0.0/timeplus-native-jdbc-2.0.0.jar.asc`
+You may need to regenerate it via `gpg -ab target/central-staging/com/timeplus/timeplus-native-jdbc/2.0.0/timeplus-native-jdbc-2.0.0.jar`
+
+Then you turn the com folder to a zip file and create a deployment on https://central.sonatype.com/publishing/deployments with proper name and descript as well as the zip file.
+
+Only jove@timeplus.com is expected to upload new version.
+
+
 ### Summary
 
 Here's a quick check list for a good pull request (PR):
