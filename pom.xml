@@ -61,7 +61,6 @@
     </developers>
 
     <modules>
-        <module>timeplus-integration</module>
         <module>timeplus-native-jdbc</module>
         <module>timeplus-native-jdbc-shaded</module>
         <module>examples</module>
@@ -138,16 +137,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.timeplus</groupId>
-                <artifactId>timeplus-integration</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.timeplus</groupId>
-                <artifactId>timeplus-integration-spark_${scala.binary.version}</artifactId>
-                <version>${project.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.timeplus</groupId>
                 <artifactId>timeplus-native-jdbc</artifactId>
@@ -545,6 +534,15 @@
             <plugin>
                 <groupId>de.thetaphi</groupId>
                 <artifactId>forbiddenapis</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.5.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                </configuration>
             </plugin>
         </plugins>
     </build>
