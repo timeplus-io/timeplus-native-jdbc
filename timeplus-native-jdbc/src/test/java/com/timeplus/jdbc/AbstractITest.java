@@ -17,6 +17,7 @@ package com.timeplus.jdbc;
 import com.timeplus.misc.StrUtil;
 import com.timeplus.misc.SystemUtil;
 import org.junit.jupiter.api.BeforeAll;
+import org.testcontainers.timeplus.TimeplusContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.timeplus.TimeplusContainer;
