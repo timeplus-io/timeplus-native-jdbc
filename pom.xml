@@ -79,7 +79,7 @@
     </modules>
 
     <properties>
-        <revision>2.0.0</revision>
+        <revision>2.0.1</revision>
 
         <deploy.repo.snapshots.id>ossrh</deploy.repo.snapshots.id>
         <deploy.repo.snapshots.url>https://s01.oss.sonatype.org/content/repositories/snapshots</deploy.repo.snapshots.url>
@@ -556,7 +556,7 @@
                     <publishingServerId>central</publishingServerId>
                     <deploymentName>com.timeplus:timeplus-native-jdbc:${revision}</deploymentName>
                     <checksums>required</checksums>
-                    <excludeArtifacts>examples,timeplus-native-jdbc-shaded</excludeArtifacts>
+                    <excludeArtifacts>examples</excludeArtifacts>
                     <skipPublishing>true</skipPublishing>
                 </configuration>
             </plugin>
@@ -668,14 +668,6 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
-                                <configuration>
-                                    <keyname>0x30D1923D</keyname>
-                                    <passphraseServerId>0x30D1923D</passphraseServerId>
-                                    <gpgArguments>
-                                        <arg>--pinentry-mode</arg>
-                                        <arg>loopback</arg>
-                                    </gpgArguments>
-                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
