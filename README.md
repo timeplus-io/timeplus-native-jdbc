@@ -3,7 +3,7 @@ Timeplus Native JDBC
 
 A Native JDBC library for accessing [Timeplus](https://timeplus.com/) in Java with streaming SQL support.
 
-This is a fork of https://github.com/housepower/ClickHouse-Native-JDBC, but revised and enhanced for streaming query processing
+This is a fork of https://github.com/housepower/ClickHouse-Native-JDBC, but revised and enhanced for streaming query processing. If you don't need to run streaming SQL or has lower performance need, you may also use https://github.com/timeplus-io/proton-java-driver.
 
 ## CONTRIBUTE
 
@@ -32,6 +32,10 @@ We welcome anyone that wants to help out in any way, whether that includes repor
 ```groovy
 compile "com.timeplus:timeplus-native-jdbc:${timeplus_native_jdbc_version}"
 ```
+Or use the shade version with dependencies packed in the same JAR.
+```groovy
+compile "com.timeplus:timeplus-native-jdbc-shaded:${timeplus_native_jdbc_version}"
+```
 
 - Maven
 
@@ -39,6 +43,14 @@ compile "com.timeplus:timeplus-native-jdbc:${timeplus_native_jdbc_version}"
 <dependency>
     <groupId>com.timeplus</groupId>
     <artifactId>timeplus-native-jdbc</artifactId>
+    <version>${timeplus-native-jdbc.version}</version>
+</dependency>
+```
+Or use the shade version with dependencies packed in the same JAR.
+```xml
+<dependency>
+    <groupId>com.timeplus</groupId>
+    <artifactId>timeplus-native-jdbc-shaded</artifactId>
     <version>${timeplus-native-jdbc.version}</version>
 </dependency>
 ```
