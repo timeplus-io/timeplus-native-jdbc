@@ -17,9 +17,9 @@ package com.timeplus.jdbc;
 import com.timeplus.misc.StrUtil;
 import com.timeplus.misc.SystemUtil;
 import org.junit.jupiter.api.BeforeAll;
-import org.testcontainers.clickhouse.ClickHouseContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.timeplus.TimeplusContainer;
 import org.testcontainers.utility.MountableFile;
 
 import javax.sql.DataSource;
@@ -38,28 +38,23 @@ public abstract class AbstractITest implements Serializable {
     public static final String TIMEPLUS_IMAGE = System.getProperty("TIMEPLUS_IMAGE", "timeplus/timeplusd:develop");
     // public static DockerImageName proton_image = DockerImageName.parse(CLICKHOUSE_IMAGE).asCompatibleSubstituteFor("clickhouse/clickhouse-server");
 
-    protected static final String TIMEPLUS_USER = SystemUtil.loadProp("CLICKHOUSE_USER", "system");
-    protected static final String TIMEPLUS_PASSWORD = SystemUtil.loadProp("CLICKHOUSE_PASSWORD", "sys@t+");
+    protected static final String TIMEPLUS_USER = SystemUtil.loadProp("CLICKHOUSE_USER", "proton");
+    protected static final String TIMEPLUS_PASSWORD = SystemUtil.loadProp("CLICKHOUSE_PASSWORD", "proton@t+");
     protected static final String TIMEPLUS_DB = SystemUtil.loadProp("CLICKHOUSE_DB", "");
 
-    protected static final int TIMEPLUS_HTTP_PORT = 8123;
-    protected static final int TIMEPLUS_HTTPS_PORT = 8123;
+    protected static final int TIMEPLUS_HTTP_PORT = 3218;
     protected static final int TIMEPLUS_NATIVE_PORT = 8463;
-    protected static final int TIMEPLUS_NATIVE_SECURE_PORT = 9440;
 
     @Container
-    public static ClickHouseContainer container = new ClickHouseContainer(TIMEPLUS_IMAGE)
+    public static TimeplusContainer container = new TimeplusContainer(TIMEPLUS_IMAGE)
             .withEnv("CLICKHOUSE_USER", TIMEPLUS_USER)
             .withEnv("CLICKHOUSE_PASSWORD", TIMEPLUS_PASSWORD)
             .withEnv("CLICKHOUSE_DB", TIMEPLUS_DB)
-            .withExposedPorts(TIMEPLUS_HTTP_PORT,
-                    TIMEPLUS_HTTPS_PORT,
-                    TIMEPLUS_NATIVE_PORT,
-                    TIMEPLUS_NATIVE_SECURE_PORT)
+            .withExposedPorts(TIMEPLUS_HTTP_PORT, TIMEPLUS_NATIVE_PORT)
             .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/config/config.yaml"),
                     "/etc/timeplusd-server/config.yaml")
-            .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/config/users.xml"),
-                    "/etc/timeplusd-server/users.xml")
+            .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/config/users.yaml"),
+                    "/etc/timeplusd-server/users.yaml")
             .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/server.key"),
                     "/etc/timeplusd-server/server.key")
             .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/server.crt"),
@@ -89,14 +84,7 @@ public abstract class AbstractITest implements Serializable {
         }
 
         StringBuilder mainStringBuilder = new StringBuilder();
-        int port = 0;
-        if (settingsStringBuilder.indexOf("ssl=true") == -1) {
-            port = container.getMappedPort(TIMEPLUS_NATIVE_PORT);
-        } else {
-            port = container.getMappedPort(TIMEPLUS_NATIVE_SECURE_PORT);
-        }
-
-        mainStringBuilder.append("jdbc:timeplus://").append(container.getHost()).append(":").append(port);
+        mainStringBuilder.append("jdbc:timeplus://").append(container.getHost()).append(":").append(container.getMappedPort(TIMEPLUS_NATIVE_PORT));
         if (StrUtil.isNotEmpty(TIMEPLUS_DB)) {
             mainStringBuilder.append("/").append(container.getDatabaseName());
         }
