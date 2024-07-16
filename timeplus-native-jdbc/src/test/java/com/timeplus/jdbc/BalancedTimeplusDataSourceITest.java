@@ -55,7 +55,7 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
                 pstmt.setString(1, "asd");
                 pstmt.setInt(2, 42);
                 pstmt.execute();
-                
+
                 ResultSet rs = connection.createStatement().executeQuery("SELECT s, i FROM test.insert_test where _tp_time > earliest_ts()");
                 rs.next();
 
