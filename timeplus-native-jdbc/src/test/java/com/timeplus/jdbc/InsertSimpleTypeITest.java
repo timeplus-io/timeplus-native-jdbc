@@ -216,7 +216,7 @@ public class InsertSimpleTypeITest extends AbstractITest {
             statement.executeQuery("DROP STREAM IF EXISTS test");
             statement.executeQuery("CREATE STREAM test(i8 uint8, i16 uint16, i32 uint32, i64 uint64)ENGINE=Memory");
 
-            String insertSQL = "INSERT INTO test(i8, i16, i32) VALUES(" + ((1 << 8) - 1) +
+            String insertSQL = "INSERT INTO test(i8, i16, i32, i64) VALUES(" + ((1 << 8) - 1) +
                     "," + ((1 << 16) - 1) +
                     ",4294967295,-9223372036854775808)";
 

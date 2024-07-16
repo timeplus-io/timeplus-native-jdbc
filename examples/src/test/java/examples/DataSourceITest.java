@@ -29,7 +29,7 @@ public abstract class DataSourceITest extends AbstractITest {
             Statement statement = connection.createStatement();
 
             statement.executeQuery("DROP STREAM IF EXISTS test");
-            statement.executeQuery("CREATE STREAM test(test_uInt16 UInt16, test_Int16 Int16)ENGINE=Log");
+            statement.executeQuery("CREATE STREAM test(test_uInt16 uint16, test_Int16 int16)ENGINE=Memory");
             statement.executeQuery("INSERT INTO test VALUES(" + Short.MAX_VALUE + "," + Short.MIN_VALUE + ")");
             ResultSet rs = statement.executeQuery("SELECT * FROM test ORDER BY test_uInt16");
             assertTrue(rs.next());
