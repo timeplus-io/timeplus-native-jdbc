@@ -14,14 +14,18 @@
 
 package com.timeplus.jdbc;
 
+import com.timeplus.settings.SettingKey;
 import com.timeplus.settings.TimeplusConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.time.Duration;
 import java.util.Locale;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,8 +37,11 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
 
     @BeforeEach
     public void reset() {
-        singleDs = new BalancedTimeplusDataSource(String.format(Locale.ROOT, "jdbc:timeplus://%s:%s", TP_HOST, TP_PORT));
-        dualDs = new BalancedTimeplusDataSource(String.format(Locale.ROOT, "jdbc:timeplus://%s:%s,%s:%s", TP_HOST, TP_PORT, TP_HOST, TP_PORT));
+        Map<SettingKey, Serializable> settings = new HashMap<>();
+        settings.put(SettingKey.user, "proton");
+        settings.put(SettingKey.password, "proton@t+");
+        singleDs = new BalancedTimeplusDataSource(String.format(Locale.ROOT, "jdbc:timeplus://%s:%s", TP_HOST, TP_PORT), settings);
+        dualDs = new BalancedTimeplusDataSource(String.format(Locale.ROOT, "jdbc:timeplus://%s:%s,%s:%s", TP_HOST, TP_PORT, TP_HOST, TP_PORT), settings);
     }
 
     @Test
@@ -42,14 +49,14 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
         withNewConnection(singleDs, connection -> {
             withStatement(connection, stmt -> stmt.execute("CREATE DATABASE IF NOT EXISTS test"));
             withStatement(connection, stmt -> stmt.execute("DROP STREAM IF EXISTS test.insert_test"));
-            withStatement(connection, stmt -> stmt.execute("CREATE STREAM IF NOT EXISTS test.insert_test (i int32, s string) ENGINE = MergeTree()"));
+            withStatement(connection, stmt -> stmt.execute("CREATE STREAM IF NOT EXISTS test.insert_test (i int32, s string)"));
 
             withPreparedStatement(connection, "INSERT INTO test.insert_test (s, i) VALUES (?, ?)", pstmt -> {
                 pstmt.setString(1, "asd");
                 pstmt.setInt(2, 42);
                 pstmt.execute();
 
-                ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM test.insert_test");
+                ResultSet rs = connection.createStatement().executeQuery("SELECT s, i FROM test.insert_test where _tp_time > earliest_ts()");
                 rs.next();
 
                 assertEquals("asd", rs.getString("s"));
@@ -66,7 +73,7 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
 
         withNewConnection(dualDs, connection -> {
             withStatement(connection, stmt -> stmt.execute("DROP STREAM IF EXISTS test.insert_test"));
-            withStatement(connection, stmt -> stmt.execute("CREATE STREAM IF NOT EXISTS test.insert_test (i int32, s string) ENGINE = MergeTree()"));
+            withStatement(connection, stmt -> stmt.execute("CREATE STREAM IF NOT EXISTS test.insert_test (i int32, s string)"));
         });
 
         withNewConnection(dualDs, connection -> {
@@ -76,7 +83,7 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
                 pstmt.execute();
             });
             withStatement(connection, stmt -> {
-                ResultSet rs = stmt.executeQuery("SELECT * FROM test.insert_test");
+                ResultSet rs = stmt.executeQuery("SELECT s, i FROM test.insert_test where _tp_time > earliest_ts()");
                 rs.next();
                 assertEquals("asd", rs.getString("s"));
                 assertEquals(42, rs.getInt("i"));
@@ -91,7 +98,7 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
             });
 
             withStatement(connection, stmt -> {
-                ResultSet rs = stmt.executeQuery("SELECT * from test.insert_test");
+                ResultSet rs = stmt.executeQuery("SELECT s, i FROM test.insert_test where _tp_time > earliest_ts()");
                 rs.next();
 
                 assertEquals("asd", rs.getString("s"));
@@ -120,8 +127,11 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
 
     @Test
     public void testWorkWithEnabledUrl() throws Exception {
+        Map<SettingKey, Serializable> settings = new HashMap<>();
+        settings.put(SettingKey.user, "proton");
+        settings.put(SettingKey.password, "proton@t+");
         BalancedTimeplusDataSource halfDatasource = new BalancedTimeplusDataSource(
-                String.format(Locale.ROOT, "jdbc:timeplus://%s:%s,%s:%s", "not.existed.url", TP_PORT, TP_HOST, TP_PORT), new Properties());
+                String.format(Locale.ROOT, "jdbc:timeplus://%s:%s,%s:%s", "not.existed.url", TP_PORT, TP_HOST, TP_PORT), settings);
 
         halfDatasource.actualize();
 
@@ -131,7 +141,7 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
 
         withNewConnection(halfDatasource, connection -> {
             withStatement(connection, stmt -> stmt.execute("DROP STREAM IF EXISTS test.insert_test"));
-            withStatement(connection, stmt -> stmt.execute("CREATE STREAM IF NOT EXISTS test.insert_test (i int32, s string) ENGINE = MergeTree()"));
+            withStatement(connection, stmt -> stmt.execute("CREATE STREAM IF NOT EXISTS test.insert_test (i int32, s string)"));
         });
 
         withNewConnection(halfDatasource, connection -> {
@@ -142,7 +152,7 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
             });
 
             withStatement(connection, stmt -> {
-                ResultSet rs = stmt.getConnection().createStatement().executeQuery("SELECT * FROM test.insert_test");
+                ResultSet rs = stmt.getConnection().createStatement().executeQuery("SELECT s, i FROM test.insert_test where _tp_time > earliest_ts()");
                 rs.next();
                 assertEquals("asd", rs.getString("s"));
                 assertEquals(42, rs.getInt("i"));
@@ -157,7 +167,7 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
             });
 
             withStatement(connection, stmt -> {
-                ResultSet rs = stmt.executeQuery("SELECT * from test.insert_test");
+                ResultSet rs = stmt.executeQuery("SELECT s, i from test.insert_test where _tp_time > earliest_ts()");
                 rs.next();
                 assertEquals("asd", rs.getString("s"));
                 assertEquals(42, rs.getInt("i"));

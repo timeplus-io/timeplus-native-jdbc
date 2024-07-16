@@ -17,9 +17,9 @@ package com.timeplus.jdbc;
 import com.timeplus.misc.StrUtil;
 import com.timeplus.misc.SystemUtil;
 import org.junit.jupiter.api.BeforeAll;
-import org.testcontainers.clickhouse.ClickHouseContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.timeplus.TimeplusContainer;
 import org.testcontainers.utility.MountableFile;
 
 import javax.sql.DataSource;
@@ -35,20 +35,20 @@ public abstract class AbstractITest implements Serializable {
     protected static final ZoneId SERVER_TZ = ZoneId.of("UTC");
     protected static final String DRIVER_CLASS_NAME = "com.timeplus.jdbc.TimeplusDriver";
 
-    public static final String TIMEPLUS_IMAGE = System.getProperty("TIMEPLUS_IMAGE", "timeplus/timeplusd:develop");
+    public static final String TIMEPLUS_IMAGE = System.getProperty("TIMEPLUS_IMAGE", "timeplus/timeplusd:2.3.3");
     // public static DockerImageName proton_image = DockerImageName.parse(CLICKHOUSE_IMAGE).asCompatibleSubstituteFor("clickhouse/clickhouse-server");
 
-    protected static final String TIMEPLUS_USER = SystemUtil.loadProp("CLICKHOUSE_USER", "system");
-    protected static final String TIMEPLUS_PASSWORD = SystemUtil.loadProp("CLICKHOUSE_PASSWORD", "sys@t+");
+    protected static final String TIMEPLUS_USER = SystemUtil.loadProp("CLICKHOUSE_USER", "");
+    protected static final String TIMEPLUS_PASSWORD = SystemUtil.loadProp("CLICKHOUSE_PASSWORD", "");
     protected static final String TIMEPLUS_DB = SystemUtil.loadProp("CLICKHOUSE_DB", "");
 
-    protected static final int TIMEPLUS_HTTP_PORT = 8123;
-    protected static final int TIMEPLUS_HTTPS_PORT = 8123;
+    protected static final int TIMEPLUS_HTTP_PORT = 3218;
+    protected static final int TIMEPLUS_HTTPS_PORT = 3218;
     protected static final int TIMEPLUS_NATIVE_PORT = 8463;
-    protected static final int TIMEPLUS_NATIVE_SECURE_PORT = 9440;
+    protected static final int TIMEPLUS_NATIVE_SECURE_PORT = 8463;
 
     @Container
-    public static ClickHouseContainer container = new ClickHouseContainer(TIMEPLUS_IMAGE)
+    public static TimeplusContainer container = new TimeplusContainer(TIMEPLUS_IMAGE)
             .withEnv("CLICKHOUSE_USER", TIMEPLUS_USER)
             .withEnv("CLICKHOUSE_PASSWORD", TIMEPLUS_PASSWORD)
             .withEnv("CLICKHOUSE_DB", TIMEPLUS_DB)
@@ -56,10 +56,10 @@ public abstract class AbstractITest implements Serializable {
                     TIMEPLUS_HTTPS_PORT,
                     TIMEPLUS_NATIVE_PORT,
                     TIMEPLUS_NATIVE_SECURE_PORT)
-            .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/config/config.yaml"),
-                    "/etc/timeplusd-server/config.yaml")
-            .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/config/users.xml"),
-                    "/etc/timeplusd-server/users.xml")
+            // .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/config/config.yaml"),
+            //         "/etc/timeplusd-server/config.yaml")
+            .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/config/users.yaml"),
+                    "/etc/timeplusd-server/users.yaml")
             .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/server.key"),
                     "/etc/timeplusd-server/server.key")
             .withCopyFileToContainer(MountableFile.forClasspathResource("timeplus/server.crt"),
@@ -83,7 +83,7 @@ public abstract class AbstractITest implements Serializable {
 
     protected String getJdbcUrl(Object... params) {
         StringBuilder settingsStringBuilder = new StringBuilder();
-        for (int i = 0; i + 1 < params.length; i++) {
+        for (int i = 0; i + 1 < params.length; i+=2) {
             settingsStringBuilder.append(i == 0 ? "?" : "&");
             settingsStringBuilder.append(params[i]).append("=").append(params[i + 1]);
         }

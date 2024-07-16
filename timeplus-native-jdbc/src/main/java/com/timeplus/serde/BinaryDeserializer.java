@@ -149,4 +149,5 @@ public class BinaryDeserializer {
         switcher.get().readBinary(bytes);
         return bytes;
     }
+
 }

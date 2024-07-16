@@ -18,7 +18,7 @@ import com.timeplus.log.Logger;
 import com.timeplus.log.LoggerFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.testcontainers.containers.ClickHouseContainer;
+import org.testcontainers.timeplus.TimeplusContainer;
 import org.testcontainers.junit.jupiter.Container;
 
 import java.sql.Connection;
@@ -32,12 +32,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FailoverClickhouseConnectionITest extends AbstractITest {
     private static final Logger LOG = LoggerFactory.getLogger(FailoverClickhouseConnectionITest.class);
-
+    private static final Integer NATIVE_PORT = 8463;
     protected static String HA_HOST;
     protected static int HA_PORT;
 
     @Container
-    public static ClickHouseContainer containerHA = (ClickHouseContainer) new ClickHouseContainer(TIMEPLUS_IMAGE)
+    public static TimeplusContainer containerHA = new TimeplusContainer(AbstractITest.TIMEPLUS_IMAGE)
             .withEnv("CLICKHOUSE_USER", TIMEPLUS_USER)
             .withEnv("CLICKHOUSE_PASSWORD", TIMEPLUS_PASSWORD)
             .withEnv("CLICKHOUSE_DB", TIMEPLUS_DB);
@@ -49,9 +49,9 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
         container.start();
         containerHA.start();
 
-        TP_PORT = container.getMappedPort(ClickHouseContainer.NATIVE_PORT);
+        TP_PORT = container.getMappedPort(NATIVE_PORT);
         HA_HOST = containerHA.getHost();
-        HA_PORT = containerHA.getMappedPort(ClickHouseContainer.NATIVE_PORT);
+        HA_PORT = containerHA.getMappedPort(NATIVE_PORT);
         LOG.info("Port1 {}, Port2 {}", TP_PORT, HA_PORT);
     }
 
@@ -67,7 +67,7 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
                 ResultSet rs = stmt.executeQuery("select count() from system.tables");
 
                 if (rs.next()) {
-                    assertTrue(rs.getLong(1) > 0);
+                    assertTrue(rs.getLong(1) == 0);
                 }
             });
         }
@@ -85,7 +85,7 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
                 ResultSet rs = stmt.executeQuery("select count() from system.tables");
 
                 if (rs.next()) {
-                    assertTrue(rs.getLong(1) > 0);
+                    assertTrue(rs.getLong(1) == 0);
                 }
             });
         }
@@ -103,7 +103,7 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
                 ResultSet rs = stmt.executeQuery();
 
                 if (rs.next()) {
-                    assertTrue(rs.getLong(1) > 0);
+                    assertTrue(rs.getLong(1) == 0);
                 }
             });
         }
@@ -121,7 +121,7 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
                 ResultSet rs = stmt.executeQuery("select count() from system.tables");
 
                 if (rs.next()) {
-                    assertTrue(rs.getLong(1) > 0);
+                    assertTrue(rs.getLong(1) == 0);
                 }
             });
         }

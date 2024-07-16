@@ -12,14 +12,14 @@
  * limitations under the License.
  */
 
- package com.timeplus.jdbc.type;
+package com.timeplus.jdbc.type;
 
- import com.timeplus.jdbc.AbstractITest;
- import com.timeplus.misc.BytesHelper;
- import org.junit.jupiter.api.Test;
- import java.sql.PreparedStatement;
- import java.sql.ResultSet;
- import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.timeplus.jdbc.AbstractITest;
+import com.timeplus.misc.BytesHelper;
+import org.junit.jupiter.api.Test;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 
