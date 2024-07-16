@@ -20,6 +20,7 @@ import com.timeplus.misc.Switcher;
 import com.timeplus.settings.TimeplusDefines;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
@@ -36,8 +37,8 @@ public class BinarySerializer {
             compressWriter = new CompressedBuffedWriter(TimeplusDefines.SOCKET_SEND_BUFFER_BYTES, writer);
         }
         switcher = new Switcher<>(compressWriter, writer);
-        // max num of byte is 8 for double and long
-        writeBuffer = new byte[8];
+        // max num of byte is 32 for Int256
+        writeBuffer = new byte[32];
     }
 
     public void writeVarInt(long x) throws IOException {
@@ -98,6 +99,26 @@ public class BinarySerializer {
         writeBuffer[7] = (byte) ((i >> 56) & 0xFF);
         switcher.get().writeBinary(writeBuffer, 0, 8);
         // @formatter:on
+    }
+
+    public void writeBigInteger(BigInteger value, int length) throws IOException {
+        byte empty = value.signum() == -1 ? (byte) 0xFF : 0x00;
+        byte[] bytes = value.toByteArray();
+        int endIndex = bytes.length == length + 1 && bytes[0] == (byte) 0 ? 1 : 0;
+        int Index = 0;
+
+
+        for (int j = bytes.length - 1; j >= endIndex; j--) {
+            writeBuffer[Index++] = bytes[j];
+        }
+
+
+        for (int j = length - bytes.length; j > 0; j--) {
+            writeBuffer[Index++] = empty;
+        }
+
+
+        switcher.get().writeBinary(writeBuffer, 0, length);
     }
 
     public void writeUTF8StringBinary(String utf8) throws IOException {
