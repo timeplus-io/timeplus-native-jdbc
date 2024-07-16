@@ -124,4 +124,130 @@ public class DecimalTypeITest extends AbstractITest implements BytesHelper {
 
         assertEquals(negative, value);
     }
+
+    @Test
+    public void testDecimal32Type() throws Exception {
+        withStatement(statement -> {
+            BigDecimal value32 = BigDecimal.valueOf(1.32);
+            value32 = value32.setScale(2, RoundingMode.HALF_UP);
+
+            statement.execute("DROP STREAM IF EXISTS decimal32_test");
+            statement.execute("CREATE STREAM IF NOT EXISTS decimal32_test (value32 decimal32(2)) Engine=Memory()");
+
+            try (PreparedStatement pstmt = statement.getConnection().prepareStatement("INSERT INTO decimal32_test"
+                    + "(value32) "
+                    + "values(?);")) {
+                for (int i = 0; i < 300; i++) {
+                    pstmt.setBigDecimal(1, value32);
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
+            ResultSet rs = statement.executeQuery("SELECT * FROM decimal32_test;");
+            int size = 0;
+            while (rs.next()) {
+                size++;
+                BigDecimal rsValue32 = rs.getBigDecimal(1);
+                assertEquals(value32, rsValue32);
+            }
+            assertEquals(300, size);
+
+            statement.execute("DROP STREAM IF EXISTS decimal32_test");
+        });
+    }
+
+    @Test
+    public void testDecimal64Type() throws Exception {
+        withStatement(statement -> {
+            BigDecimal value64 = new BigDecimal("12343143412341.21");
+            value64 = value64.setScale(5, RoundingMode.HALF_UP);
+
+            statement.execute("DROP STREAM IF EXISTS decimal64_test");
+            statement.execute("CREATE STREAM IF NOT EXISTS decimal64_test (value64 decimal64(5)) Engine=Memory()");
+
+            try (PreparedStatement pstmt = statement.getConnection().prepareStatement("INSERT INTO decimal64_test"
+                    + "(value64) "
+                    + "values(?);")) {
+                for (int i = 0; i < 300; i++) {
+                    pstmt.setBigDecimal(1, value64);
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
+            ResultSet rs = statement.executeQuery("SELECT * FROM decimal64_test;");
+            int size = 0;
+            while (rs.next()) {
+                size++;
+                BigDecimal rsValue64 = rs.getBigDecimal(1);
+                assertEquals(value64, rsValue64);
+            }
+            assertEquals(300, size);
+
+            statement.execute("DROP STREAM IF EXISTS decimal64_test");
+        }, "allow_experimental_bigint_types", 1);
+    }
+
+    @Test
+    public void testDecimal128Type() throws Exception {
+        withStatement(statement -> {
+            BigDecimal value128 = new BigDecimal(Strings.repeat("1", (38 - 16)));
+            value128 = value128.setScale(16, RoundingMode.HALF_UP);
+
+            statement.execute("DROP STREAM IF EXISTS decimal128_test");
+            statement.execute("CREATE STREAM IF NOT EXISTS decimal128_test (value128 decimal128(16)) Engine=Memory()");
+
+            try (PreparedStatement pstmt = statement.getConnection().prepareStatement("INSERT INTO decimal128_test"
+                    + "(value128) "
+                    + "values(?);")) {
+                for (int i = 0; i < 300; i++) {
+                    pstmt.setBigDecimal(1, value128);
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
+            ResultSet rs = statement.executeQuery("SELECT * FROM decimal128_test;");
+            int size = 0;
+            while (rs.next()) {
+                size++;
+                BigDecimal rsValue128 = rs.getBigDecimal(1);
+                assertEquals(value128, rsValue128);
+            }
+            assertEquals(300, size);
+
+            statement.execute("DROP STREAM IF EXISTS decimal128_test");
+        }, "allow_experimental_bigint_types", 1);
+    }
+
+    @Test
+    public void testDecimal256Type() throws Exception {
+        withStatement(statement -> {
+            BigDecimal value256 = new BigDecimal(Strings.repeat("1", (76 - 26)));
+            value256 = value256.setScale(26, RoundingMode.HALF_UP);
+
+
+            statement.execute("DROP STREAM IF EXISTS decimal256_test");
+            statement.execute("CREATE STREAM IF NOT EXISTS decimal256_test (value256 decimal256(26)) Engine=Memory()");
+
+            try (PreparedStatement pstmt = statement.getConnection().prepareStatement("INSERT INTO decimal256_test"
+                    + "(value256) "
+                    + "values(?);")) {
+                for (int i = 0; i < 300; i++) {
+                    pstmt.setBigDecimal(1, value256);
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
+            ResultSet rs = statement.executeQuery("SELECT * FROM decimal256_test;");
+            int size = 0;
+            while (rs.next()) {
+                size++;
+                BigDecimal rsValue256 = rs.getBigDecimal(1);
+                assertEquals(value256, rsValue256);
+            }
+            assertEquals(300, size);
+
+            statement.execute("DROP STREAM IF EXISTS decimal256_test");
+        }, "allow_experimental_bigint_types", 1);
+    }
+    
 }

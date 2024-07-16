@@ -41,10 +41,14 @@ import com.timeplus.data.type.DataTypeDate32;
 import com.timeplus.data.type.DataTypeFloat32;
 import com.timeplus.data.type.DataTypeFloat64;
 import com.timeplus.data.type.DataTypeInt16;
+import com.timeplus.data.type.DataTypeInt256;
 import com.timeplus.data.type.DataTypeInt32;
 import com.timeplus.data.type.DataTypeInt64;
+import com.timeplus.data.type.DataTypeInt128;
 import com.timeplus.data.type.DataTypeInt8;
+import com.timeplus.data.type.DataTypeUInt128;
 import com.timeplus.data.type.DataTypeUInt16;
+import com.timeplus.data.type.DataTypeUInt256;
 import com.timeplus.data.type.DataTypeUInt32;
 import com.timeplus.data.type.DataTypeUInt64;
 import com.timeplus.data.type.DataTypeUInt8;
@@ -277,7 +281,7 @@ public class TimeplusPreparedInsertStatement extends AbstractPreparedStatement {
             if (obj instanceof Number)
                 return ((Number) obj).longValue();
         }
-        if (type instanceof DataTypeUInt64) {
+        if (type instanceof DataTypeUInt64 || type instanceof DataTypeInt128 || type instanceof DataTypeInt256 || type instanceof DataTypeUInt128 || type instanceof DataTypeUInt256) {
             if (obj instanceof BigInteger)
                 return obj;
             if (obj instanceof BigDecimal)

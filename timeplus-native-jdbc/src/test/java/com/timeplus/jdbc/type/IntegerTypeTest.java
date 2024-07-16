@@ -17,8 +17,11 @@ package com.timeplus.jdbc.type;
 import com.timeplus.jdbc.AbstractITest;
 import com.timeplus.misc.BytesHelper;
 import org.junit.jupiter.api.Test;
+import com.timeplus.jdbc.TimeplusResultSet;
+import java.math.BigInteger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Types;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -288,4 +291,130 @@ public class IntegerTypeTest extends AbstractITest implements BytesHelper {
             statement.execute("DROP STREAM IF EXISTS int64_test");
         });
     }
+
+    @Test
+    public void testInt128() throws Exception {
+        withStatement(statement -> {
+            statement.execute("DROP STREAM IF EXISTS int128_test");
+            statement.execute("CREATE STREAM IF NOT EXISTS int128_test (value int128, nullableValue nullable(int128)) Engine=Memory()");
+            Integer rowCnt = 300;
+            try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
+                    "INSERT INTO int128_test (value, nullableValue) values(?, ?);")) {
+                for (int i = 0; i < rowCnt; i++) {
+                    BigInteger value = new BigInteger("12345678901234567890123456789012");
+                    BigInteger nullableValue = new BigInteger("2");
+                    pstmt.setObject(1, value, Types.BIGINT);
+                    pstmt.setObject(2, nullableValue, Types.BIGINT);
+                    
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
+            TimeplusResultSet rs = (TimeplusResultSet) statement.executeQuery("SELECT * FROM int128_test;");
+            int size = 0;
+            while (rs.next()) {
+                size++;
+                BigInteger value = rs.getBigInteger(1);
+                BigInteger nullableValue = rs.getBigInteger(2);
+                assertEquals(value, new BigInteger("12345678901234567890123456789012"));
+                assertEquals(nullableValue, new BigInteger("2"));
+            }
+            assertEquals(size, rowCnt);
+            statement.execute("DROP STREAM IF EXISTS int128_test");
+        });
+    }
+
+    @Test
+    public void testInt256() throws Exception {
+        withStatement(statement -> {
+            statement.execute("DROP STREAM IF EXISTS int256_test");
+            statement.execute("CREATE STREAM IF NOT EXISTS int256_test (value int256, nullableValue nullable(int256)) Engine=Memory()");
+            Integer rowCnt = 10;
+            try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
+                    "INSERT INTO int256_test (value, nullableValue) values(?, ?);")) {
+                for (int i = 0; i < rowCnt; i++) {
+                    BigInteger value = new BigInteger("1234567890123456789012345678901212345678901234567890123456789012");
+                    BigInteger nullableValue = new BigInteger("-210987654321098");
+                    pstmt.setObject(1, value, Types.BIGINT);
+                    pstmt.setObject(2, nullableValue, Types.BIGINT);
+
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
+            TimeplusResultSet rs = (TimeplusResultSet) statement.executeQuery("SELECT * FROM int256_test;");
+            int size = 0;
+            while (rs.next()) {
+                size++;
+                BigInteger value = rs.getBigInteger(1);
+                BigInteger nullableValue = rs.getBigInteger(2);
+                assertEquals(value, new BigInteger("1234567890123456789012345678901212345678901234567890123456789012"));
+                assertEquals(nullableValue, new BigInteger("-210987654321098"));
+            }
+            assertEquals(size, rowCnt);
+            statement.execute("DROP STREAM IF EXISTS int256_test");
+        });
+    }
+
+    @Test
+    public void testUint128() throws Exception {
+        withStatement(statement -> {
+            statement.execute("DROP STREAM IF EXISTS uint128_test");
+            statement.execute("CREATE STREAM IF NOT EXISTS uint128_test (value uint128, nullableValue nullable(uint128)) Engine=Memory()");
+            Integer rowCnt = 300;
+            try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
+                    "INSERT INTO uint128_test (value, nullableValue) values(?, ?);")) {
+                for (int i = 0; i < rowCnt; i++) {
+                    BigInteger value = new BigInteger("12345678901234567890123456789012");
+                    BigInteger nullableValue = new BigInteger("2");
+                    pstmt.setObject(1, value, Types.BIGINT);
+                    pstmt.setObject(2, nullableValue, Types.BIGINT);
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
+            TimeplusResultSet rs = (TimeplusResultSet) statement.executeQuery("SELECT * FROM uint128_test;");
+            int size = 0;
+            while (rs.next()) {
+                size++;
+                BigInteger value = rs.getBigInteger(1);
+                BigInteger nullableValue = rs.getBigInteger(2);
+                assertEquals(value, new BigInteger("12345678901234567890123456789012"));
+                assertEquals(nullableValue, new BigInteger("2"));
+            }
+            assertEquals(size, rowCnt);
+            statement.execute("DROP STREAM IF EXISTS uint128_test");
+        });
+    }    
+
+    @Test
+    public void testUint256() throws Exception {
+        withStatement(statement -> {
+            statement.execute("DROP STREAM IF EXISTS uint256_test");
+            statement.execute("CREATE STREAM IF NOT EXISTS uint256_test (value uint256, nullableValue nullable(uint256)) Engine=Memory()");
+            Integer rowCnt = 10;
+            try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
+                    "INSERT INTO uint256_test (value, nullableValue) values(?, ?);")) {
+                for (int i = 0; i < rowCnt; i++) {
+                    BigInteger value = new BigInteger("1234567890123456789012345678901212345678901234567890123456789012");
+                    BigInteger nullableValue = new BigInteger("9876543210987654321098765432109898765432109876543210987654321098");
+                    pstmt.setObject(1, value, Types.BIGINT);
+                    pstmt.setObject(2, nullableValue, Types.BIGINT);
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
+            TimeplusResultSet rs = (TimeplusResultSet) statement.executeQuery("SELECT * FROM uint256_test;");
+            int size = 0;
+            while (rs.next()) {
+                size++;
+                BigInteger value = rs.getBigInteger(1);
+                BigInteger nullableValue = rs.getBigInteger(2);
+                assertEquals(value, new BigInteger("1234567890123456789012345678901212345678901234567890123456789012"));
+                assertEquals(nullableValue, new BigInteger("9876543210987654321098765432109898765432109876543210987654321098"));
+            }
+            assertEquals(size, rowCnt);
+            statement.execute("DROP STREAM IF EXISTS uint256_test");
+        });
+    }    
 }

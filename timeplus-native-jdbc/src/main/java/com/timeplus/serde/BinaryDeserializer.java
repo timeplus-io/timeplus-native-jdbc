@@ -150,4 +150,18 @@ public class BinaryDeserializer {
         return bytes;
     }
 
+    public byte[] reversesBytes(byte[] bytes) throws IOException {
+        int l = bytes != null ? bytes.length : 0;
+        if (l > 1) {
+            for (int i = 0, len = l / 2; i < len; i++) {
+                byte b = bytes[i];
+                --l;
+                bytes[i] = bytes[l];
+                bytes[l] = b;
+            }
+        }
+
+        return bytes;
+    }
+
 }
