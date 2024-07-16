@@ -29,12 +29,16 @@ import com.timeplus.data.type.DataTypeIPv6;
 import com.timeplus.data.type.DataTypeInt16;
 import com.timeplus.data.type.DataTypeInt32;
 import com.timeplus.data.type.DataTypeInt64;
+import com.timeplus.data.type.DataTypeInt128;
+import com.timeplus.data.type.DataTypeInt256;
 import com.timeplus.data.type.DataTypeInt8;
 import com.timeplus.data.type.DataTypeBool;
 import com.timeplus.data.type.DataTypeUInt16;
 import com.timeplus.data.type.DataTypeUInt32;
 import com.timeplus.data.type.DataTypeUInt64;
 import com.timeplus.data.type.DataTypeUInt8;
+import com.timeplus.data.type.DataTypeUInt128;
+import com.timeplus.data.type.DataTypeUInt256;
 import com.timeplus.data.type.DataTypeUUID;
 import com.timeplus.data.type.complex.*;
 import com.timeplus.misc.LRUCache;
@@ -115,11 +119,15 @@ public class DataTypeFactory {
         registerType(creators, new DataTypeInt16());
         registerType(creators, new DataTypeInt32());
         registerType(creators, new DataTypeInt64());
+        registerType(creators, new DataTypeInt128());
+        registerType(creators, new DataTypeInt256());
 
         registerType(creators, new DataTypeUInt8());
         registerType(creators, new DataTypeUInt16());
         registerType(creators, new DataTypeUInt32());
         registerType(creators, new DataTypeUInt64());
+        registerType(creators, new DataTypeUInt128());
+        registerType(creators, new DataTypeUInt256());
 
         registerType(creators, new DataTypeDate());
         registerType(creators, new DataTypeDate32());
