@@ -63,6 +63,7 @@ import com.timeplus.data.type.complex.DataTypeNothing;
 import com.timeplus.data.type.complex.DataTypeNullable;
 import com.timeplus.data.type.complex.DataTypeString;
 import com.timeplus.data.type.complex.DataTypeTuple;
+import com.timeplus.data.type.complex.DataTypeLowCardinality;
 import com.timeplus.exception.TimeplusSQLException;
 import com.timeplus.jdbc.TimeplusArray;
 import com.timeplus.jdbc.TimeplusConnection;
@@ -318,6 +319,9 @@ public class TimeplusPreparedInsertStatement extends AbstractPreparedStatement {
         if (type instanceof DataTypeNullable) {
             // handled null at first, so obj also not null here
             return convertToCkDataType(((DataTypeNullable) type).getNestedDataType(), obj);
+        }
+        if (type instanceof DataTypeLowCardinality) {
+            return convertToCkDataType(((DataTypeLowCardinality) type).getNestedTypes(), obj);
         }
         if (type instanceof DataTypeArray) {
             if (!(obj instanceof TimeplusArray)) {

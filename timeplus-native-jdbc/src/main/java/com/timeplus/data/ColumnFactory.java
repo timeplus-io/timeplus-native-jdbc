@@ -15,6 +15,7 @@
 package com.timeplus.data;
 
 import com.timeplus.data.type.complex.DataTypeArray;
+import com.timeplus.data.type.complex.DataTypeLowCardinality;
 import com.timeplus.data.type.complex.DataTypeMap;
 import com.timeplus.data.type.complex.DataTypeNullable;
 import com.timeplus.data.type.complex.DataTypeTuple;
@@ -30,9 +31,12 @@ public class ColumnFactory {
 
         if (type instanceof DataTypeTuple)
             return new ColumnTuple(name, (DataTypeTuple) type, values);
-        
+
         if (type instanceof DataTypeMap)
            return new ColumnMap(name, (DataTypeMap) type, values);
+
+        if (type instanceof DataTypeLowCardinality)
+           return new ColumnLowCardinality(name, (DataTypeLowCardinality) type, values);
 
         return new Column(name, type, values);
     }

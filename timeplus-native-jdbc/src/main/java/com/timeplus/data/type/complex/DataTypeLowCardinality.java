@@ -16,6 +16,7 @@ package com.timeplus.data.type.complex;
 
 import com.timeplus.data.DataTypeFactory;
 import com.timeplus.data.IDataType;
+import com.timeplus.data.IndexType;
 import com.timeplus.misc.SQLLexer;
 import com.timeplus.misc.Validate;
 import com.timeplus.serde.BinaryDeserializer;
@@ -24,20 +25,21 @@ import com.timeplus.serde.BinarySerializer;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class DataTypeLowCardinality implements IDataType {
+public class DataTypeLowCardinality implements IDataType<Object, Object>  {
 
-    public static DataTypeCreator creator = (lexer, serverContext) -> {
+    public static DataTypeCreator<Object, Object>  creator = (lexer, serverContext) -> {
         Validate.isTrue(lexer.character() == '(');
-        IDataType nestedType = DataTypeFactory.get(lexer, serverContext);
+        IDataType<?, ?>  nestedType = DataTypeFactory.get(lexer, serverContext);
         Validate.isTrue(lexer.character() == ')');
         return new DataTypeLowCardinality(
                 "low_cardinality(" + nestedType.name() + ")", nestedType);
     };
 
     private final String name;
-    private final IDataType nestedDataType;
+    private final IDataType<?, ?>  nestedDataType;
+    private final Long version = 1L;
 
-    public DataTypeLowCardinality(String name, IDataType nestedDataType) {
+    public DataTypeLowCardinality(String name, IDataType<?, ?>  nestedDataType) {
         this.name = name;
         this.nestedDataType = nestedDataType;
     }
@@ -89,12 +91,12 @@ public class DataTypeLowCardinality implements IDataType {
 
     @Override
     public void serializeBinary(Object data, BinarySerializer serializer) throws SQLException, IOException {
-        this.nestedDataType.serializeBinary(data, serializer);
+        getNestedTypes().serializeBinary(data, serializer);
     }
 
     @Override
     public void serializeBinaryBulk(Object[] data, BinarySerializer serializer) throws SQLException, IOException {
-        this.nestedDataType.serializeBinaryBulk(data, serializer);
+        getNestedTypes().serializeBinaryBulk(data, serializer);
     }
 
     @Override
@@ -104,12 +106,46 @@ public class DataTypeLowCardinality implements IDataType {
 
     @Override
     public Object[] deserializeBinaryBulk(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
-        Object[] data = this.nestedDataType.deserializeBinaryBulk(rows, deserializer);
-        return data;
+        if (rows==0) {
+            Object[] data = nestedDataType.deserializeBinaryBulk(rows, deserializer);
+            return data;
+        }
+        else {
+            Long version = deserializer.readLong(); 
+            if (version != this.version) {
+                throw new SQLException("version error in type low_cardinality");
+            }
+            Long index_type = deserializer.readLong() & 0b11111111; //  decide what type it is
+            Long key_nums = deserializer.readLong();
+            Object[] dictionary = nestedDataType.deserializeBinaryBulk(key_nums.intValue(), deserializer);
+            Long row_nums = deserializer.readLong();
+            Object[] data = new Object[rows];
+            for (int i = 0; i < row_nums; i++) {
+                if (index_type == IndexType.UInt8.getValue()) {
+                    data[i]=dictionary[(short) (deserializer.readByte() & 0xff)];
+                }
+                else if (index_type == IndexType.UInt16.getValue()) {
+                    data[i]=dictionary[deserializer.readShort()];
+                }
+                else if (index_type == IndexType.UInt32.getValue()) {
+                    data[i]=dictionary[deserializer.readInt()];
+                }
+                else {
+                    data[i]=dictionary[(int) deserializer.readLong()];
+                }
+                
+            }
+            return data;
+        }   
     }
 
     @Override
     public boolean isSigned() {
         return this.nestedDataType.isSigned();
     }
+
+    public IDataType getNestedTypes() {
+        return nestedDataType;
+    }
+
 }
