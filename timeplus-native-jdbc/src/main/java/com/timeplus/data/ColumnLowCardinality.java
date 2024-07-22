@@ -37,21 +37,13 @@ public class ColumnLowCardinality extends AbstractColumn {
 
     @Override
     public void write(Object object) throws IOException, SQLException {
-        boolean found = false;
-        for (Object obj : dict) {
-            if (obj != null && obj.equals(object)) {
-                found = true;
-                break;
-            }
-        }
-        if (found) {
-            long value = dict.indexOf(object);
+        long value = dict.indexOf(object);
+        if (value != -1) { 
             indexes.add(value);
         }
         else {
+            indexes.add((long) dict.size());
             dict.add(object);
-            long value = dict.indexOf(object);
-            indexes.add(value);
         }
     }
 
@@ -62,15 +54,15 @@ public class ColumnLowCardinality extends AbstractColumn {
             serializer.writeUTF8StringBinary(type.name());
         }
         if (immediate) {
-            serializer.writeLong(version); //  add version
-            serializer.writeLong(IndexType.UInt64.getValue() | IndexType.HasAdditionalKeysBit.getValue()); //  need to judge the type as additional key
-            serializer.writeLong(dict.size()); //  give dictionary type size
+            /// The data layout: [version][index_type][dictionary][indexes]
+            serializer.writeLong(version);
+            serializer.writeLong(IndexType.UInt64.getValue() | IndexType.HasAdditionalKeysBit.getValue());
+            serializer.writeLong(dict.size());
             for (int i = 0; i < dict.size(); i++) {
                 data.write(dict.get(i));
             }
             data.flushToSerializer(serializer, true);
-
-            serializer.writeLong(indexes.size()); //  give index type size
+            serializer.writeLong(indexes.size());
             for (int i = 0; i < indexes.size(); i++) {
                 serializer.writeLong(indexes.get(i));
             }

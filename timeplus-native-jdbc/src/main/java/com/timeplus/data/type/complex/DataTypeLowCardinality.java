@@ -17,6 +17,10 @@ package com.timeplus.data.type.complex;
 import com.timeplus.data.DataTypeFactory;
 import com.timeplus.data.IDataType;
 import com.timeplus.data.IndexType;
+import com.timeplus.data.type.DataTypeUInt8;
+import com.timeplus.data.type.DataTypeUInt16;
+import com.timeplus.data.type.DataTypeUInt32;
+import com.timeplus.data.type.DataTypeUInt64;
 import com.timeplus.misc.SQLLexer;
 import com.timeplus.misc.Validate;
 import com.timeplus.serde.BinaryDeserializer;
@@ -38,6 +42,7 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
     private final String name;
     private final IDataType<?, ?>  nestedDataType;
     private final Long version = 1L;
+    private final Long IndexTypeMask = 0b11111111L;
 
     public DataTypeLowCardinality(String name, IDataType<?, ?>  nestedDataType) {
         this.name = name;
@@ -101,13 +106,13 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
 
     @Override
     public Object deserializeBinary(BinaryDeserializer deserializer) throws SQLException, IOException {
-        return this.nestedDataType.deserializeBinary(deserializer);
+        return this.getNestedTypes().deserializeBinary(deserializer);
     }
 
     @Override
     public Object[] deserializeBinaryBulk(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
         if (rows==0) {
-            Object[] data = nestedDataType.deserializeBinaryBulk(rows, deserializer);
+            Object[] data = getNestedTypes().deserializeBinaryBulk(rows, deserializer);
             return data;
         }
         else {
@@ -115,25 +120,33 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
             if (version != this.version) {
                 throw new SQLException("version error in type low_cardinality");
             }
-            Long index_type = deserializer.readLong() & 0b11111111; //  decide what type it is
+
+            Long index_type = deserializer.readLong() & IndexTypeMask;
             Long key_nums = deserializer.readLong();
-            Object[] dictionary = nestedDataType.deserializeBinaryBulk(key_nums.intValue(), deserializer);
+            Object[] dictionary = getNestedTypes().deserializeBinaryBulk(key_nums.intValue(), deserializer);
+
             Long row_nums = deserializer.readLong();
+            if (row_nums != rows) {
+                throw new SQLException("unexpected error in low_cardinality row reading");
+            }
+            IDataType type;
+            if (index_type == IndexType.UInt8.getValue()) {
+                type = new DataTypeUInt8();
+            }
+            else if (index_type == IndexType.UInt16.getValue()) {
+                type = new DataTypeUInt16();
+            }
+            else if (index_type == IndexType.UInt32.getValue()) {
+                type = new DataTypeUInt32();
+            }
+            else {
+                type = new DataTypeUInt64();
+            }
+
+            Object[] index_data = type.deserializeBinaryBulk(rows, deserializer);
             Object[] data = new Object[rows];
-            for (int i = 0; i < row_nums; i++) {
-                if (index_type == IndexType.UInt8.getValue()) {
-                    data[i]=dictionary[(short) (deserializer.readByte() & 0xff)];
-                }
-                else if (index_type == IndexType.UInt16.getValue()) {
-                    data[i]=dictionary[deserializer.readShort()];
-                }
-                else if (index_type == IndexType.UInt32.getValue()) {
-                    data[i]=dictionary[deserializer.readInt()];
-                }
-                else {
-                    data[i]=dictionary[(int) deserializer.readLong()];
-                }
-                
+            for (int i = 0; i < rows; i++) {
+                data[i] = dictionary[Integer.valueOf(index_data[i].toString())];
             }
             return data;
         }   
