@@ -16,6 +16,13 @@ package com.timeplus.data.type.complex;
 
 import com.timeplus.data.DataTypeFactory;
 import com.timeplus.data.IDataType;
+import com.timeplus.data.IndexType;
+import com.timeplus.data.type.DataTypeUInt8;
+import com.timeplus.log.Logger;
+import com.timeplus.log.LoggerFactory;
+import com.timeplus.data.type.DataTypeUInt16;
+import com.timeplus.data.type.DataTypeUInt32;
+import com.timeplus.data.type.DataTypeUInt64;
 import com.timeplus.misc.SQLLexer;
 import com.timeplus.misc.Validate;
 import com.timeplus.serde.BinaryDeserializer;
@@ -24,20 +31,23 @@ import com.timeplus.serde.BinarySerializer;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class DataTypeLowCardinality implements IDataType {
+public class DataTypeLowCardinality implements IDataType<Object, Object>  {
 
-    public static DataTypeCreator creator = (lexer, serverContext) -> {
+    public static DataTypeCreator<Object, Object>  creator = (lexer, serverContext) -> {
         Validate.isTrue(lexer.character() == '(');
-        IDataType nestedType = DataTypeFactory.get(lexer, serverContext);
+        IDataType<?, ?>  nestedType = DataTypeFactory.get(lexer, serverContext);
         Validate.isTrue(lexer.character() == ')');
         return new DataTypeLowCardinality(
                 "low_cardinality(" + nestedType.name() + ")", nestedType);
     };
 
     private final String name;
-    private final IDataType nestedDataType;
+    private final IDataType<?, ?>  nestedDataType;
+    private final Long version = 1L;
+    private final Long IndexTypeMask = 0b11111111L;
+    private static final Logger LOG = LoggerFactory.getLogger(DataTypeLowCardinality.class);
 
-    public DataTypeLowCardinality(String name, IDataType nestedDataType) {
+    public DataTypeLowCardinality(String name, IDataType<?, ?>  nestedDataType) {
         this.name = name;
         this.nestedDataType = nestedDataType;
     }
@@ -89,27 +99,76 @@ public class DataTypeLowCardinality implements IDataType {
 
     @Override
     public void serializeBinary(Object data, BinarySerializer serializer) throws SQLException, IOException {
-        this.nestedDataType.serializeBinary(data, serializer);
+        getNestedTypes().serializeBinary(data, serializer);
     }
 
     @Override
     public void serializeBinaryBulk(Object[] data, BinarySerializer serializer) throws SQLException, IOException {
-        this.nestedDataType.serializeBinaryBulk(data, serializer);
+        getNestedTypes().serializeBinaryBulk(data, serializer);
     }
 
     @Override
     public Object deserializeBinary(BinaryDeserializer deserializer) throws SQLException, IOException {
-        return this.nestedDataType.deserializeBinary(deserializer);
+        return this.getNestedTypes().deserializeBinary(deserializer);
     }
 
     @Override
     public Object[] deserializeBinaryBulk(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
-        Object[] data = this.nestedDataType.deserializeBinaryBulk(rows, deserializer);
-        return data;
+        if (rows==0) {
+            Object[] data = getNestedTypes().deserializeBinaryBulk(rows, deserializer);
+            return data;
+        }
+        else {
+            Long version = deserializer.readLong(); 
+            if (version != this.version) {
+                throw new SQLException("version error in type low_cardinality");
+            }
+
+            Long index_type = deserializer.readLong() & IndexTypeMask;
+            Long key_nums = deserializer.readLong();
+            Object[] dictionary = getNestedTypes().deserializeBinaryBulk(key_nums.intValue(), deserializer);
+
+            Long row_nums = deserializer.readLong();
+            if (row_nums != rows) {
+                throw new SQLException("read unexpected rows in low_cardinality, expected:" + rows + ", actual:" + row_nums);
+            }
+            IDataType type;
+            if (index_type == IndexType.UInt8.getValue()) {
+                type = new DataTypeUInt8();
+            }
+            else if (index_type == IndexType.UInt16.getValue()) {
+                type = new DataTypeUInt16();
+            }
+            else if (index_type == IndexType.UInt32.getValue()) {
+                type = new DataTypeUInt32();
+            }
+            else {
+                type = new DataTypeUInt64();
+            }
+
+            Object[] index_data = type.deserializeBinaryBulk(rows, deserializer);
+            Object[] data = new Object[rows];
+            if (type instanceof DataTypeUInt8) {
+                for (int i = 0; i < rows; i++) {
+                    data[i] = dictionary[(short) index_data[i]];
+                }
+            }
+            else {
+                for (int i = 0; i < rows; i++) {
+                    data[i] = dictionary[(Integer) index_data[i]];
+                }
+            } 
+            return data;
+        }   
     }
 
     @Override
     public boolean isSigned() {
         return this.nestedDataType.isSigned();
     }
+
+    public IDataType getNestedTypes() {
+        return nestedDataType;
+    }
+
 }
