@@ -18,6 +18,8 @@ import com.timeplus.data.DataTypeFactory;
 import com.timeplus.data.IDataType;
 import com.timeplus.data.IndexType;
 import com.timeplus.data.type.DataTypeUInt8;
+import com.timeplus.log.Logger;
+import com.timeplus.log.LoggerFactory;
 import com.timeplus.data.type.DataTypeUInt16;
 import com.timeplus.data.type.DataTypeUInt32;
 import com.timeplus.data.type.DataTypeUInt64;
@@ -43,6 +45,7 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
     private final IDataType<?, ?>  nestedDataType;
     private final Long version = 1L;
     private final Long IndexTypeMask = 0b11111111L;
+    private static final Logger LOG = LoggerFactory.getLogger(DataTypeLowCardinality.class);
 
     public DataTypeLowCardinality(String name, IDataType<?, ?>  nestedDataType) {
         this.name = name;
@@ -127,7 +130,7 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
 
             Long row_nums = deserializer.readLong();
             if (row_nums != rows) {
-                throw new SQLException("unexpected error in low_cardinality row reading");
+                throw new SQLException("read unexpected rows in low_cardinality, expected:" + rows + ", actual:" + row_nums);
             }
             IDataType type;
             if (index_type == IndexType.UInt8.getValue()) {
@@ -145,9 +148,16 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
 
             Object[] index_data = type.deserializeBinaryBulk(rows, deserializer);
             Object[] data = new Object[rows];
-            for (int i = 0; i < rows; i++) {
-                data[i] = dictionary[Integer.valueOf(index_data[i].toString())];
+            if (type instanceof DataTypeUInt8) {
+                for (int i = 0; i < rows; i++) {
+                    data[i] = dictionary[(short) index_data[i]];
+                }
             }
+            else {
+                for (int i = 0; i < rows; i++) {
+                    data[i] = dictionary[(Integer) index_data[i]];
+                }
+            } 
             return data;
         }   
     }
