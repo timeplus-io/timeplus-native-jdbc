@@ -19,7 +19,8 @@ import com.timeplus.misc.SystemUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.timeplus.TimeplusContainer;
+import org.testcontainers.clickhouse.*;
+// import org.testcontainers.timeplus.TimeplusContainer;
 import org.testcontainers.utility.MountableFile;
 
 import javax.sql.DataSource;
@@ -48,7 +49,7 @@ public abstract class AbstractITest implements Serializable {
     protected static final int TIMEPLUS_NATIVE_SECURE_PORT = 8463;
 
     @Container
-    public static TimeplusContainer container = new TimeplusContainer(TIMEPLUS_IMAGE)
+    public static ClickHouseContainer container = new ClickHouseContainer(TIMEPLUS_IMAGE)
             .withEnv("CLICKHOUSE_USER", TIMEPLUS_USER)
             .withEnv("CLICKHOUSE_PASSWORD", TIMEPLUS_PASSWORD)
             .withEnv("CLICKHOUSE_DB", TIMEPLUS_DB)
