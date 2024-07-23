@@ -20,7 +20,7 @@
     <parent>
         <groupId>com.timeplus</groupId>
         <artifactId>timeplus-native-jdbc-parent</artifactId>
-        <version>2.0.1</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>timeplus-native-jdbc-shaded</artifactId>
