@@ -65,10 +65,22 @@
             <timezone>8</timezone>
         </developer>
         <developer>
+            <id>chenziliang</id>
+            <name>Ken Chen</name>
+            <email>k@timeplus.com</email>
+            <timezone>-1</timezone>
+        </developer>
+        <developer>
             <id>jovezhong</id>
             <name>Jove Zhong</name>
             <email>jove@timeplus.com</email>
             <timezone>-1</timezone>
+        </developer>
+        <developer>
+            <id>Jasmine-ge</id>
+            <name>Jasmine Ge</name>
+            <email>jasmine.ge@timeplus.com</email>
+            <timezone>8</timezone>
         </developer>
     </developers>
 
@@ -79,7 +91,7 @@
     </modules>
 
     <properties>
-        <revision>2.0.1</revision>
+        <revision>2.0.2</revision>
 
         <deploy.repo.snapshots.id>ossrh</deploy.repo.snapshots.id>
         <deploy.repo.snapshots.url>https://s01.oss.sonatype.org/content/repositories/snapshots</deploy.repo.snapshots.url>
@@ -97,7 +109,7 @@
 
         <maven.assembly.plugin.version>3.1.1</maven.assembly.plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
-        <maven.checkstyle.plugin.version>3.1.1</maven.checkstyle.plugin.version>
+        <maven.checkstyle.plugin.version>3.4.0</maven.checkstyle.plugin.version>
         <maven.scala.plugin.version>4.3.0</maven.scala.plugin.version>
         <maven.exec.plugin.version>1.6.0</maven.exec.plugin.version>
         <maven.forbiddenapis.plugin.version>3.0.1</maven.forbiddenapis.plugin.version>
@@ -111,7 +123,6 @@
         <maven.surefire.plugin.version>3.0.0-M3</maven.surefire.plugin.version>
         <maven.failsafe.plugin.version>3.0.0-M3</maven.failsafe.plugin.version>
         <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
-        <maven.checkstyle.plugin.version>3.1.1</maven.checkstyle.plugin.version>
 
         <aircompressor.version>0.21</aircompressor.version>
         <google.jsr305.version>3.0.2</google.jsr305.version>
@@ -461,6 +472,13 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
                     <version>${maven.checkstyle.plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>10.17.0</version>
+                        </dependency>
+                    </dependencies>
                     <configuration>
                         <configLocation>dev/checkstyle.xml</configLocation>
                         <suppressionsLocation>dev/checkstyle-suppression.xml</suppressionsLocation>
@@ -518,6 +536,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.4.2</version>
                     <executions>
                         <execution>
                             <id>prepare-test-jar</id>
@@ -575,6 +594,31 @@
                     <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
                     <!--<autoReleaseAfterClose>true</autoReleaseAfterClose>-->
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <!--<version>1.6.0</version>-->
+                <configuration>
+                </configuration>
+                <executions>
+                    <!-- enable flattening -->
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <!-- ensure proper cleanup -->
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
