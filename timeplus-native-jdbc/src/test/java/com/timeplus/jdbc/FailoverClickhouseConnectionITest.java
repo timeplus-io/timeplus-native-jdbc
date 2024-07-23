@@ -18,7 +18,8 @@ import com.timeplus.log.Logger;
 import com.timeplus.log.LoggerFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.testcontainers.timeplus.TimeplusContainer;
+import org.testcontainers.clickhouse.*;
+//import org.testcontainers.timeplus.TimeplusContainer;
 import org.testcontainers.junit.jupiter.Container;
 
 import java.sql.Connection;
@@ -37,7 +38,7 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
     protected static int HA_PORT;
 
     @Container
-    public static TimeplusContainer containerHA = new TimeplusContainer(AbstractITest.TIMEPLUS_IMAGE)
+    public static ClickHouseContainer containerHA = new ClickHouseContainer(AbstractITest.TIMEPLUS_IMAGE)
             .withEnv("CLICKHOUSE_USER", TIMEPLUS_USER)
             .withEnv("CLICKHOUSE_PASSWORD", TIMEPLUS_PASSWORD)
             .withEnv("CLICKHOUSE_DB", TIMEPLUS_DB);
