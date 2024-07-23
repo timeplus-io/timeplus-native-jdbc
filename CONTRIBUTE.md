@@ -111,12 +111,18 @@ Any documentation update should be part of the pull request you submit for the c
 The documentation will be published on the website when PR merged into master branch.
 
 ### Publish new version to Maven
-Change the revision number in pom.xml and timeplus-native-jdbc/pom.xml
+Change the revision number in pom.xml.
 
-Make sure you have proper codesign tool, then run the following commmands:
+Make sure you have the proper codesign tool and configure it, e.g.
 
 ```bash
-mvn clean  javadoc:jar source:jar package gpg:sign install deploy -DskipITs -DskipTests -e
+export GPG_TTY=$(tty)
+```
+
+Then run the following commmands:
+
+```bash
+mvn clean javadoc:jar source:jar package gpg:sign install deploy -DskipITs -DskipTests -Drevision=2.0.2 -e
 ```
 
 This will geneate target/central-staging folder with required jar/asc/md5/sha1 files.
