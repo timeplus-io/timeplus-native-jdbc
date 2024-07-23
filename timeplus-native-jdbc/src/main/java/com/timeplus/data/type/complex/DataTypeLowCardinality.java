@@ -119,20 +119,33 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
             return data;
         }
         else {
-            Long version = deserializer.readLong(); 
+            Long version = deserializer.readLong();
+
             if (version != this.version) {
                 throw new SQLException("version error in type low_cardinality");
             }
 
             Long index_type = deserializer.readLong() & IndexTypeMask;
             Long key_nums = deserializer.readLong();
-            Object[] dictionary = getNestedTypes().deserializeBinaryBulk(key_nums.intValue(), deserializer);
+            Object[] dictionary = new Object[key_nums.intValue()];
+
+            if (getNestedTypes().nullable()) {
+                DataTypeNullable type = (DataTypeNullable) getNestedTypes();
+                IDataType inside_type = type.getNestedDataType();
+                dictionary = inside_type.deserializeBinaryBulk(key_nums.intValue(), deserializer);
+            }
+            else {
+                dictionary = getNestedTypes().deserializeBinaryBulk(key_nums.intValue(), deserializer);
+            }
 
             Long row_nums = deserializer.readLong();
+
             if (row_nums != rows) {
                 throw new SQLException("read unexpected rows in low_cardinality, expected:" + rows + ", actual:" + row_nums);
             }
+
             IDataType type;
+
             if (index_type == IndexType.UInt8.getValue()) {
                 type = new DataTypeUInt8();
             }
@@ -148,6 +161,7 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
 
             Object[] index_data = type.deserializeBinaryBulk(rows, deserializer);
             Object[] data = new Object[rows];
+
             if (type instanceof DataTypeUInt8) {
                 for (int i = 0; i < rows; i++) {
                     data[i] = dictionary[(short) index_data[i]];
@@ -157,7 +171,7 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
                 for (int i = 0; i < rows; i++) {
                     data[i] = dictionary[(Integer) index_data[i]];
                 }
-            } 
+            }
             return data;
         }   
     }
