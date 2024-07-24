@@ -46,10 +46,14 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
     private final Long version = 1L;
     private final Long IndexTypeMask = 0b11111111L;
     private static final Logger LOG = LoggerFactory.getLogger(DataTypeLowCardinality.class);
+    private boolean nested_is_nullable;
 
     public DataTypeLowCardinality(String name, IDataType<?, ?>  nestedDataType) {
         this.name = name;
         this.nestedDataType = nestedDataType;
+        if (nestedDataType.nullable()) {
+            nested_is_nullable = true;
+        }
     }
 
     @Override
@@ -114,7 +118,7 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
 
     @Override
     public Object[] deserializeBinaryBulk(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
-        if (rows==0) {
+        if (rows == 0) {
             Object[] data = getNestedTypes().deserializeBinaryBulk(rows, deserializer);
             return data;
         }
@@ -128,15 +132,16 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
             Long index_type = deserializer.readLong() & IndexTypeMask;
             Long key_nums = deserializer.readLong();
             Object[] dictionary = new Object[key_nums.intValue()];
+            IDataType inner_type;
 
-            if (getNestedTypes().nullable()) {
+            if (nested_is_nullable) {
                 DataTypeNullable type = (DataTypeNullable) getNestedTypes();
-                IDataType inside_type = type.getNestedDataType();
-                dictionary = inside_type.deserializeBinaryBulk(key_nums.intValue(), deserializer);
+                inner_type = type.getNestedDataType();
             }
             else {
-                dictionary = getNestedTypes().deserializeBinaryBulk(key_nums.intValue(), deserializer);
+                inner_type = getNestedTypes();
             }
+            dictionary = inner_type.deserializeBinaryBulk(key_nums.intValue(), deserializer);
 
             Long row_nums = deserializer.readLong();
 

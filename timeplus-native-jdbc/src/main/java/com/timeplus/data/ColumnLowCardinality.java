@@ -34,11 +34,16 @@ public class ColumnLowCardinality extends AbstractColumn {
         super(name, type, values);
         indexes = new ArrayList<>();
         dict = new ArrayList<>();
-        data = ColumnFactory.createColumn(null, type.getNestedTypes(), null);
         nested_is_nullable = type.getNestedTypes().nullable();
+        /// If a nested type is nullable, always add two hard dictionary keys in front: [0]: null, [1]: default value
         if (nested_is_nullable) {
+            IDataType nested_type = ((DataTypeNullable) type.getNestedTypes()).getNestedDataType();
+            data = ColumnFactory.createColumn(null, nested_type, null);
             dict.add(type.getNestedTypes().defaultValue());
             dict.add(type.getNestedTypes().defaultValue());
+        }
+        else {
+            data = ColumnFactory.createColumn(null, type.getNestedTypes(), null);
         }
     }
 
@@ -75,30 +80,12 @@ public class ColumnLowCardinality extends AbstractColumn {
             /// The data layout: [version][index_type][dictionary][indexes]
             serializer.writeLong(version);
             serializer.writeLong(IndexType.UInt64.getValue() | IndexType.HasAdditionalKeysBit.getValue());
+
             serializer.writeLong(dict.size());
-
-            if (data.type().nullable()) {
-
-                ColumnNullable type = (ColumnNullable) data;
-                DataTypeNullable inside_column_type = (DataTypeNullable) type.type();
-                IDataType inside_type = inside_column_type.getNestedDataType();
-
-                for (int i = 0; i < dict.size(); i++) {
-                    Object temp = dict.get(i);
-                    if (temp == null) {
-                        inside_type.serializeBinary(inside_type.defaultValue(), serializer);
-                    }
-                    else {
-                        inside_type.serializeBinary(temp, serializer);
-                    }
-                }
+            for (int i = 0; i < dict.size(); i++) {
+                data.write(dict.get(i));
             }
-            else {
-                for (int i = 0; i < dict.size(); i++) {
-                    data.write(dict.get(i));
-                }
-                data.flushToSerializer(serializer, true);
-            }
+            data.flushToSerializer(serializer, true);
 
             serializer.writeLong(indexes.size()); //  give index type size
             for (int i = 0; i < indexes.size(); i++) {
