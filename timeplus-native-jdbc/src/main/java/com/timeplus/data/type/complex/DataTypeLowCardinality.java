@@ -46,10 +46,14 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
     private final Long version = 1L;
     private final Long IndexTypeMask = 0b11111111L;
     private static final Logger LOG = LoggerFactory.getLogger(DataTypeLowCardinality.class);
+    private boolean nested_is_nullable;
 
     public DataTypeLowCardinality(String name, IDataType<?, ?>  nestedDataType) {
         this.name = name;
         this.nestedDataType = nestedDataType;
+        if (nestedDataType.nullable()) {
+            nested_is_nullable = true;
+        }
     }
 
     @Override
@@ -114,25 +118,39 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
 
     @Override
     public Object[] deserializeBinaryBulk(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
-        if (rows==0) {
+        if (rows == 0) {
             Object[] data = getNestedTypes().deserializeBinaryBulk(rows, deserializer);
             return data;
         }
         else {
-            Long version = deserializer.readLong(); 
+            Long version = deserializer.readLong();
+
             if (version != this.version) {
                 throw new SQLException("version error in type low_cardinality");
             }
 
             Long index_type = deserializer.readLong() & IndexTypeMask;
             Long key_nums = deserializer.readLong();
-            Object[] dictionary = getNestedTypes().deserializeBinaryBulk(key_nums.intValue(), deserializer);
+            Object[] dictionary = new Object[key_nums.intValue()];
+            IDataType inner_type;
+
+            if (nested_is_nullable) {
+                DataTypeNullable type = (DataTypeNullable) getNestedTypes();
+                inner_type = type.getNestedDataType();
+            }
+            else {
+                inner_type = getNestedTypes();
+            }
+            dictionary = inner_type.deserializeBinaryBulk(key_nums.intValue(), deserializer);
 
             Long row_nums = deserializer.readLong();
+
             if (row_nums != rows) {
                 throw new SQLException("read unexpected rows in low_cardinality, expected:" + rows + ", actual:" + row_nums);
             }
+
             IDataType type;
+
             if (index_type == IndexType.UInt8.getValue()) {
                 type = new DataTypeUInt8();
             }
@@ -148,6 +166,7 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
 
             Object[] index_data = type.deserializeBinaryBulk(rows, deserializer);
             Object[] data = new Object[rows];
+
             if (type instanceof DataTypeUInt8) {
                 for (int i = 0; i < rows; i++) {
                     data[i] = dictionary[(short) index_data[i]];
@@ -157,7 +176,7 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
                 for (int i = 0; i < rows; i++) {
                     data[i] = dictionary[(Integer) index_data[i]];
                 }
-            } 
+            }
             return data;
         }   
     }
