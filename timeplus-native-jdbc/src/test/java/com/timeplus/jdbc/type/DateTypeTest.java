@@ -59,6 +59,75 @@
  
     }
 
+    @Test
+    public void testDateRange() throws Exception {
+        withStatement(statement -> {
+            statement.execute("DROP STREAM IF EXISTS date_test");
+            statement.execute("CREATE STREAM IF NOT EXISTS date_test (value date, nullableValue nullable(date)) Engine=Memory()");
+ 
+            Integer rowCnt = 300;
+            try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
+                    "INSERT INTO date_test (value, nullableValue) values(?, ?);")) {
+                for (int i = 0; i < rowCnt; i++) {
+                    pstmt.setDate(1, java.sql.Date.valueOf("1969-01-01"));
+                    pstmt.setDate(2, java.sql.Date.valueOf("2149-06-07"));
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
+ 
+            ResultSet rs = statement.executeQuery("SELECT * FROM date_test;");
+            int size = 0;
+            while (rs.next()) {
+                size++;
+                java.sql.Date value = rs.getDate(1);
+                assertEquals(value, java.sql.Date.valueOf("2148-06-07"));
+                java.sql.Date nullableValue = rs.getDate(2);
+                assertEquals(nullableValue, java.sql.Date.valueOf("1970-01-01"));
+            }
+ 
+            assertEquals(size, rowCnt);
+ 
+            statement.execute("DROP STREAM IF EXISTS date_test");
+        });
+ 
+    }
+
+    // test for date32
+    @Test
+    public void testDate32Type() throws Exception {
+        withStatement(statement -> {
+            statement.execute("DROP STREAM IF EXISTS date32_test");
+            statement.execute("CREATE STREAM IF NOT EXISTS date32_test (value date32, nullableValue nullable(date32)) Engine=Memory()");
+ 
+            Integer rowCnt = 300;
+            try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
+                    "INSERT INTO date32_test (value, nullableValue) values(?, ?);")) {
+                for (int i = 0; i < rowCnt; i++) {
+                    pstmt.setDate(1, java.sql.Date.valueOf("1969-01-01"));
+                    pstmt.setDate(2, java.sql.Date.valueOf("2149-06-06"));
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
+ 
+            ResultSet rs = statement.executeQuery("SELECT * FROM date32_test;");
+            int size = 0;
+            while (rs.next()) {
+                size++;
+                java.sql.Date value = rs.getDate(1);
+                assertEquals(value, java.sql.Date.valueOf("1969-01-01"));
+                java.sql.Date nullableValue = rs.getDate(2);
+                assertEquals(nullableValue, java.sql.Date.valueOf("2149-06-06"));
+            }
+ 
+            assertEquals(size, rowCnt);
+ 
+            statement.execute("DROP STREAM IF EXISTS date32_test");
+        });
+ 
+    }
+
     // test for datetime
     @Test
     public void testDateTimeType() throws Exception {
