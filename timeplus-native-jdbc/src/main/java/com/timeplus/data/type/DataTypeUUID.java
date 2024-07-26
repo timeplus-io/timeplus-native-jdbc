@@ -38,7 +38,7 @@ public class DataTypeUUID implements IDataType<UUID, String> {
 
     @Override
     public UUID defaultValue() {
-        return null;
+        return UUID.fromString("00000000-0000-0000-0000-000000000000");
     }
 
     @Override
