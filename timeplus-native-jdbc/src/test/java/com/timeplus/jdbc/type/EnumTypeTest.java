@@ -13,11 +13,9 @@
  */
 
 package com.timeplus.jdbc.type;
-
 import com.timeplus.jdbc.AbstractITest;
 import com.timeplus.misc.BytesHelper;
 import org.junit.jupiter.api.Test;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -34,12 +32,12 @@ public class EnumTypeTest extends AbstractITest implements BytesHelper {
             Integer rowCnt = 300;
             try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
                     "INSERT INTO enum8_test values(?), (?);")) {
-                for (int i = 0; i < rowCnt/2; i++) {
-                    pstmt.setString(1, "test");
+                for (int i = 0; i < rowCnt / 2; i++) {
+                    pstmt.setObject(1, "test");
                     pstmt.addBatch();
                 }
-                for (int i = 0; i < rowCnt/2; i++) {
-                    pstmt.setString(1, "test2");
+                for (int i = 0; i < rowCnt / 2; i++) {
+                    pstmt.setObject(1, "test2");
                     pstmt.addBatch();
                 }
                 pstmt.executeBatch();
@@ -48,12 +46,12 @@ public class EnumTypeTest extends AbstractITest implements BytesHelper {
             ResultSet rs = statement.executeQuery("SELECT * FROM enum8_test;");
             int size = 0;
             while (rs.next()&&size++<rowCnt/2) {
-                String value = rs.getString(1);
+                Object value = rs.getObject(1);
                 assertEquals(value, "test");
             }
             while (rs.next()) {
                 size++;
-                String value = rs.getString(1);
+                Object value = rs.getObject(1);
                 assertEquals(value, "test2");
             }
             assertEquals(size, rowCnt);
@@ -63,7 +61,6 @@ public class EnumTypeTest extends AbstractITest implements BytesHelper {
 
     }
 
-    // test for fixed_string
     @Test
     public void testEnum16Type() throws Exception {
         withStatement(statement -> {

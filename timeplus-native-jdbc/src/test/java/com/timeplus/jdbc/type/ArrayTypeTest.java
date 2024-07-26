@@ -18,7 +18,10 @@ import com.timeplus.jdbc.AbstractITest;
 import com.timeplus.misc.BytesHelper;
 import com.timeplus.misc.DateTimeUtil;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -39,14 +42,32 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     public void testArrayTypeInt() throws Exception {
         withStatement(statement -> {
             statement.execute("DROP STREAM IF EXISTS array_test");
-            statement.execute("CREATE STREAM IF NOT EXISTS array_test (value array(int), nullable_value array(nullable(uint32))) Engine=Memory()");
+            statement.execute("CREATE STREAM IF NOT EXISTS array_test (value_int8 array(int8), "
+                                +"value_int16 array(int16), value_int32 array(int32), "
+                                +"value_int64 array(int64), value_int128 array(int128), "
+                                +"value_int256 array(int256), value_uint8 array(uint8), "
+                                +"value_uint16 array(uint16), value_uint32 array(uint32), "
+                                +"value_uint64 array(uint64), value_uint128 array(uint128), "
+                                +"value_uint256 array(uint256), nullable_value array(nullable(uint32))) Engine=Memory()");
 
             Integer rowCnt = 300;
             try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
-                    "INSERT INTO array_test (value, nullable_value) values(?,?);")) {
+                    "INSERT INTO array_test (value_int8, value_int16, value_int32, value_int64, value_int128, value_int256, value_uint8, "
+                    +"value_uint16, value_uint32, value_uint64, value_uint128, value_uint256, nullable_value) values(?,?,?,?,?,?,?,?,?,?,?,?,?);")) {
                 for (int i = 0; i < rowCnt; i++) {
-                    pstmt.setArray(1, statement.getConnection().createArrayOf("int", new Integer[]{1, 2, 3}));
-                    pstmt.setArray(2, statement.getConnection().createArrayOf("nullable(uint32)", new Long[]{1l, 2l, null}));
+                    pstmt.setArray(1, statement.getConnection().createArrayOf("int8", new Byte[]{1, 2, 3}));
+                    pstmt.setArray(2, statement.getConnection().createArrayOf("int16", new Short[]{1, 2, 3}));
+                    pstmt.setArray(3, statement.getConnection().createArrayOf("int32", new Integer[]{1, 2, 3}));
+                    pstmt.setArray(4, statement.getConnection().createArrayOf("int64", new Long[]{1l, 2l, 3l}));
+                    pstmt.setArray(5, statement.getConnection().createArrayOf("int128", new BigInteger[]{new BigInteger("12345678901234567890123456789012"), new BigInteger("2"), new BigInteger("3")}));
+                    pstmt.setArray(6, statement.getConnection().createArrayOf("int256", new BigInteger[]{new BigInteger("12345678901234567890123456789012"), new BigInteger("2"), new BigInteger("3")}));
+                    pstmt.setArray(7, statement.getConnection().createArrayOf("uint8", new Short[]{1, 2, 3}));
+                    pstmt.setArray(8, statement.getConnection().createArrayOf("uint16", new Integer[]{1, 2, 3}));
+                    pstmt.setArray(9, statement.getConnection().createArrayOf("uint32", new Long[]{1l, 2l, 3l}));
+                    pstmt.setArray(10, statement.getConnection().createArrayOf("uint64", new BigInteger[]{new BigInteger("1"), new BigInteger("2"), new BigInteger("3")}));
+                    pstmt.setArray(11, statement.getConnection().createArrayOf("uint128", new BigInteger[]{new BigInteger("12345678901234567890123456789012"), new BigInteger("2"), new BigInteger("3")}));
+                    pstmt.setArray(12, statement.getConnection().createArrayOf("uint256", new BigInteger[]{new BigInteger("12345678901234567890123456789012"), new BigInteger("2"), new BigInteger("3")}));
+                    pstmt.setArray(13, statement.getConnection().createArrayOf("nullable(uint32)", new Long[]{1l, 2l, null}));
                     pstmt.addBatch();
                 }
                 pstmt.executeBatch();
@@ -57,11 +78,44 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
             while (rs.next()) {
                 size++;
                 Object[] objArray = (Object[]) rs.getArray(1).getArray();
-                Integer[] value = Arrays.stream(objArray).map(Integer.class::cast).toArray(Integer[]::new);
-                assertTrue(Arrays.equals(value, new Integer[]{1, 2, 3}));
+                Byte[] value = Arrays.stream(objArray).map(Byte.class::cast).toArray(Byte[]::new);
+                assertTrue(Arrays.equals(value, new Byte[]{1, 2, 3}));
                 Object[] objArray2 = (Object[]) rs.getArray(2).getArray();
-                Long[] value2 = Arrays.stream(objArray2).map(Long.class::cast).toArray(Long[]::new);
-                assertTrue(Arrays.equals(value2, new Long[]{1l, 2l, null}));
+                Short[] value2 = Arrays.stream(objArray2).map(Short.class::cast).toArray(Short[]::new);
+                assertTrue(Arrays.equals(value2, new Short[]{1, 2, 3}));
+                Object[] objArray3 = (Object[]) rs.getArray(3).getArray();
+                Integer[] value3 = Arrays.stream(objArray3).map(Integer.class::cast).toArray(Integer[]::new);
+                assertTrue(Arrays.equals(value3, new Integer[]{1, 2, 3}));
+                Object[] objArray4 = (Object[]) rs.getArray(4).getArray();
+                Long[] value4 = Arrays.stream(objArray4).map(Long.class::cast).toArray(Long[]::new);
+                assertTrue(Arrays.equals(value4, new Long[]{1l, 2l, 3l}));
+                Object[] objArray5 = (Object[]) rs.getArray(5).getArray();
+                BigInteger[] value5 = Arrays.stream(objArray5).map(BigInteger.class::cast).toArray(BigInteger[]::new);
+                assertTrue(Arrays.equals(value5, new BigInteger[]{new BigInteger("12345678901234567890123456789012"), new BigInteger("2"), new BigInteger("3")}));
+                Object[] objArray6 = (Object[]) rs.getArray(6).getArray();
+                BigInteger[] value6 = Arrays.stream(objArray6).map(BigInteger.class::cast).toArray(BigInteger[]::new);
+                assertTrue(Arrays.equals(value6, new BigInteger[]{new BigInteger("12345678901234567890123456789012"), new BigInteger("2"), new BigInteger("3")}));
+                Object[] objArray7 = (Object[]) rs.getArray(7).getArray();
+                Short[] value7 = Arrays.stream(objArray7).map(Short.class::cast).toArray(Short[]::new);
+                assertTrue(Arrays.equals(value7, new Short[]{1, 2, 3}));
+                Object[] objArray8 = (Object[]) rs.getArray(8).getArray();
+                Integer[] value8 = Arrays.stream(objArray8).map(Integer.class::cast).toArray(Integer[]::new);
+                assertTrue(Arrays.equals(value8, new Integer[]{1, 2, 3}));
+                Object[] objArray9 = (Object[]) rs.getArray(9).getArray();
+                Long[] value9 = Arrays.stream(objArray9).map(Long.class::cast).toArray(Long[]::new);
+                assertTrue(Arrays.equals(value9, new Long[]{1l, 2l, 3l}));
+                Object[] objArray10 = (Object[]) rs.getArray(10).getArray();
+                BigInteger[] value10 = Arrays.stream(objArray10).map(BigInteger.class::cast).toArray(BigInteger[]::new);
+                assertTrue(Arrays.equals(value10, new BigInteger[]{new BigInteger("1"), new BigInteger("2"), new BigInteger("3")}));
+                Object[] objArray11 = (Object[]) rs.getArray(11).getArray();
+                BigInteger[] value11 = Arrays.stream(objArray11).map(BigInteger.class::cast).toArray(BigInteger[]::new);
+                assertTrue(Arrays.equals(value11, new BigInteger[]{new BigInteger("12345678901234567890123456789012"), new BigInteger("2"), new BigInteger("3")}));
+                Object[] objArray12 = (Object[]) rs.getArray(12).getArray();
+                BigInteger[] value12 = Arrays.stream(objArray12).map(BigInteger.class::cast).toArray(BigInteger[]::new);
+                assertTrue(Arrays.equals(value12, new BigInteger[]{new BigInteger("12345678901234567890123456789012"), new BigInteger("2"), new BigInteger("3")}));
+                Object[] objArray13 = (Object[]) rs.getArray(13).getArray();
+                Long[] value13 = Arrays.stream(objArray13).map(Long.class::cast).toArray(Long[]::new);
+                assertTrue(Arrays.equals(value13, new Long[]{1l, 2l, null}));
             }
 
             assertEquals(size, rowCnt);
@@ -196,11 +250,24 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     public void testArrayTypeDecimal() throws Exception {
         withStatement(statement -> {
             statement.execute("DROP STREAM IF EXISTS array_test");
-            statement.execute("CREATE STREAM IF NOT EXISTS array_test (value array(decimal(5,3)), "
-                                +"nullable_value array(nullable(decimal(76, 26)))) Engine=Memory()");
+            statement.execute("CREATE STREAM IF NOT EXISTS array_test (value_decimal32 array(decimal(5,3)), "
+                                +"value_decimal64 array(decimal(15,5)), value_decimal128 array(decimal(38, 16)), "
+                                +"value_decimal256 array(decimal(76, 26)), nullable_value array(nullable(decimal(76, 26)))) Engine=Memory()");
             BigDecimal[] valueArray = new BigDecimal[]{
                 BigDecimal.valueOf(412341.21D).setScale(3, RoundingMode.HALF_UP),
                 BigDecimal.valueOf(512341.25D).setScale(3, RoundingMode.HALF_UP)
+            };
+            BigDecimal[] valueArray64 = new BigDecimal[]{
+                BigDecimal.valueOf(412341.21D).setScale(5, RoundingMode.HALF_UP),
+                BigDecimal.valueOf(512341.25D).setScale(5, RoundingMode.HALF_UP)
+            };
+            BigDecimal[] valueArray128 = new BigDecimal[]{
+                BigDecimal.valueOf(412341.21D).setScale(16, RoundingMode.HALF_UP),
+                BigDecimal.valueOf(512341.25D).setScale(16, RoundingMode.HALF_UP)
+            };
+            BigDecimal[] valueArray256 = new BigDecimal[]{
+                BigDecimal.valueOf(412341.21D).setScale(26, RoundingMode.HALF_UP),
+                BigDecimal.valueOf(512341.25D).setScale(26, RoundingMode.HALF_UP)
             };
             BigDecimal[] valueArray_null = new BigDecimal[]{
                 BigDecimal.valueOf(412341.21D).setScale(26, RoundingMode.HALF_UP),
@@ -210,10 +277,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
             Integer rowCnt = 300;
             try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
-                    "INSERT INTO array_test (value, nullable_value) values(?,?);")) {
+                    "INSERT INTO array_test (value_decimal32, value_decimal64, value_decimal128, value_decimal256, nullable_value) values(?,?,?,?,?);")) {
                 for (int i = 0; i < rowCnt; i++) {
                     pstmt.setArray(1, statement.getConnection().createArrayOf("decimal(5,3)", valueArray));
-                    pstmt.setArray(2, statement.getConnection().createArrayOf("nullable(decimal(76, 26))", valueArray_null));
+                    pstmt.setArray(2, statement.getConnection().createArrayOf("decimal(15,5)", valueArray64));
+                    pstmt.setArray(3, statement.getConnection().createArrayOf("decimal(38, 16)", valueArray128));
+                    pstmt.setArray(4, statement.getConnection().createArrayOf("decimal(76, 26)", valueArray256));
+                    pstmt.setArray(5, statement.getConnection().createArrayOf("nullable(decimal(76, 26))", valueArray_null));
                     pstmt.addBatch();
                 }
                 pstmt.executeBatch();
@@ -228,7 +298,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
                 assertTrue(Arrays.equals(value, valueArray));
                 Object[] objArray2 = (Object[]) rs.getArray(2).getArray();
                 BigDecimal[] value2 = Arrays.stream(objArray2).map(BigDecimal.class::cast).toArray(BigDecimal[]::new);
-                assertTrue(Arrays.equals(value2, valueArray_null));
+                assertTrue(Arrays.equals(value2, valueArray64));
+                Object[] objArray3 = (Object[]) rs.getArray(3).getArray();
+                BigDecimal[] value3 = Arrays.stream(objArray3).map(BigDecimal.class::cast).toArray(BigDecimal[]::new);
+                assertTrue(Arrays.equals(value3, valueArray128));
+                Object[] objArray4 = (Object[]) rs.getArray(4).getArray();
+                BigDecimal[] value4 = Arrays.stream(objArray4).map(BigDecimal.class::cast).toArray(BigDecimal[]::new);
+                assertTrue(Arrays.equals(value4, valueArray256));
+                Object[] objArray5 = (Object[]) rs.getArray(5).getArray();
+                BigDecimal[] value5 = Arrays.stream(objArray5).map(BigDecimal.class::cast).toArray(BigDecimal[]::new);
+                assertTrue(Arrays.equals(value5, valueArray_null));
             }
 
             assertEquals(size, rowCnt);
@@ -241,15 +320,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     public void testArrayTypeEnum8() throws Exception {
         withStatement(statement -> {
             statement.execute("DROP STREAM IF EXISTS array_test");
-            statement.execute("CREATE STREAM IF NOT EXISTS array_test (value array(enum8('test', 'test2')), "
+            statement.execute("CREATE STREAM IF NOT EXISTS array_test (value_8 array(enum8('test', 'test2')), value_16 array(enum16('test', 'test2')), "
                                 +" nullable_value array(nullable(enum8('test', 'test2')))) Engine=Memory()");
 
             Integer rowCnt = 300;
             try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
-                    "INSERT INTO array_test (value, nullable_value) values(?,?);")) {
+                    "INSERT INTO array_test (value_8, value_16, nullable_value) values(?,?,?);")) {
                 for (int i = 0; i < rowCnt; i++) {
                     pstmt.setArray(1, statement.getConnection().createArrayOf("string", new String[]{"test", "test", "test2"}));
-                    pstmt.setArray(2, statement.getConnection().createArrayOf("nullable(string)", new String[]{"test", "test", null}));
+                    pstmt.setArray(2, statement.getConnection().createArrayOf("string", new String[]{"test", "test", "test2"}));
+                    pstmt.setArray(3, statement.getConnection().createArrayOf("nullable(string)", new String[]{"test", "test", null}));
                     pstmt.addBatch();
                 }
                 pstmt.executeBatch();
@@ -264,7 +344,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
                 assertTrue(Arrays.equals(value, new String[]{"test", "test", "test2"}));
                 Object[] objArray2 = (Object[]) rs.getArray(2).getArray();
                 String[] value2 = Arrays.stream(objArray2).map(String.class::cast).toArray(String[]::new);
-                assertTrue(Arrays.equals(value2, new String[]{"test", "test", null}));
+                assertTrue(Arrays.equals(value2, new String[]{"test", "test", "test2"}));
+                Object[] objArray3 = (Object[]) rs.getArray(3).getArray();
+                String[] value3 = Arrays.stream(objArray3).map(String.class::cast).toArray(String[]::new);
+                assertTrue(Arrays.equals(value3, new String[]{"test", "test", null}));
             }
 
             assertEquals(size, rowCnt);
@@ -277,14 +360,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     public void testArrayTypeFloat() throws Exception {
         withStatement(statement -> {
             statement.execute("DROP STREAM IF EXISTS array_test");
-            statement.execute("CREATE STREAM IF NOT EXISTS array_test (value array(float32), nullable_value array(nullable(float32))) Engine=Memory()");
+            statement.execute("CREATE STREAM IF NOT EXISTS array_test (value_f32 array(float32), value_f64 array(float64), nullable_value array(nullable(float32))) Engine=Memory()");
 
             Integer rowCnt = 300;
             try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
-                    "INSERT INTO array_test (value, nullable_value) values(?,?);")) {
+                    "INSERT INTO array_test (value_f32, value_f64, nullable_value) values(?,?,?);")) {
                 for (int i = 0; i < rowCnt; i++) {
                     pstmt.setArray(1, statement.getConnection().createArrayOf("float32", new Float[]{1.1f, 100.1f, 10000.1f}));
-                    pstmt.setArray(2, statement.getConnection().createArrayOf("nullable(float32)", new Float[]{1.1f, 100.1f, null}));
+                    pstmt.setArray(2, statement.getConnection().createArrayOf("float64", new Double[]{1.1, 100.1, 10000.1}));
+                    pstmt.setArray(3, statement.getConnection().createArrayOf("nullable(float32)", new Float[]{1.1f, 100.1f, null}));
                     pstmt.addBatch();
                 }
                 pstmt.executeBatch();
@@ -298,8 +382,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
                 Float[] value = Arrays.stream(objArray).map(Float.class::cast).toArray(Float[]::new);
                 assertTrue(Arrays.equals(value, new Float[]{1.1f, 100.1f, 10000.1f}));
                 Object[] objArray2 = (Object[]) rs.getArray(2).getArray();
-                Float[] value2 = Arrays.stream(objArray2).map(Float.class::cast).toArray(Float[]::new);
-                assertTrue(Arrays.equals(value2, new Float[]{1.1f, 100.1f, null}));
+                Double[] value2 = Arrays.stream(objArray2).map(Double.class::cast).toArray(Double[]::new);
+                assertTrue(Arrays.equals(value2, new Double[]{1.1, 100.1, 10000.1}));
+                Object[] objArray3 = (Object[]) rs.getArray(3).getArray();
+                Float[] value3 = Arrays.stream(objArray3).map(Float.class::cast).toArray(Float[]::new);
+                assertTrue(Arrays.equals(value3, new Float[]{1.1f, 100.1f, null}));
             }
 
             assertEquals(size, rowCnt);
@@ -350,6 +437,83 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
                 Object[] objArray4 = (Object[]) rs.getArray(4).getArray();
                 BigInteger[] value4 = Arrays.stream(objArray4).map(BigInteger.class::cast).toArray(BigInteger[]::new);
                 assertTrue(Arrays.equals(value4, new BigInteger[]{testIPv6Value1, testIPv6Value2, null}));
+            }
+
+            assertEquals(size, rowCnt);
+
+            statement.execute("DROP STREAM IF EXISTS array_test");
+        });
+    }
+
+    @Test
+    public void testArrayTypeBoolean() throws Exception {
+        withStatement(statement -> {
+            statement.execute("DROP STREAM IF EXISTS array_test");
+            statement.execute("CREATE STREAM IF NOT EXISTS array_test (value array(bool), "
+                                +"nullable_value array(nullable(bool))) Engine=Memory()");
+            
+            Integer rowCnt = 300;
+            try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
+                    "INSERT INTO array_test (value, nullable_value) values(?,?);")) {
+                for (int i = 0; i < rowCnt; i++) {
+                    pstmt.setArray(1, statement.getConnection().createArrayOf("bool", new Byte[]{(byte) 1, (byte) 1, (byte) 0}));
+                    pstmt.setArray(2, statement.getConnection().createArrayOf("nullable(bool)", new Byte[]{(byte) 1, (byte) 1, null}));
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM array_test;");
+            int size = 0;
+            while (rs.next()) {
+                size++;
+                Object[] objArray = (Object[]) rs.getArray(1).getArray();
+                Byte[] value = Arrays.stream(objArray).map(Byte.class::cast).toArray(Byte[]::new);
+                assertTrue(Arrays.equals(value, new Byte[]{(byte) 1, (byte) 1, (byte) 0}));
+                Object[] objArray2 = (Object[]) rs.getArray(2).getArray();
+                Byte[] value2 = Arrays.stream(objArray2).map(Byte.class::cast).toArray(Byte[]::new);
+                assertTrue(Arrays.equals(value2, new Byte[]{(byte) 1, (byte) 1, null}));
+
+            }
+
+            assertEquals(size, rowCnt);
+
+            statement.execute("DROP STREAM IF EXISTS array_test");
+        });
+    }
+
+    @Test
+    public void testArrayTypeUUID() throws Exception {
+        withStatement(statement -> {
+            statement.execute("DROP STREAM IF EXISTS array_test");
+            statement.execute("CREATE STREAM IF NOT EXISTS array_test (value array(uuid), "
+                                +"nullable_value array(nullable(uuid))) Engine=Memory()");
+            
+            Integer rowCnt = 300;
+            List<java.util.UUID> insertedValues = new ArrayList<>();
+            try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
+                    "INSERT INTO array_test (value, nullable_value) values(?,?);")) {
+                for (int i = 0; i < rowCnt; i++) {
+                    java.util.UUID uuid1 = java.util.UUID.randomUUID();
+                    insertedValues.add(uuid1);
+                    pstmt.setArray(1, statement.getConnection().createArrayOf("uuid", new java.util.UUID[]{uuid1, uuid1, uuid1}));
+                    pstmt.setArray(2, statement.getConnection().createArrayOf("nullable(uuid)", new java.util.UUID[]{uuid1, uuid1, null}));
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM array_test;");
+            int size = 0;
+            while (rs.next()) {
+                size++;
+                Object[] objArray = (Object[]) rs.getArray(1).getArray();
+                java.util.UUID[] value = Arrays.stream(objArray).map(java.util.UUID.class::cast).toArray(java.util.UUID[]::new);
+                assertTrue(Arrays.equals(value, new java.util.UUID[]{insertedValues.get(size - 1), insertedValues.get(size - 1), insertedValues.get(size - 1)}));
+                Object[] objArray2 = (Object[]) rs.getArray(2).getArray();
+                java.util.UUID[] value2 = Arrays.stream(objArray2).map(java.util.UUID.class::cast).toArray(java.util.UUID[]::new);
+                assertTrue(Arrays.equals(value2, new java.util.UUID[]{insertedValues.get(size - 1), insertedValues.get(size - 1), null}));
+
             }
 
             assertEquals(size, rowCnt);

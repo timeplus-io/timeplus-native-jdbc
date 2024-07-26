@@ -28,31 +28,33 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NestedTypeTest extends AbstractITest implements BytesHelper {
 
-    // test for nested type, array of array, array of tuple, tuple of array, tuple of tuple, no nullable type involved
+    // test for nested type, array of array, array of tuple, tuple of array, tuple of tuple, nullable type involved
     @Test
     public void testNestedType() throws Exception {
         withStatement(statement -> {
             statement.execute("DROP STREAM IF EXISTS nested_test");
             statement.execute(
-                    "CREATE STREAM IF NOT EXISTS nested_test (value array(array(int)), value2 array(tuple(int, string)), value3 tuple(array(int), string)) Engine=Memory()");
+                    "CREATE STREAM IF NOT EXISTS nested_test (value array(array(nullable(int))), "
+                    +"value2 array(tuple(nullable(int), nullable(string))), "
+                    +"value3 tuple(array(nullable(int)), nullable(string))) Engine=Memory()");
 
             Integer rowCnt = 300;
             try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
                     "INSERT INTO nested_test (value, value2, value3) values(?, ?, ?);")) {
                 for (int i = 0; i < rowCnt; i++) {
                     // array of array
-                    Array innerArray1 = statement.getConnection().createArrayOf("int32", new Object[]{1, 2, 3});
-                    Array innerArray2 = statement.getConnection().createArrayOf("int32", new Object[]{4, 5, 6});
-                    pstmt.setObject(1, statement.getConnection().createArrayOf("array(int32)", new Object[]{innerArray1, innerArray2}));
+                    Array innerArray1 = statement.getConnection().createArrayOf("nullable(int32)", new Object[]{1, 2, null});
+                    Array innerArray2 = statement.getConnection().createArrayOf("nullable(int32)", new Object[]{4, 5, null});
+                    pstmt.setObject(1, statement.getConnection().createArrayOf("array(nullable(int32))", new Object[]{innerArray1, innerArray2}));
                     
                     // array of tuple
-                    TimeplusStruct tuple1 = new TimeplusStruct("tuple", new Object[]{1, "test"});
-                    TimeplusStruct tuple2 = new TimeplusStruct("tuple", new Object[]{2, "test2"});
-                    pstmt.setObject(2, statement.getConnection().createArrayOf("tuple(int, string)", new Object[]{tuple1, tuple2}));
+                    TimeplusStruct tuple1 = new TimeplusStruct("tuple", new Object[]{1, null});
+                    TimeplusStruct tuple2 = new TimeplusStruct("tuple", new Object[]{null, "test2"});
+                    pstmt.setObject(2, statement.getConnection().createArrayOf("tuple(nullable(int), nullable(string))", new Object[]{tuple1, tuple2}));
 
                     // tuple (array, string)
-                    Array array = statement.getConnection().createArrayOf("int", new Integer[]{1, 2, 3});
-                    TimeplusStruct tuple3 = new TimeplusStruct("tuple(array(int), string)", new Object[]{array, "test"});
+                    Array array = statement.getConnection().createArrayOf("nullable(int)", new Integer[]{1, 2, null});
+                    TimeplusStruct tuple3 = new TimeplusStruct("tuple(array(nullable(int)), nullable(string))", new Object[]{array, null});
                     pstmt.setObject(3, tuple3);
 
                     pstmt.addBatch();
@@ -74,13 +76,13 @@ public class NestedTypeTest extends AbstractITest implements BytesHelper {
                 assertEquals(innerArrayValue1.length, 3);
                 assertEquals(innerArrayValue1[0], 1);
                 assertEquals(innerArrayValue1[1], 2);
-                assertEquals(innerArrayValue1[2], 3);
+                assertEquals(innerArrayValue1[2], null);
                 Array innerArray2 = (Array) arrayValue[1];
                 Object[] innerArrayValue2 = (Object[]) innerArray2.getArray();
                 assertEquals(innerArrayValue2.length, 3);
                 assertEquals(innerArrayValue2[0], 4);
                 assertEquals(innerArrayValue2[1], 5);
-                assertEquals(innerArrayValue2[2], 6);
+                assertEquals(innerArrayValue2[2], null);
                 
                 // array of tuple
                 Array array2 = rs.getArray(2);
@@ -89,10 +91,10 @@ public class NestedTypeTest extends AbstractITest implements BytesHelper {
                 TimeplusStruct tuple1 = (TimeplusStruct) arrayValue2[0];
                 Object[] tupleValue1 = (Object[]) tuple1.getAttributes();
                 assertEquals(tupleValue1[0], 1);
-                assertEquals(tupleValue1[1], "test");
+                assertEquals(tupleValue1[1], null);
                 TimeplusStruct tuple2 = (TimeplusStruct) arrayValue2[1];
                 Object[] tupleValue2 = (Object[]) tuple2.getAttributes();
-                assertEquals(tupleValue2[0], 2);
+                assertEquals(tupleValue2[0], null);
                 assertEquals(tupleValue2[1], "test2");
 
                 // tuple (array, string)
@@ -103,8 +105,8 @@ public class NestedTypeTest extends AbstractITest implements BytesHelper {
                 assertEquals(arrayValue3.length, 3);
                 assertEquals(arrayValue3[0], 1);
                 assertEquals(arrayValue3[1], 2);
-                assertEquals(arrayValue3[2], 3);
-                assertEquals(tupleValue3[1], "test");
+                assertEquals(arrayValue3[2], null);
+                assertEquals(tupleValue3[1], null);
 
             }
             assertEquals(size, rowCnt);

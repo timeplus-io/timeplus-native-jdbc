@@ -35,16 +35,26 @@ public class TupleTypeTest extends AbstractITest implements BytesHelper {
     public void testTupleType_AllInOne() throws Exception {
         withStatement(statement -> {
             statement.execute("DROP STREAM IF EXISTS tuple_test");
-            statement.execute("CREATE STREAM IF NOT EXISTS tuple_test (value tuple(int, string, fixed_string(5), "
-                                +"date, datetime, decimal(15, 5), enum8('test','test2'), float32, ipv4, ipv6)) Engine=Memory()");
+            statement.execute("CREATE STREAM IF NOT EXISTS tuple_test (value tuple(int8, int16, int32, int64, "
+                                +"int128, int256, uint8, uint16, uint32, uint64, uint128, uint256, string, fixed_string(5), "
+                                +"date, datetime, decimal(5, 3), decimal(15, 5), decimal(38, 16), decimal(76, 26), "
+                                +"enum8('test','test2'), enum16('test','test2'), float32, float64, ipv4, ipv6, bool, uuid)) Engine=Memory()");
 
             Integer rowCnt = 300;
             Long testIPv4Value1 = ipToLong("192.168.1.1");
             BigInteger testIPv6Value1 = new BigInteger("20010db885a3000000008a2e03707334", 16);
+            java.util.UUID uuid = java.util.UUID.randomUUID();
             try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
                     "INSERT INTO tuple_test (value) values(?);")) {
                 for (int i = 0; i < rowCnt; i++) {
-                    Object[] tupleValue = new Object[]{1, "this_is_key", "a_key", java.sql.Date.valueOf("1970-01-01"), java.sql.Timestamp.valueOf("2021-01-01 00:00:00"), BigDecimal.valueOf(412341.21D).setScale(5, RoundingMode.HALF_UP), "test", 1.1f, testIPv4Value1, testIPv6Value1};
+                    Object[] tupleValue = new Object[]{(byte) 1, (short) 1, 1, 1l, testIPv6Value1, testIPv6Value1, (short) 1, 1, 1l, new BigInteger("1"), 
+                                                        testIPv6Value1, testIPv6Value1, "this_is_key", "a_key", java.sql.Date.valueOf("1970-01-01"), 
+                                                        java.sql.Timestamp.valueOf("2021-01-01 00:00:00"), 
+                                                        BigDecimal.valueOf(412341.21D).setScale(3, RoundingMode.HALF_UP), 
+                                                        BigDecimal.valueOf(412341.21D).setScale(5, RoundingMode.HALF_UP), 
+                                                        BigDecimal.valueOf(412341.21D).setScale(16, RoundingMode.HALF_UP), 
+                                                        BigDecimal.valueOf(412341.21D).setScale(26, RoundingMode.HALF_UP), 
+                                                        "test", "test", 1.1f, 100.1, testIPv4Value1, testIPv6Value1, (byte) 1, uuid};
                     TimeplusStruct tuple = new TimeplusStruct("tuple", tupleValue);
                     // convert to TimeplusStruct
 
@@ -61,16 +71,34 @@ public class TupleTypeTest extends AbstractITest implements BytesHelper {
                 Object obj1 = rs.getObject(1);
                 TimeplusStruct tuple = (TimeplusStruct) obj1;
                 Object[] tupleValue = (Object[]) tuple.getAttributes();
-                assertEquals(tupleValue[0], 1);
-                assertEquals(tupleValue[1], "this_is_key");
-                assertEquals(tupleValue[2], "a_key");
-                assertEquals(tupleValue[3].toString(), "1970-01-01");
-                assertEquals(DateTimeUtil.toTimestamp((ZonedDateTime) tupleValue[4], null), java.sql.Timestamp.valueOf("2021-01-01 00:00:00"));
-                assertEquals(tupleValue[5], BigDecimal.valueOf(412341.21D).setScale(5, RoundingMode.HALF_UP));
-                assertEquals(tupleValue[6], "test");
-                assertEquals(tupleValue[7], 1.1f);
-                assertEquals(tupleValue[8], testIPv4Value1);
-                assertEquals(tupleValue[9], testIPv6Value1);
+                assertEquals(tupleValue[0], (byte) 1);
+                assertEquals(tupleValue[1], (short) 1);
+                assertEquals(tupleValue[2], 1);
+                assertEquals(tupleValue[3], 1l);
+                assertEquals(tupleValue[4], testIPv6Value1);
+                assertEquals(tupleValue[5], testIPv6Value1);
+                assertEquals(tupleValue[6], (short) 1);
+                assertEquals(tupleValue[7], 1);
+                assertEquals(tupleValue[8], 1l);
+                assertEquals(tupleValue[9], new BigInteger("1"));
+                assertEquals(tupleValue[10], testIPv6Value1);
+                assertEquals(tupleValue[11], testIPv6Value1);
+                assertEquals(tupleValue[12], "this_is_key");
+                assertEquals(tupleValue[13], "a_key");
+                assertEquals(tupleValue[14].toString(), "1970-01-01");
+                assertEquals(DateTimeUtil.toTimestamp((ZonedDateTime) tupleValue[15], null), java.sql.Timestamp.valueOf("2021-01-01 00:00:00"));
+                assertEquals(tupleValue[16], BigDecimal.valueOf(412341.21D).setScale(3, RoundingMode.HALF_UP));
+                assertEquals(tupleValue[17], BigDecimal.valueOf(412341.21D).setScale(5, RoundingMode.HALF_UP));
+                assertEquals(tupleValue[18], BigDecimal.valueOf(412341.21D).setScale(16, RoundingMode.HALF_UP));
+                assertEquals(tupleValue[19], BigDecimal.valueOf(412341.21D).setScale(26, RoundingMode.HALF_UP));
+                assertEquals(tupleValue[20], "test");
+                assertEquals(tupleValue[21], "test");
+                assertEquals(tupleValue[22], 1.1f);
+                assertEquals(tupleValue[23], 100.1);
+                assertEquals(tupleValue[24], testIPv4Value1);
+                assertEquals(tupleValue[25], testIPv6Value1);
+                assertEquals(tupleValue[26], (byte) 1);
+                assertEquals(tupleValue[27], uuid);
             }
             assertEquals(size, rowCnt);
             statement.execute("DROP STREAM IF EXISTS tuple_test");
@@ -85,13 +113,13 @@ public class TupleTypeTest extends AbstractITest implements BytesHelper {
                                 +"nullable(string), nullable(fixed_string(5)), "
                                 +"nullable(date), nullable(datetime), "
                                 +"nullable(decimal(15, 5)), nullable(enum8('test','test2')), "
-                                +"nullable(float32), nullable(ipv4), nullable(ipv6))) Engine=Memory()");
+                                +"nullable(float32), nullable(ipv4), nullable(ipv6), nullable(bool), nullable(uuid))) Engine=Memory()");
 
             Integer rowCnt = 300;
             try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
                     "INSERT INTO tuple_test (value) values(?);")) {
                 for (int i = 0; i < rowCnt; i++) {
-                    Object[] tupleValueNull = new Object[]{null, null, null, null, null, null, null, null, null, null};
+                    Object[] tupleValueNull = new Object[]{null, null, null, null, null, null, null, null, null, null, null, null};
                     TimeplusStruct tupleNull = new TimeplusStruct("tuple", tupleValueNull);
                     pstmt.setObject(1, tupleNull);
                     pstmt.addBatch();
@@ -106,7 +134,7 @@ public class TupleTypeTest extends AbstractITest implements BytesHelper {
                 Object obj1 = rs.getObject(1);
                 TimeplusStruct tuple = (TimeplusStruct) obj1;
                 Object[] tupleValue = (Object[]) tuple.getAttributes();
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 12; i++) {
                     assertEquals(tupleValue[i], null);
                 }
             }
@@ -124,11 +152,12 @@ public class TupleTypeTest extends AbstractITest implements BytesHelper {
                                 +"nullable(date), nullable(date), nullable(datetime), nullable(datetime), "
                                 +"nullable(decimal(15, 5)), nullable(decimal(15, 5)), nullable(enum8('test','test2')), "
                                 +"nullable(enum8('test','test2')), nullable(float32), nullable(float32), "
-                                +"nullable(ipv4), nullable(ipv4), nullable(ipv6), nullable(ipv6))) Engine=Memory()");
+                                +"nullable(ipv4), nullable(ipv4), nullable(ipv6), nullable(ipv6), nullable(bool), nullable(bool), nullable(uuid), nullable(uuid))) Engine=Memory()");
 
             Integer rowCnt = 300;
             Long testIPv4Value1 = ipToLong("192.168.1.1");
             BigInteger testIPv6Value1 = new BigInteger("20010db885a3000000008a2e03707334", 16);
+            java.util.UUID uuid = java.util.UUID.randomUUID();
             try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
                     "INSERT INTO tuple_test (value) values(?);")) {
                 for (int i = 0; i < rowCnt; i++) {
@@ -136,7 +165,7 @@ public class TupleTypeTest extends AbstractITest implements BytesHelper {
                                                             java.sql.Date.valueOf("1970-01-01"), null, 
                                                             java.sql.Timestamp.valueOf("2021-01-01 00:00:00"), null, 
                                                             BigDecimal.valueOf(412341.21D).setScale(5, RoundingMode.HALF_UP), null, 
-                                                            "test", null, 1.1f, null, testIPv4Value1, null, testIPv6Value1};
+                                                            "test", null, 1.1f, null, testIPv4Value1, null, testIPv6Value1, null, (byte) 1, null, uuid};
                     TimeplusStruct tupleNull = new TimeplusStruct("tuple", tupleValueNull);
                     pstmt.setObject(1, tupleNull);
                     pstmt.addBatch();
@@ -151,7 +180,7 @@ public class TupleTypeTest extends AbstractITest implements BytesHelper {
                 Object obj1 = rs.getObject(1);
                 TimeplusStruct tuple = (TimeplusStruct) obj1;
                 Object[] tupleValue = (Object[]) tuple.getAttributes();
-                for (int i = 0; i < 20; i++) {
+                for (int i = 0; i < 24; i++) {
                     if (i % 2 == 0) {
                         assertEquals(tupleValue[i], null);
                     }
@@ -166,6 +195,8 @@ public class TupleTypeTest extends AbstractITest implements BytesHelper {
                 assertEquals(tupleValue[15], 1.1f);
                 assertEquals(tupleValue[17], testIPv4Value1);
                 assertEquals(tupleValue[19], testIPv6Value1);
+                assertEquals(tupleValue[21], (byte) 1);
+                assertEquals(tupleValue[23], uuid);
             }
             assertEquals(size, rowCnt);
             statement.execute("DROP STREAM IF EXISTS tuple_test");
