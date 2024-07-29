@@ -26,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LowCardinalityTypeTest extends AbstractITest implements BytesHelper {
     @Test
     public void testAllLowCardinalityTypes() throws Exception {
-    // FIXME
         withStatement(statement -> {
             statement.execute("DROP STREAM IF EXISTS low_cardinality_test");
 
@@ -43,8 +42,9 @@ public class LowCardinalityTypeTest extends AbstractITest implements BytesHelper
             String sql = "INSERT INTO low_cardinality_test " +
                     "(value_string, fixed_string, date_value, datetime_value, number_value) values(?, ?, ?, ?, ?);";
 
+            Integer rowCnt = 100;
             try (PreparedStatement pstmt = statement.getConnection().prepareStatement(sql)) {
-                for (int i = 0; i < 1; i++) {
+                for (int i = 0; i < rowCnt; i++) {
                     pstmt.setString(1, "test");
                     pstmt.setString(2, "abcdefgj");
                     pstmt.setDate(3, new java.sql.Date(System.currentTimeMillis()));
@@ -87,7 +87,7 @@ public class LowCardinalityTypeTest extends AbstractITest implements BytesHelper
                 String fixedStr = rs.getString("fixed_string");
                 Date dateValue = rs.getDate("date_value");
                 Timestamp datetimeValue = rs.getTimestamp("datetime_value");
-                Integer numberValue = (Integer) rs.getObject("number_value");
+                Integer numberValue = rs.getInt("number_value");
 
                 assertEquals("test", valueStr);
                 assertEquals("abcdefgj\0\0", fixedStr);
@@ -97,7 +97,103 @@ public class LowCardinalityTypeTest extends AbstractITest implements BytesHelper
 
                 size++;
             }
-            assertEquals(1, size);
+            assertEquals(rowCnt, size);
+
+            statement.execute("DROP STREAM IF EXISTS low_cardinality_test");
+        }, "allow_suspicious_low_cardinality_types", "1");
+    }
+
+    @Test
+    public void testNullLowCardinalityTypes() throws Exception {
+        withStatement(statement -> {
+            statement.execute("DROP STREAM IF EXISTS low_cardinality_test");
+
+            StringBuilder createTableSQL = new StringBuilder();
+            createTableSQL.append("CREATE STREAM IF NOT EXISTS low_cardinality_test (")
+                    .append("value_string low_cardinality(nullable(string)), ")
+                    .append("fixed_string low_cardinality(nullable(fixed_string(10))), ")
+                    .append("date_value low_cardinality(nullable(date)), ")
+                    .append("datetime_value low_cardinality(nullable(datetime)), ")
+                    .append("number_value low_cardinality(nullable(int32))) Engine=Memory()");
+
+            statement.execute(createTableSQL.toString());
+
+            String sql = "INSERT INTO low_cardinality_test " +
+                    "(value_string, fixed_string, date_value, datetime_value, number_value) values(?, ?, ?, ?, ?);";
+            
+            Integer rowCnt = 100;
+            try (PreparedStatement pstmt = statement.getConnection().prepareStatement(sql)) {
+                for (int i = 0; i < rowCnt/2; i++) {
+                    pstmt.setString(1, "test");
+                    pstmt.setString(2, "abcdefgj");
+                    pstmt.setDate(3, new java.sql.Date(System.currentTimeMillis()));
+                    pstmt.setTimestamp(4, new java.sql.Timestamp(System.currentTimeMillis()));
+                    pstmt.setInt(5, i);
+
+                    pstmt.addBatch();
+                }
+                for (int i = 0; i < rowCnt/2; i++) {
+                    pstmt.setNull(1, 1);
+                    pstmt.setNull(2, 1);
+                    pstmt.setNull(3, 1);
+                    pstmt.setNull(4, 1);
+                    pstmt.setNull(5, 1);
+
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
+
+            DatabaseMetaData metaData = statement.getConnection().getMetaData();
+            ResultSet columns = metaData.getColumns(null, "default", "low_cardinality_test", "%");
+            while (columns.next()) {
+                String columnName = columns.getString("COLUMN_NAME");
+                String columnType = columns.getString("TYPE_NAME");
+                switch (columnName) {
+                    case "value_string":
+                        assertEquals(columnType, "low_cardinality(nullable(string))");
+                        break;
+                    case "fixed_string":
+                        assertEquals(columnType, "low_cardinality(nullable(fixed_string(10)))");
+                        break;
+                    case "date_value":
+                        assertEquals(columnType, "low_cardinality(nullable(date))");
+                        break;
+                    case "datetime_value":
+                        assertEquals(columnType, "low_cardinality(nullable(datetime))");
+                        break;
+                    case "number_value":
+                        assertEquals(columnType, "low_cardinality(nullable(int32))");
+                        break;
+                }
+            }
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM low_cardinality_test;");
+            int size = 0;
+            while (rs.next()) {
+                String valueStr = rs.getString("value_string");
+                String fixedStr = rs.getString("fixed_string");
+                Date dateValue = rs.getDate("date_value");
+                Timestamp datetimeValue = rs.getTimestamp("datetime_value");
+                Integer numberValue = (Integer) rs.getObject("number_value");
+
+                if (size < rowCnt / 2) {
+                    assertEquals("test", valueStr);
+                    assertEquals("abcdefgj\0\0", fixedStr);
+                    assertNotNull(dateValue);
+                    assertNotNull(datetimeValue);
+                    assertTrue(numberValue >= 0 && numberValue < 300);
+                }
+                else {
+                    assertNull(valueStr);
+                    assertNull(fixedStr);
+                    assertNull(dateValue);
+                    assertNull(datetimeValue);
+                    assertNull(numberValue);
+                }
+                size++;
+            }
+            assertEquals(rowCnt, size);
 
             statement.execute("DROP STREAM IF EXISTS low_cardinality_test");
         }, "allow_suspicious_low_cardinality_types", "1");
