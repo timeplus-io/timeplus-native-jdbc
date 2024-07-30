@@ -79,4 +79,10 @@ public class DataTypeFloat32 implements IDataType<Float, Float> {
     public boolean isSigned() {
         return true;
     }
+
+    @Override
+    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
+    
+    @Override
+    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

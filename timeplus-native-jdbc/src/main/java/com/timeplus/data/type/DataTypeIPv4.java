@@ -74,4 +74,10 @@ public class DataTypeIPv4 implements IDataType<Long, Long> {
     public Long deserializeText(SQLLexer lexer) throws SQLException {
         return lexer.numberLiteral().longValue() & 0xffffffffL;
     }
+
+    @Override
+    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
+    
+    @Override
+    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

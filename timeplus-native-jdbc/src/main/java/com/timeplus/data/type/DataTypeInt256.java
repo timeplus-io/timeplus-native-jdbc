@@ -73,4 +73,9 @@ public class DataTypeInt256 implements IDataType<BigInteger, BigInteger> {
         return new BigInteger(Integer256, 10);
     }
 
+    @Override
+    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
+    
+    @Override
+    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

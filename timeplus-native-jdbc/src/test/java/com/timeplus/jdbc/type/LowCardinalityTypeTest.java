@@ -15,10 +15,13 @@
 package com.timeplus.jdbc.type;
 
 import com.timeplus.jdbc.AbstractITest;
+import com.timeplus.jdbc.TimeplusStruct;
 import com.timeplus.misc.BytesHelper;
 import org.junit.jupiter.api.Test;
 
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -197,5 +200,78 @@ public class LowCardinalityTypeTest extends AbstractITest implements BytesHelper
 
             statement.execute("DROP STREAM IF EXISTS low_cardinality_test");
         }, "allow_suspicious_low_cardinality_types", "1");
+    }
+
+    @Test
+    public void testMapNestedType() throws Exception {
+        withStatement(statement -> {
+            statement.execute("DROP STREAM IF EXISTS nested_test");
+            statement.execute(
+                    "CREATE STREAM IF NOT EXISTS nested_test (value map(low_cardinality(string), low_cardinality(int32))) Engine=Memory()");
+
+            Integer rowCnt = 300;
+            try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
+                    "INSERT INTO nested_test (value) values(?);")) {
+
+                Map<String, Integer> map = new HashMap<>();
+                map.put("key", 1);
+                map.put("key2", 2);
+                map.put("key3", 3);
+                for (int i = 0; i < rowCnt; i++) {
+                    pstmt.setObject(1, map);
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM nested_test;");
+            int size = 0;
+            while (rs.next()) {
+                size++;
+                Map<String, Integer> value = (Map<String, Integer>) rs.getObject(1);
+                assertEquals(value.get("key"), 1);
+                assertEquals(value.get("key2"), 2);
+                assertEquals(value.get("key3"), 3);
+
+            }
+            assertEquals(size, rowCnt);
+            statement.execute("DROP STREAM IF EXISTS nested_test");
+        });
+    }
+
+    @Test
+    public void testTupleNestedType() throws Exception {
+        withStatement(statement -> {
+            statement.execute("DROP STREAM IF EXISTS nested_test");
+            statement.execute(
+                    "CREATE STREAM IF NOT EXISTS nested_test (value tuple(low_cardinality(string), low_cardinality(int32))) Engine=Memory()");
+
+            Integer rowCnt = 300;
+            try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
+                    "INSERT INTO nested_test (value) values(?);")) {
+
+                Object[] tupleValue = new Object[]{"test", 1};
+                TimeplusStruct tuple = new TimeplusStruct("tuple", tupleValue);
+                for (int i = 0; i < rowCnt; i++) {
+                    pstmt.setObject(1, tuple);
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM nested_test;");
+            int size = 0;
+            while (rs.next()) {
+                size++;
+                Object obj1 = rs.getObject(1);
+                TimeplusStruct tuple = (TimeplusStruct) obj1;
+                Object[] tupleValue = (Object[]) tuple.getAttributes();
+                assertEquals(tupleValue[0], "test");
+                assertEquals(tupleValue[1], 1);
+
+            }
+            assertEquals(size, rowCnt);
+            statement.execute("DROP STREAM IF EXISTS nested_test");
+        });
     }
 }

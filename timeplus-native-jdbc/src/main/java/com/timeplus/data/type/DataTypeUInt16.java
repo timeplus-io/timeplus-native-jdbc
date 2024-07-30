@@ -58,4 +58,10 @@ public class DataTypeUInt16 implements BaseDataTypeInt16<Integer, Integer> {
     public Integer deserializeText(SQLLexer lexer) throws SQLException {
         return lexer.numberLiteral().intValue();
     }
+
+    @Override
+    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
+    
+    @Override
+    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

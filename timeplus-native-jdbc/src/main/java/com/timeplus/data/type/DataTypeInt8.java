@@ -67,4 +67,10 @@ public class DataTypeInt8 implements BaseDataTypeInt8<Byte, Byte> {
     public boolean isSigned() {
         return true;
     }
+
+    @Override
+    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
+    
+    @Override
+    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

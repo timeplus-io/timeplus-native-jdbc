@@ -149,4 +149,10 @@ public class DataTypeNullable implements IDataType {
     public boolean isSigned() {
         return nestedDataType.isSigned();
     }
+
+    @Override
+    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
+    
+    @Override
+    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

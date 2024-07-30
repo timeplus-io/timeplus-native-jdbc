@@ -71,27 +71,20 @@ public class ColumnLowCardinality extends AbstractColumn {
 
     @Override
     public void flushToSerializer(BinarySerializer serializer, boolean immediate) throws IOException, SQLException {
-        if (isExported()) {
-            serializer.writeUTF8StringBinary(name);
-            serializer.writeUTF8StringBinary(type.name());
+        /// The data layout: [version][index_type][dictionary][indexes]
+        // serializer.writeLong(version);
+        serializer.writeLong(IndexType.UInt64.getValue() | IndexType.HasAdditionalKeysBit.getValue());
+        serializer.writeLong(dict.size());
+        for (int i = 0; i < dict.size(); i++) {
+            data.write(dict.get(i));
         }
+        data.flushToSerializer(serializer, true);
 
-        if (immediate) {
-            /// The data layout: [version][index_type][dictionary][indexes]
-            serializer.writeLong(version);
-            serializer.writeLong(IndexType.UInt64.getValue() | IndexType.HasAdditionalKeysBit.getValue());
-
-            serializer.writeLong(dict.size());
-            for (int i = 0; i < dict.size(); i++) {
-                data.write(dict.get(i));
-            }
-            data.flushToSerializer(serializer, true);
-
-            serializer.writeLong(indexes.size()); //  give index type size
-            for (int i = 0; i < indexes.size(); i++) {
-                serializer.writeLong(indexes.get(i));
-            }
+        serializer.writeLong(indexes.size()); //  give index type size
+        for (int i = 0; i < indexes.size(); i++) {
+            serializer.writeLong(indexes.get(i));
         }
+    
     }
 
     @Override
@@ -103,4 +96,24 @@ public class ColumnLowCardinality extends AbstractColumn {
     @Override
     public void clear() {
     }
+
+    @Override
+    public void SerializerPrefix(BinarySerializer serializer)  throws IOException, SQLException {
+        if (isExported()) {
+            serializer.writeUTF8StringBinary(name);
+            serializer.writeUTF8StringBinary(type.name());
+        }
+        
+        /// The data layout: [version][index_type][dictionary][indexes]
+        serializer.writeLong(version);
+        
+    }
+
+    @Override
+    public void SerializerSuffix(BinarySerializer serializer) {
+        
+    }
+
+
+
 }

@@ -172,4 +172,13 @@ public class DataTypeMap implements IDataType<Object, Object> {
     public IDataType[] getNestedTypes() {
         return nestedTypes;
     }
+
+    @Override
+    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
+        getNestedTypes()[0].deserializeBinaryPrefix(rows, deserializer);
+        getNestedTypes()[1].deserializeBinaryPrefix(rows, deserializer);
+    }
+    
+    @Override
+    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

@@ -31,6 +31,9 @@ public interface IColumn {
 
     void write(Object object) throws IOException, SQLException;
 
+
+    void SerializerPrefix(BinarySerializer serializer) throws IOException, SQLException;
+
     /**
      * Flush to socket output stream
      *
@@ -38,6 +41,10 @@ public interface IColumn {
      * @param now        means we should flush all the buffer to serializer now
      */
     void flushToSerializer(BinarySerializer serializer, boolean now) throws IOException, SQLException;
+
+    void SerializerSuffix(BinarySerializer serializer) throws IOException, SQLException;
+
+ 
 
     void clear();
 

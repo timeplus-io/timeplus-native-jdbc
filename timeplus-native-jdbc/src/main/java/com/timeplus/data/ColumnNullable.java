@@ -66,4 +66,14 @@ public class ColumnNullable extends AbstractColumn {
         super.setColumnWriterBuffer(buffer);
         data.setColumnWriterBuffer(buffer);
     }
+
+    @Override
+    public void SerializerPrefix(BinarySerializer serializer) {
+        
+    }
+
+    @Override
+    public void SerializerSuffix(BinarySerializer serializer) {
+        
+    }
 }

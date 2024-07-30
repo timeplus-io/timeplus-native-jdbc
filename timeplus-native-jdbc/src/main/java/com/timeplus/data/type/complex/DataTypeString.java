@@ -108,4 +108,10 @@ public class DataTypeString implements IDataType<CharSequence, String> {
                 "LONGTEXT",
                 "BLOB"};
     }
+
+    @Override
+    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
+    
+    @Override
+    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

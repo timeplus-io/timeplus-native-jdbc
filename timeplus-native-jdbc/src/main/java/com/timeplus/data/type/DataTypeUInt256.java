@@ -69,4 +69,14 @@ public class DataTypeUInt256 implements BaseDataTypeInt64<BigInteger, BigInteger
         String Uinteger256 = lexer.stringLiteral();
         return new BigInteger(Uinteger256, 10);
     }
+
+    @Override
+    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
+
+    }
+    
+    @Override
+    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
+        
+    }
 }

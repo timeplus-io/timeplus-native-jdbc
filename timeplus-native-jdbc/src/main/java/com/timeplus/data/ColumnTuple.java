@@ -46,10 +46,10 @@ public class ColumnTuple extends AbstractColumn {
 
     @Override
     public void flushToSerializer(BinarySerializer serializer, boolean now) throws SQLException, IOException {
-        if (isExported()) {
-            serializer.writeUTF8StringBinary(name);
-            serializer.writeUTF8StringBinary(type.name());
-        }
+        // if (isExported()) {
+        //     serializer.writeUTF8StringBinary(name);
+        //     serializer.writeUTF8StringBinary(type.name());
+        // }
 
         // we should to flush all the nested data to serializer
         // because they are using separate buffers.
@@ -73,5 +73,21 @@ public class ColumnTuple extends AbstractColumn {
 
     @Override
     public void clear() {
+    }
+
+    @Override
+    public void SerializerPrefix(BinarySerializer serializer) throws SQLException, IOException {
+        if (isExported()) {
+            serializer.writeUTF8StringBinary(name);
+            serializer.writeUTF8StringBinary(type.name());
+        }
+        for (IColumn data : columnDataArray) {
+            data.SerializerPrefix(serializer);
+        }
+    }
+
+    @Override
+    public void SerializerSuffix(BinarySerializer serializer) {
+        
     }
 }

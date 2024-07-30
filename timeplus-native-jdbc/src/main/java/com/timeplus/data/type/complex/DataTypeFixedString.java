@@ -125,4 +125,10 @@ public class DataTypeFixedString implements IDataType<CharSequence, String> {
     public String[] getAliases() {
         return new String[]{"BINARY"};
     }
+
+    @Override
+    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
+    
+    @Override
+    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

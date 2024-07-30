@@ -58,10 +58,6 @@ public class ColumnMap extends AbstractColumn {
 
     @Override
     public void flushToSerializer(BinarySerializer serializer, boolean now) throws IOException, SQLException {
-        if (isExported()) {
-            serializer.writeUTF8StringBinary(name);
-            serializer.writeUTF8StringBinary(type.name());
-        }
 
         flushOffsets(serializer);
 
@@ -96,4 +92,23 @@ public class ColumnMap extends AbstractColumn {
             data.clear();
         }
     }
+    
+    @Override
+    public void SerializerPrefix(BinarySerializer serializer) throws SQLException, IOException {
+        if (isExported()) {
+            serializer.writeUTF8StringBinary(name);
+            serializer.writeUTF8StringBinary(type.name());
+        }
+
+        for (IColumn data : columnDataArray) {
+            data.SerializerPrefix(serializer);
+        }
+    }
+
+    @Override
+    public void SerializerSuffix(BinarySerializer serializer) {
+        
+    }
+
+
 }

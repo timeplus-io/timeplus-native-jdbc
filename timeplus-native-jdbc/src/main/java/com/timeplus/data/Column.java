@@ -42,4 +42,12 @@ public class Column extends AbstractColumn {
             buffer.writeTo(serializer);
         }
     }
+
+    @Override
+    public void SerializerPrefix(BinarySerializer serializer) { }
+
+    @Override
+    public void SerializerSuffix(BinarySerializer serializer) { }
+
 }
+

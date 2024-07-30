@@ -17,7 +17,6 @@ package com.timeplus.data;
 import com.timeplus.jdbc.TimeplusArray;
 import com.timeplus.data.type.complex.DataTypeArray;
 import com.timeplus.serde.BinarySerializer;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -47,14 +46,15 @@ public class ColumnArray extends AbstractColumn {
 
     @Override
     public void flushToSerializer(BinarySerializer serializer, boolean immediate) throws SQLException, IOException {
-        if (isExported()) {
-            serializer.writeUTF8StringBinary(name);
-            serializer.writeUTF8StringBinary(type.name());
-        }
+        // if (isExported()) {
+        //     serializer.writeUTF8StringBinary(name);
+        //     serializer.writeUTF8StringBinary(type.name());
+        // }
 
+        
         flushOffsets(serializer);
         data.flushToSerializer(serializer, false);
-
+        
         if (immediate) {
             buffer.writeTo(serializer);
         }
@@ -77,4 +77,20 @@ public class ColumnArray extends AbstractColumn {
         offsets.clear();
         data.clear();
     }
+
+    @Override
+    public void SerializerPrefix(BinarySerializer serializer) throws SQLException, IOException {
+        if (isExported()) {
+            serializer.writeUTF8StringBinary(name);
+            serializer.writeUTF8StringBinary(type.name());
+        }
+        data.SerializerPrefix(serializer);
+    }
+
+    @Override
+    public void SerializerSuffix(BinarySerializer serializer) throws SQLException, IOException {
+        // data.SerializerSuffix(serializer);
+    }
+
+ 
 }

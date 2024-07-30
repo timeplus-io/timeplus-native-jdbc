@@ -67,4 +67,10 @@ public class DataTypeInt64 implements BaseDataTypeInt64<Long, Long> {
     public boolean isSigned() {
         return true;
     }
+
+    @Override
+    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
+    
+    @Override
+    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

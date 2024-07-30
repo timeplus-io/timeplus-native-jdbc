@@ -18,8 +18,6 @@ import com.timeplus.data.DataTypeFactory;
 import com.timeplus.data.IDataType;
 import com.timeplus.data.IndexType;
 import com.timeplus.data.type.DataTypeUInt8;
-import com.timeplus.log.Logger;
-import com.timeplus.log.LoggerFactory;
 import com.timeplus.data.type.DataTypeUInt16;
 import com.timeplus.data.type.DataTypeUInt32;
 import com.timeplus.data.type.DataTypeUInt64;
@@ -45,7 +43,6 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
     private final IDataType<?, ?>  nestedDataType;
     private final Long version = 1L;
     private final Long IndexTypeMask = 0b11111111L;
-    private static final Logger LOG = LoggerFactory.getLogger(DataTypeLowCardinality.class);
     private boolean nested_is_nullable;
 
     public DataTypeLowCardinality(String name, IDataType<?, ?>  nestedDataType) {
@@ -123,12 +120,6 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
             return data;
         }
         else {
-            Long version = deserializer.readLong();
-
-            if (version != this.version) {
-                throw new SQLException("version error in type low_cardinality");
-            }
-
             Long index_type = deserializer.readLong() & IndexTypeMask;
             Long key_nums = deserializer.readLong();
             Object[] dictionary = new Object[key_nums.intValue()];
@@ -142,7 +133,7 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
                 inner_type = getNestedTypes();
             }
             dictionary = inner_type.deserializeBinaryBulk(key_nums.intValue(), deserializer);
-
+            dictionary[0] = null;
             Long row_nums = deserializer.readLong();
 
             if (row_nums != rows) {
@@ -189,5 +180,19 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
     public IDataType getNestedTypes() {
         return nestedDataType;
     }
+
+    @Override
+    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
+        if (rows != 0) {
+            Long version = deserializer.readLong();
+
+            if (version != this.version) {
+                throw new SQLException("version error in type low_cardinality");
+            }
+        }
+    }
+    
+    @Override
+    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 
 }
