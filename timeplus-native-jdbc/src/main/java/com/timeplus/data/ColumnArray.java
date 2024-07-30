@@ -46,14 +46,14 @@ public class ColumnArray extends AbstractColumn {
 
     @Override
     public void flushToSerializer(BinarySerializer serializer, boolean immediate) throws SQLException, IOException {
-        // if (isExported()) {
-        //     serializer.writeUTF8StringBinary(name);
-        //     serializer.writeUTF8StringBinary(type.name());
-        // }
+        super.flushToSerializer(serializer, immediate);
+    }
 
+    @Override
+    public void SerializeBulk(BinarySerializer serializer, boolean immediate) throws SQLException, IOException {
         
         flushOffsets(serializer);
-        data.flushToSerializer(serializer, false);
+        data.SerializeBulk(serializer, false);
         
         if (immediate) {
             buffer.writeTo(serializer);
@@ -79,17 +79,13 @@ public class ColumnArray extends AbstractColumn {
     }
 
     @Override
-    public void SerializerPrefix(BinarySerializer serializer) throws SQLException, IOException {
-        if (isExported()) {
-            serializer.writeUTF8StringBinary(name);
-            serializer.writeUTF8StringBinary(type.name());
-        }
-        data.SerializerPrefix(serializer);
+    public void SerializeBulkPrefix(BinarySerializer serializer) throws SQLException, IOException {
+        data.SerializeBulkPrefix(serializer);
     }
 
     @Override
-    public void SerializerSuffix(BinarySerializer serializer) throws SQLException, IOException {
-        // data.SerializerSuffix(serializer);
+    public void SerializeBulkSuffix(BinarySerializer serializer) throws SQLException, IOException {
+        data.SerializeBulkSuffix(serializer);
     }
 
  

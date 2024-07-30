@@ -32,7 +32,7 @@ public interface IColumn {
     void write(Object object) throws IOException, SQLException;
 
 
-    void SerializerPrefix(BinarySerializer serializer) throws IOException, SQLException;
+    void SerializeBulkPrefix(BinarySerializer serializer) throws IOException, SQLException;
 
     /**
      * Flush to socket output stream
@@ -42,9 +42,9 @@ public interface IColumn {
      */
     void flushToSerializer(BinarySerializer serializer, boolean now) throws IOException, SQLException;
 
-    void SerializerSuffix(BinarySerializer serializer) throws IOException, SQLException;
+    void SerializeBulkSuffix(BinarySerializer serializer) throws IOException, SQLException;
 
- 
+    void SerializeBulk(BinarySerializer serializer, boolean now) throws IOException, SQLException;
 
     void clear();
 

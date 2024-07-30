@@ -88,4 +88,10 @@ public interface IDataType<CK, JDBC> {
 
     void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException;
     
+    default Object[] deserializeBinaryFromStream(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
+        deserializeBinaryPrefix(rows, deserializer);
+        Object[] arr = deserializeBinaryBulk(rows, deserializer);
+        deserializeBinarySuffix(rows, deserializer);
+        return arr;
+    }
 }

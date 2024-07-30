@@ -14,6 +14,11 @@
 
 package com.timeplus.data;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
+import com.timeplus.serde.BinarySerializer;
+
 public abstract class AbstractColumn implements IColumn {
 
     protected final String name;
@@ -63,4 +68,12 @@ public abstract class AbstractColumn implements IColumn {
     public ColumnWriterBuffer getColumnWriterBuffer() {
         return buffer;
     }
+
+    @Override
+    public void flushToSerializer(BinarySerializer serializer, boolean now) throws IOException, SQLException {
+        SerializeBulkPrefix(serializer);
+        SerializeBulk(serializer, now);
+        SerializeBulkSuffix(serializer);
+    }
+
 }

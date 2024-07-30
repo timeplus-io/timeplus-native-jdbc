@@ -57,12 +57,12 @@ public class ColumnMap extends AbstractColumn {
     }
 
     @Override
-    public void flushToSerializer(BinarySerializer serializer, boolean now) throws IOException, SQLException {
+    public void SerializeBulk(BinarySerializer serializer, boolean now) throws IOException, SQLException {
 
         flushOffsets(serializer);
 
         for (IColumn data : columnDataArray) {
-            data.flushToSerializer(serializer, true);
+            data.SerializeBulk(serializer, true);
         }
 
         if (now) {
@@ -94,21 +94,18 @@ public class ColumnMap extends AbstractColumn {
     }
     
     @Override
-    public void SerializerPrefix(BinarySerializer serializer) throws SQLException, IOException {
-        if (isExported()) {
-            serializer.writeUTF8StringBinary(name);
-            serializer.writeUTF8StringBinary(type.name());
-        }
-
+    public void SerializeBulkPrefix(BinarySerializer serializer) throws SQLException, IOException {
         for (IColumn data : columnDataArray) {
-            data.SerializerPrefix(serializer);
+            data.SerializeBulkPrefix(serializer);
         }
     }
 
     @Override
-    public void SerializerSuffix(BinarySerializer serializer) {
-        
+    public void SerializeBulkSuffix(BinarySerializer serializer) {
     }
 
-
+    @Override
+    public void flushToSerializer(BinarySerializer serializer, boolean immediate) throws SQLException, IOException {
+        super.flushToSerializer(serializer, immediate);
+    }
 }

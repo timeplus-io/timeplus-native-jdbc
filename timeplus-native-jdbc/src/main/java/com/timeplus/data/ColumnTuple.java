@@ -45,7 +45,7 @@ public class ColumnTuple extends AbstractColumn {
     }
 
     @Override
-    public void flushToSerializer(BinarySerializer serializer, boolean now) throws SQLException, IOException {
+    public void SerializeBulk(BinarySerializer serializer, boolean now) throws SQLException, IOException {
         // if (isExported()) {
         //     serializer.writeUTF8StringBinary(name);
         //     serializer.writeUTF8StringBinary(type.name());
@@ -54,7 +54,7 @@ public class ColumnTuple extends AbstractColumn {
         // we should to flush all the nested data to serializer
         // because they are using separate buffers.
         for (IColumn data : columnDataArray) {
-            data.flushToSerializer(serializer, true);
+            data.SerializeBulk(serializer, true);
         }
 
         if (now) {
@@ -76,18 +76,19 @@ public class ColumnTuple extends AbstractColumn {
     }
 
     @Override
-    public void SerializerPrefix(BinarySerializer serializer) throws SQLException, IOException {
-        if (isExported()) {
-            serializer.writeUTF8StringBinary(name);
-            serializer.writeUTF8StringBinary(type.name());
-        }
+    public void SerializeBulkPrefix(BinarySerializer serializer) throws SQLException, IOException {
         for (IColumn data : columnDataArray) {
-            data.SerializerPrefix(serializer);
+            data.SerializeBulkPrefix(serializer);
         }
     }
 
     @Override
-    public void SerializerSuffix(BinarySerializer serializer) {
+    public void SerializeBulkSuffix(BinarySerializer serializer) {
         
+    }
+
+    @Override
+    public void flushToSerializer(BinarySerializer serializer, boolean immediate) throws SQLException, IOException {
+        super.flushToSerializer(serializer, immediate);
     }
 }
