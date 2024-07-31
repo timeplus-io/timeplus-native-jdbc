@@ -76,4 +76,5 @@ public class DataTypeUUID implements IDataType<UUID, String> {
     public UUID deserializeBinary(BinaryDeserializer deserializer) throws SQLException, IOException {
         return new UUID(deserializer.readLong(), deserializer.readLong());
     }
+
 }

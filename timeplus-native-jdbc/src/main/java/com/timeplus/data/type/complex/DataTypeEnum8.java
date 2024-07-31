@@ -129,4 +129,5 @@ public class DataTypeEnum8 implements IDataType<String, String> {
         }
         throw new SQLException("");
     }
+
 }

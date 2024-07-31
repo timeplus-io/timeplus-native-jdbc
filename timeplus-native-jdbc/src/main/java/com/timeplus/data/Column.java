@@ -32,14 +32,10 @@ public class Column extends AbstractColumn {
     }
 
     @Override
-    public void flushToSerializer(BinarySerializer serializer, boolean now) throws IOException, SQLException {
-        if (isExported()) {
-            serializer.writeUTF8StringBinary(name);
-            serializer.writeUTF8StringBinary(type.name());
-        }
-
+    public void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException {
         if (now) {
             buffer.writeTo(serializer);
         }
     }
+
 }

@@ -108,4 +108,5 @@ public class DataTypeString implements IDataType<CharSequence, String> {
                 "LONGTEXT",
                 "BLOB"};
     }
+
 }

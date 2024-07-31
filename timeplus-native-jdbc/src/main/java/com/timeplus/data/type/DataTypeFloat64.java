@@ -79,4 +79,5 @@ public class DataTypeFloat64 implements IDataType<Double, Double> {
     public boolean isSigned() {
         return true;
     }
+
 }

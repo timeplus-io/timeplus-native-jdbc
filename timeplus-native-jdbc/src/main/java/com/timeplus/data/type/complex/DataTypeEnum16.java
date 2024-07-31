@@ -132,4 +132,5 @@ public class DataTypeEnum16 implements IDataType<String, String> {
         }
         throw new SQLException("");
     }
+
 }

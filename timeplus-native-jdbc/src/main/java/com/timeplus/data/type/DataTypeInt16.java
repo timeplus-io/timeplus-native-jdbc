@@ -68,4 +68,5 @@ public class DataTypeInt16 implements BaseDataTypeInt16<Short, Short> {
     public boolean isSigned() {
         return true;
     }
+
 }

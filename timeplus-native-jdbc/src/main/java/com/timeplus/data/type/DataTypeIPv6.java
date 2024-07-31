@@ -87,4 +87,5 @@ public class DataTypeIPv6 implements IDataType<BigInteger, BigInteger> {
     private static String convertIPv6ToHexadecimalString(String ipv6) {
         return ipv6.replace(":", "");
     }
+
 }

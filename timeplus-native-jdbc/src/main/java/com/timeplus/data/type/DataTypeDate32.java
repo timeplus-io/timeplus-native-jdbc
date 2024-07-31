@@ -98,4 +98,5 @@ public class DataTypeDate32 implements IDataType<LocalDate, Date> {
 
         return LocalDate.of(year, month, day);
     }
+
 }

@@ -24,11 +24,11 @@ import java.util.List;
 
 public class ColumnLowCardinality extends AbstractColumn {
 
-    private IColumn data;
     private final List<Long> indexes;
     private final List<Object> dict;
     private final Long version = 1L;
     private boolean nested_is_nullable;
+    private IDataType nested_type;
 
     public ColumnLowCardinality(String name, DataTypeLowCardinality type, Object[] values) {
         super(name, type, values);
@@ -37,13 +37,12 @@ public class ColumnLowCardinality extends AbstractColumn {
         nested_is_nullable = type.getNestedTypes().nullable();
         /// If a nested type is nullable, always add two hard dictionary keys in front: [0]: null, [1]: default value
         if (nested_is_nullable) {
-            IDataType nested_type = ((DataTypeNullable) type.getNestedTypes()).getNestedDataType();
-            data = ColumnFactory.createColumn(null, nested_type, null);
+            nested_type = ((DataTypeNullable) type.getNestedTypes()).getNestedDataType();
             dict.add(type.getNestedTypes().defaultValue());
             dict.add(type.getNestedTypes().defaultValue());
         }
         else {
-            data = ColumnFactory.createColumn(null, type.getNestedTypes(), null);
+            nested_type = type.getNestedTypes();
         }
     }
 
@@ -70,37 +69,32 @@ public class ColumnLowCardinality extends AbstractColumn {
     }
 
     @Override
-    public void flushToSerializer(BinarySerializer serializer, boolean immediate) throws IOException, SQLException {
-        if (isExported()) {
-            serializer.writeUTF8StringBinary(name);
-            serializer.writeUTF8StringBinary(type.name());
-        }
-
-        if (immediate) {
-            /// The data layout: [version][index_type][dictionary][indexes]
-            serializer.writeLong(version);
-            serializer.writeLong(IndexType.UInt64.getValue() | IndexType.HasAdditionalKeysBit.getValue());
-
-            serializer.writeLong(dict.size());
-            for (int i = 0; i < dict.size(); i++) {
-                data.write(dict.get(i));
-            }
-            data.flushToSerializer(serializer, true);
-
-            serializer.writeLong(indexes.size()); //  give index type size
-            for (int i = 0; i < indexes.size(); i++) {
-                serializer.writeLong(indexes.get(i));
-            }
-        }
-    }
-
-    @Override
     public void setColumnWriterBuffer(ColumnWriterBuffer buffer) {
         super.setColumnWriterBuffer(buffer);
-        data.setColumnWriterBuffer(buffer);
     }
 
     @Override
     public void clear() {
     }
+
+    @Override
+    public void SerializeBulkPrefix(BinarySerializer serializer)  throws IOException, SQLException {
+        serializer.writeLong(version);
+    }
+
+    @Override
+    public void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException {
+        /// The data layout: [index_type][dictionary][indexes]
+        serializer.writeLong(IndexType.UInt64.getValue() | IndexType.HasAdditionalKeysBit.getValue());
+        serializer.writeLong(dict.size());
+
+        nested_type.serializeBinaryBulk(dict.toArray(), serializer);
+
+        serializer.writeLong(indexes.size()); //  give index type size
+        for (int i = 0; i < indexes.size(); i++) {
+            serializer.writeLong(indexes.get(i));
+        }
+    
+    }
+
 }

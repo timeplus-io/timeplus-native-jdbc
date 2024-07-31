@@ -17,7 +17,6 @@ package com.timeplus.data;
 import com.timeplus.jdbc.TimeplusArray;
 import com.timeplus.data.type.complex.DataTypeArray;
 import com.timeplus.serde.BinarySerializer;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -27,12 +26,12 @@ public class ColumnArray extends AbstractColumn {
 
     private final List<Long> offsets;
     // data represents nested column in ColumnArray
-    private final IColumn data;
+    private final IColumn nestedColumn;
 
     public ColumnArray(String name, DataTypeArray type, Object[] values) {
         super(name, type, values);
         offsets = new ArrayList<>();
-        data = ColumnFactory.createColumn(null, type.getElemDataType(), null);
+        nestedColumn = ColumnFactory.createColumn(null, type.getElemDataType(), null);
     }
 
     @Override
@@ -41,22 +40,7 @@ public class ColumnArray extends AbstractColumn {
 
         offsets.add(offsets.isEmpty() ? arr.length : offsets.get((offsets.size() - 1)) + arr.length);
         for (Object field : arr) {
-            data.write(field);
-        }
-    }
-
-    @Override
-    public void flushToSerializer(BinarySerializer serializer, boolean immediate) throws SQLException, IOException {
-        if (isExported()) {
-            serializer.writeUTF8StringBinary(name);
-            serializer.writeUTF8StringBinary(type.name());
-        }
-
-        flushOffsets(serializer);
-        data.flushToSerializer(serializer, false);
-
-        if (immediate) {
-            buffer.writeTo(serializer);
+            nestedColumn.write(field);
         }
     }
 
@@ -69,12 +53,34 @@ public class ColumnArray extends AbstractColumn {
     @Override
     public void setColumnWriterBuffer(ColumnWriterBuffer buffer) {
         super.setColumnWriterBuffer(buffer);
-        data.setColumnWriterBuffer(buffer);
+        nestedColumn.setColumnWriterBuffer(buffer);
     }
 
     @Override
     public void clear() {
         offsets.clear();
-        data.clear();
+        nestedColumn.clear();
     }
+
+    @Override
+    public void SerializeBulkPrefix(BinarySerializer serializer) throws SQLException, IOException {
+        nestedColumn.SerializeBulkPrefix(serializer);
+    }
+
+    @Override
+    public void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException {
+        flushOffsets(serializer);
+        nestedColumn.SerializeBulk(serializer, false);
+
+        if (now) {
+            buffer.writeTo(serializer);
+        }
+    }
+
+    @Override
+    public void SerializeBulkSuffix(BinarySerializer serializer) throws SQLException, IOException {
+        nestedColumn.SerializeBulkSuffix(serializer);
+    }
+
+ 
 }

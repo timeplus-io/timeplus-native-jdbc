@@ -27,43 +27,40 @@ public class ColumnNullable extends AbstractColumn {
 
     private final List<Byte> nullableSign;
     // data represents nested column in ColumnArray
-    private final IColumn data;
+    private final IColumn nestedColumn;
 
     public ColumnNullable(String name, DataTypeNullable type, Object[] values) {
         super(name, type, values);
         nullableSign = new ArrayList<>();
-        data = ColumnFactory.createColumn(null, type.getNestedDataType(), null);
+        nestedColumn = ColumnFactory.createColumn(null, type.getNestedDataType(), null);
     }
 
     @Override
     public void write(@Nullable Object object) throws IOException, SQLException {
         if (object == null) {
             nullableSign.add((byte) 1);
-            data.write(type.defaultValue()); // write whatever for padding
+            nestedColumn.write(type.defaultValue()); // write whatever for padding
         } else {
             nullableSign.add((byte) 0);
-            data.write(object);
+            nestedColumn.write(object);
         }
-    }
-
-    @Override
-    public void flushToSerializer(BinarySerializer serializer, boolean immediate) throws IOException {
-        if (isExported()) {
-            serializer.writeUTF8StringBinary(name);
-            serializer.writeUTF8StringBinary(type.name());
-        }
-
-        for (byte sign : nullableSign) {
-            serializer.writeByte(sign);
-        }
-
-        if (immediate)
-            buffer.writeTo(serializer);
     }
 
     @Override
     public void setColumnWriterBuffer(ColumnWriterBuffer buffer) {
         super.setColumnWriterBuffer(buffer);
-        data.setColumnWriterBuffer(buffer);
+        nestedColumn.setColumnWriterBuffer(buffer);
     }
+
+
+    @Override
+    public void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException {
+        for (byte sign : nullableSign) {
+            serializer.writeByte(sign);
+        }
+
+        if (now)
+            buffer.writeTo(serializer);
+    }
+
 }

@@ -67,4 +67,5 @@ public class DataTypeInt32 implements BaseDataTypeInt32<Integer, Integer> {
     public boolean isSigned() {
         return true;
     }
+
 }

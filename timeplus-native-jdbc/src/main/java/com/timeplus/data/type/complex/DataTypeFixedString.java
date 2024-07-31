@@ -125,4 +125,5 @@ public class DataTypeFixedString implements IDataType<CharSequence, String> {
     public String[] getAliases() {
         return new String[]{"BINARY"};
     }
+
 }

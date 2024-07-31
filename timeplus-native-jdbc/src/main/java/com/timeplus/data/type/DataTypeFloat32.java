@@ -79,4 +79,5 @@ public class DataTypeFloat32 implements IDataType<Float, Float> {
     public boolean isSigned() {
         return true;
     }
+
 }

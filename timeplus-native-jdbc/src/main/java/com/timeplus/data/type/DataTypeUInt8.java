@@ -58,4 +58,5 @@ public class DataTypeUInt8 implements BaseDataTypeInt8<Short, Short> {
     public Short deserializeText(SQLLexer lexer) throws SQLException {
         return lexer.numberLiteral().shortValue();
     }
+
 }

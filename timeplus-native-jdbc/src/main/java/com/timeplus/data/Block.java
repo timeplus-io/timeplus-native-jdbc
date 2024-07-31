@@ -44,7 +44,9 @@ public class Block {
             String type = deserializer.readUTF8StringBinary();
 
             IDataType dataType = DataTypeFactory.get(type, serverContext);
+            dataType.deserializeBinaryPrefix(rowCnt, deserializer);
             Object[] arr = dataType.deserializeBinaryBulk(rowCnt, deserializer);
+            dataType.deserializeBinarySuffix(rowCnt, deserializer);
             columns[i] = ColumnFactory.createColumn(name, dataType, arr);
         }
 
@@ -124,7 +126,11 @@ public class Block {
         serializer.writeVarInt(rowCnt);
 
         for (IColumn column : columns) {
-            column.flushToSerializer(serializer, true);
+            serializer.writeUTF8StringBinary(column.name());
+            serializer.writeUTF8StringBinary(column.type().name());
+            column.SerializeBulkPrefix(serializer);
+            column.SerializeBulk(serializer, true);
+            column.SerializeBulkSuffix(serializer);
         }
     }
 

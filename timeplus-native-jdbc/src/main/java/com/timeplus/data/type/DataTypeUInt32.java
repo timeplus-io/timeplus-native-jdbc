@@ -58,4 +58,5 @@ public class DataTypeUInt32 implements BaseDataTypeInt32<Long, Long> {
     public Long deserializeText(SQLLexer lexer) throws SQLException {
         return lexer.numberLiteral().longValue();
     }
+
 }

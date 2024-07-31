@@ -83,4 +83,13 @@ public interface IDataType<CK, JDBC> {
         }
         return data;
     }
+
+    default void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
+
+    }
+
+    default void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
+
+    }
+    
 }

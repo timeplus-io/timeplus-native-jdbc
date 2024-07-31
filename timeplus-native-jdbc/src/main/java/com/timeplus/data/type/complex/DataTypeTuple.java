@@ -165,4 +165,18 @@ public class DataTypeTuple implements IDataType<TimeplusStruct, Struct> {
     public IDataType[] getNestedTypes() {
         return nestedTypes;
     }
+
+    @Override
+    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
+        for (int i = 0; i < getNestedTypes().length; i++) {
+            getNestedTypes()[i].deserializeBinaryPrefix(rows, deserializer);
+        }
+    }
+    
+    @Override
+    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
+        for (int i = 0; i < getNestedTypes().length; i++) {
+            getNestedTypes()[i].deserializeBinarySuffix(rows, deserializer);
+        }
+    }
 }

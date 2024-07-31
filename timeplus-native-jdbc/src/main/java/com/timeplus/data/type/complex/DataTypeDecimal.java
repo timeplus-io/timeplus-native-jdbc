@@ -195,4 +195,5 @@ public class DataTypeDecimal implements IDataType<BigDecimal, BigDecimal>, Bytes
     public boolean isSigned() {
         return true;
     }
+
 }

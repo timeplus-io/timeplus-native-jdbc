@@ -58,4 +58,5 @@ public class DataTypeUInt16 implements BaseDataTypeInt16<Integer, Integer> {
     public Integer deserializeText(SQLLexer lexer) throws SQLException {
         return lexer.numberLiteral().intValue();
     }
+
 }

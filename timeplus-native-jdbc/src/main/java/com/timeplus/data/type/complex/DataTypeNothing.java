@@ -83,4 +83,5 @@ public class DataTypeNothing implements IDataType<Object, Object> {
     public Object deserializeText(SQLLexer lexer) throws SQLException {
         throw new InvalidOperationException("Nothing datatype can't deserializeText");
     }
+
 }
