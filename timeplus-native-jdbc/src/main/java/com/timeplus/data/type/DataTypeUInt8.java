@@ -59,9 +59,4 @@ public class DataTypeUInt8 implements BaseDataTypeInt8<Short, Short> {
         return lexer.numberLiteral().shortValue();
     }
 
-    @Override
-    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
-    
-    @Override
-    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

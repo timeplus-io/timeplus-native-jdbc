@@ -84,9 +84,4 @@ public class DataTypeNothing implements IDataType<Object, Object> {
         throw new InvalidOperationException("Nothing datatype can't deserializeText");
     }
 
-    @Override
-    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
-    
-    @Override
-    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

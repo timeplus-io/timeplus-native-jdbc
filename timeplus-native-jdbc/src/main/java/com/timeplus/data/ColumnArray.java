@@ -45,17 +45,11 @@ public class ColumnArray extends AbstractColumn {
     }
 
     @Override
-    public void flushToSerializer(BinarySerializer serializer, boolean immediate) throws SQLException, IOException {
-        super.flushToSerializer(serializer, immediate);
-    }
-
-    @Override
-    public void SerializeBulk(BinarySerializer serializer, boolean immediate) throws SQLException, IOException {
-        
+    public void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException {
         flushOffsets(serializer);
         data.SerializeBulk(serializer, false);
         
-        if (immediate) {
+        if (now) {
             buffer.writeTo(serializer);
         }
     }

@@ -70,9 +70,8 @@ public class ColumnLowCardinality extends AbstractColumn {
     }
 
     @Override
-    public void SerializeBulk(BinarySerializer serializer, boolean immediate) throws IOException, SQLException {
-        /// The data layout: [version][index_type][dictionary][indexes]
-        // serializer.writeLong(version);
+    public void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException {
+        /// The data layout: [index_type][dictionary][indexes]
         serializer.writeLong(IndexType.UInt64.getValue() | IndexType.HasAdditionalKeysBit.getValue());
         serializer.writeLong(dict.size());
         for (int i = 0; i < dict.size(); i++) {
@@ -99,18 +98,7 @@ public class ColumnLowCardinality extends AbstractColumn {
 
     @Override
     public void SerializeBulkPrefix(BinarySerializer serializer)  throws IOException, SQLException {
-        /// The data layout: [version][index_type][dictionary][indexes]
         serializer.writeLong(version);
     }
-
-    @Override
-    public void SerializeBulkSuffix(BinarySerializer serializer) {
-    }
-
-    @Override
-    public void flushToSerializer(BinarySerializer serializer, boolean immediate) throws SQLException, IOException {
-        super.flushToSerializer(serializer, immediate);
-    }
-
 
 }

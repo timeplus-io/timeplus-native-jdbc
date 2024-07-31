@@ -196,9 +196,4 @@ public class DataTypeDecimal implements IDataType<BigDecimal, BigDecimal>, Bytes
         return true;
     }
 
-    @Override
-    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
-    
-    @Override
-    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

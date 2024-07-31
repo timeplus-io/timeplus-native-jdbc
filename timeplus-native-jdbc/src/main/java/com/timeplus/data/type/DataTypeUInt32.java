@@ -59,9 +59,4 @@ public class DataTypeUInt32 implements BaseDataTypeInt32<Long, Long> {
         return lexer.numberLiteral().longValue();
     }
 
-    @Override
-    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
-    
-    @Override
-    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

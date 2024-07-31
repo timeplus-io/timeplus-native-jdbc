@@ -120,10 +120,4 @@ public class DataTypeDateTime implements IDataType<ZonedDateTime, Timestamp> {
     public String[] getAliases() {
         return new String[]{"TIMESTAMP"};
     }
-
-    @Override
-    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
-
-    @Override
-    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

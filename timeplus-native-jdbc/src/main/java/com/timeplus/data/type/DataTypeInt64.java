@@ -68,9 +68,4 @@ public class DataTypeInt64 implements BaseDataTypeInt64<Long, Long> {
         return true;
     }
 
-    @Override
-    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
-    
-    @Override
-    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

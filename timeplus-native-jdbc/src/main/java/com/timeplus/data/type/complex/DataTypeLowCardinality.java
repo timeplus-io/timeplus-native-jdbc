@@ -191,8 +191,5 @@ public class DataTypeLowCardinality implements IDataType<Object, Object>  {
             }
         }
     }
-    
-    @Override
-    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 
 }

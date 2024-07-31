@@ -99,9 +99,4 @@ public class DataTypeDate32 implements IDataType<LocalDate, Date> {
         return LocalDate.of(year, month, day);
     }
 
-    @Override
-    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
-    
-    @Override
-    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

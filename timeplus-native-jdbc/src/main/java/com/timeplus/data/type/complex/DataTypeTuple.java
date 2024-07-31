@@ -174,5 +174,9 @@ public class DataTypeTuple implements IDataType<TimeplusStruct, Struct> {
     }
     
     @Override
-    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
+    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
+        for (int i = 0; i < getNestedTypes().length; i++) {
+            getNestedTypes()[i].deserializeBinarySuffix(rows, deserializer);
+        }
+    }
 }

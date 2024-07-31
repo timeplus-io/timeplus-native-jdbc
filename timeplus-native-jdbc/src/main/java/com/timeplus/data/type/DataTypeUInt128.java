@@ -70,13 +70,4 @@ public class DataTypeUInt128 implements BaseDataTypeInt64<BigInteger, BigInteger
         return new BigInteger(Uinteger128, 10);
     }
 
-    @Override
-    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
-
-    }
-    
-    @Override
-    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
-        
-    }
 }

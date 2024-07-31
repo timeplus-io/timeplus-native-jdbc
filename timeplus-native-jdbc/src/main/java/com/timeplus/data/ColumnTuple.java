@@ -45,12 +45,7 @@ public class ColumnTuple extends AbstractColumn {
     }
 
     @Override
-    public void SerializeBulk(BinarySerializer serializer, boolean now) throws SQLException, IOException {
-        // if (isExported()) {
-        //     serializer.writeUTF8StringBinary(name);
-        //     serializer.writeUTF8StringBinary(type.name());
-        // }
-
+    public void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException {
         // we should to flush all the nested data to serializer
         // because they are using separate buffers.
         for (IColumn data : columnDataArray) {
@@ -82,13 +77,4 @@ public class ColumnTuple extends AbstractColumn {
         }
     }
 
-    @Override
-    public void SerializeBulkSuffix(BinarySerializer serializer) {
-        
-    }
-
-    @Override
-    public void flushToSerializer(BinarySerializer serializer, boolean immediate) throws SQLException, IOException {
-        super.flushToSerializer(serializer, immediate);
-    }
 }

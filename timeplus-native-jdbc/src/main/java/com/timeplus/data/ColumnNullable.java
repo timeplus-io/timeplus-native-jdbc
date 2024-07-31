@@ -47,12 +47,12 @@ public class ColumnNullable extends AbstractColumn {
     }
 
     @Override
-    public void SerializeBulk(BinarySerializer serializer, boolean immediate) throws IOException {
+    public void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException {
         for (byte sign : nullableSign) {
             serializer.writeByte(sign);
         }
 
-        if (immediate)
+        if (now)
             buffer.writeTo(serializer);
     }
 
@@ -62,18 +62,4 @@ public class ColumnNullable extends AbstractColumn {
         data.setColumnWriterBuffer(buffer);
     }
 
-    @Override
-    public void SerializeBulkPrefix(BinarySerializer serializer) {
-        
-    }
-
-    @Override
-    public void SerializeBulkSuffix(BinarySerializer serializer) {
-        
-    }
-
-    @Override
-    public void flushToSerializer(BinarySerializer serializer, boolean immediate) throws SQLException, IOException {
-        super.flushToSerializer(serializer, immediate);
-    }
 }

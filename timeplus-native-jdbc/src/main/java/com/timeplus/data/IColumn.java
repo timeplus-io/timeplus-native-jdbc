@@ -31,26 +31,23 @@ public interface IColumn {
 
     void write(Object object) throws IOException, SQLException;
 
+    void clear();
 
-    void SerializeBulkPrefix(BinarySerializer serializer) throws IOException, SQLException;
+    void setColumnWriterBuffer(ColumnWriterBuffer buffer);
 
+    ColumnWriterBuffer getColumnWriterBuffer();
     /**
      * Flush to socket output stream
      *
      * @param serializer is serializer wrapper of tcp socket
      * @param now        means we should flush all the buffer to serializer now
      */
-    void flushToSerializer(BinarySerializer serializer, boolean now) throws IOException, SQLException;
+    void SerializeBulkPrefix(BinarySerializer serializer) throws IOException, SQLException;
+
+    void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException;
 
     void SerializeBulkSuffix(BinarySerializer serializer) throws IOException, SQLException;
-
-    void SerializeBulk(BinarySerializer serializer, boolean now) throws IOException, SQLException;
-
-    void clear();
-
-    void setColumnWriterBuffer(ColumnWriterBuffer buffer);
-
-    ColumnWriterBuffer getColumnWriterBuffer();
 }
+
 
 

@@ -70,10 +70,18 @@ public abstract class AbstractColumn implements IColumn {
     }
 
     @Override
-    public void flushToSerializer(BinarySerializer serializer, boolean now) throws IOException, SQLException {
-        SerializeBulkPrefix(serializer);
-        SerializeBulk(serializer, now);
-        SerializeBulkSuffix(serializer);
+    public void SerializeBulkPrefix(BinarySerializer serializer) throws IOException, SQLException {
+        
+    }
+
+    @Override
+    public void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException {
+
+    }
+
+    @Override
+    public void SerializeBulkSuffix(BinarySerializer serializer) throws IOException, SQLException {
+        
     }
 
 }

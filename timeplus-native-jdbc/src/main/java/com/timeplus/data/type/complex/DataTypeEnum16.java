@@ -133,9 +133,4 @@ public class DataTypeEnum16 implements IDataType<String, String> {
         throw new SQLException("");
     }
 
-    @Override
-    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
-    
-    @Override
-    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

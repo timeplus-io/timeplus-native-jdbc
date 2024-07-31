@@ -32,18 +32,7 @@ public class Column extends AbstractColumn {
     }
 
     @Override
-    public void flushToSerializer(BinarySerializer serializer, boolean now) throws IOException, SQLException {
-        super.flushToSerializer(serializer, now);
-    }
-
-    @Override
-    public void SerializeBulkPrefix(BinarySerializer serializer) { }
-
-    @Override
-    public void SerializeBulkSuffix(BinarySerializer serializer) { }
-
-    @Override
-    public void SerializeBulk(BinarySerializer serializer, boolean now) throws IOException, SQLException {
+    public void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException {
         if (now) {
             buffer.writeTo(serializer);
         }

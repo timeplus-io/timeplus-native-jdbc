@@ -180,5 +180,8 @@ public class DataTypeMap implements IDataType<Object, Object> {
     }
     
     @Override
-    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
+    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
+        getNestedTypes()[0].deserializeBinarySuffix(rows, deserializer);
+        getNestedTypes()[1].deserializeBinarySuffix(rows, deserializer);
+    }
 }

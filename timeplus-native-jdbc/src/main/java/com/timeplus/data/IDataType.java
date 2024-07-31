@@ -84,14 +84,12 @@ public interface IDataType<CK, JDBC> {
         return data;
     }
 
-    void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException;
+    default void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
 
-    void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException;
-    
-    default Object[] deserializeBinaryFromStream(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
-        deserializeBinaryPrefix(rows, deserializer);
-        Object[] arr = deserializeBinaryBulk(rows, deserializer);
-        deserializeBinarySuffix(rows, deserializer);
-        return arr;
     }
+
+    default void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
+
+    }
+    
 }

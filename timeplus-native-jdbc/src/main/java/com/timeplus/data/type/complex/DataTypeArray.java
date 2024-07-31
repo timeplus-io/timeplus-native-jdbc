@@ -154,8 +154,12 @@ public class DataTypeArray implements IDataType<TimeplusArray, Array> {
     }
 
     @Override
-    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
+    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
+        getElemDataType().deserializeBinaryPrefix(rows, deserializer);
+    }
 
     @Override
-    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
+    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
+        getElemDataType().deserializeBinarySuffix(rows, deserializer);
+    }
 }

@@ -152,9 +152,4 @@ public class DataTypeDateTime64 implements IDataType<ZonedDateTime, Timestamp> {
         return DateTimeUtil.toZonedDateTime(epochSeconds, nanos, tz);
     }
 
-    @Override
-    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
-    
-    @Override
-    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }

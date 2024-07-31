@@ -57,7 +57,7 @@ public class ColumnMap extends AbstractColumn {
     }
 
     @Override
-    public void SerializeBulk(BinarySerializer serializer, boolean now) throws IOException, SQLException {
+    public void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException {
 
         flushOffsets(serializer);
 
@@ -100,12 +100,5 @@ public class ColumnMap extends AbstractColumn {
         }
     }
 
-    @Override
-    public void SerializeBulkSuffix(BinarySerializer serializer) {
-    }
 
-    @Override
-    public void flushToSerializer(BinarySerializer serializer, boolean immediate) throws SQLException, IOException {
-        super.flushToSerializer(serializer, immediate);
-    }
 }

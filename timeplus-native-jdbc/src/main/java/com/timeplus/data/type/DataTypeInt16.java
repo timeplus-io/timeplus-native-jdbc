@@ -69,9 +69,4 @@ public class DataTypeInt16 implements BaseDataTypeInt16<Short, Short> {
         return true;
     }
 
-    @Override
-    public void deserializeBinaryPrefix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
-    
-    @Override
-    public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException { }
 }
