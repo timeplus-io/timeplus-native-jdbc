@@ -45,24 +45,11 @@ public class ColumnTuple extends AbstractColumn {
     }
 
     @Override
-    public void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException {
-        // we should to flush all the nested data to serializer
-        // because they are using separate buffers.
-        for (IColumn data : columnDataArray) {
-            data.SerializeBulk(serializer, true);
-        }
-
-        if (now) {
-            buffer.writeTo(serializer);
-        }
-    }
-
-    @Override
     public void setColumnWriterBuffer(ColumnWriterBuffer buffer) {
         super.setColumnWriterBuffer(buffer);
 
-        for (IColumn data : columnDataArray) {
-            data.setColumnWriterBuffer(new ColumnWriterBuffer());
+        for (IColumn nestedColumn : columnDataArray) {
+            nestedColumn.setColumnWriterBuffer(new ColumnWriterBuffer());
         }
     }
 
@@ -72,8 +59,21 @@ public class ColumnTuple extends AbstractColumn {
 
     @Override
     public void SerializeBulkPrefix(BinarySerializer serializer) throws SQLException, IOException {
-        for (IColumn data : columnDataArray) {
-            data.SerializeBulkPrefix(serializer);
+        for (IColumn nestedColumn : columnDataArray) {
+            nestedColumn.SerializeBulkPrefix(serializer);
+        }
+    }
+
+    @Override
+    public void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException {
+        // we should to flush all the nested data to serializer
+        // because they are using separate buffers.
+        for (IColumn nestedColumn : columnDataArray) {
+            nestedColumn.SerializeBulk(serializer, true);
+        }
+
+        if (now) {
+            buffer.writeTo(serializer);
         }
     }
 

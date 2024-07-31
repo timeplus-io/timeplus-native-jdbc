@@ -56,20 +56,6 @@ public class ColumnMap extends AbstractColumn {
 
     }
 
-    @Override
-    public void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException {
-
-        flushOffsets(serializer);
-
-        for (IColumn data : columnDataArray) {
-            data.SerializeBulk(serializer, true);
-        }
-
-        if (now) {
-            buffer.writeTo(serializer);
-        }
-    }
-
     public void flushOffsets(BinarySerializer serializer) throws IOException {
         for (long offsetList : offsets) {
             serializer.writeLong(offsetList);
@@ -80,25 +66,38 @@ public class ColumnMap extends AbstractColumn {
     public void setColumnWriterBuffer(ColumnWriterBuffer buffer) {
         super.setColumnWriterBuffer(buffer);
 
-        for (IColumn data : columnDataArray) {
-            data.setColumnWriterBuffer(new ColumnWriterBuffer());
+        for (IColumn nestedColumn : columnDataArray) {
+            nestedColumn.setColumnWriterBuffer(new ColumnWriterBuffer());
         }
     }
 
     @Override
     public void clear() {
         offsets.clear();
-        for (IColumn data : columnDataArray) {
-            data.clear();
+        for (IColumn nestedColumn : columnDataArray) {
+            nestedColumn.clear();
         }
     }
     
     @Override
     public void SerializeBulkPrefix(BinarySerializer serializer) throws SQLException, IOException {
-        for (IColumn data : columnDataArray) {
-            data.SerializeBulkPrefix(serializer);
+        for (IColumn nestedColumn : columnDataArray) {
+            nestedColumn.SerializeBulkPrefix(serializer);
         }
     }
 
+    @Override
+    public void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException {
+
+        flushOffsets(serializer);
+
+        for (IColumn nestedColumn : columnDataArray) {
+            nestedColumn.SerializeBulk(serializer, true);
+        }
+
+        if (now) {
+            buffer.writeTo(serializer);
+        }
+    }
 
 }

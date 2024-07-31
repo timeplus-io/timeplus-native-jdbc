@@ -20,6 +20,7 @@ import com.timeplus.misc.BytesHelper;
 import org.junit.jupiter.api.Test;
 
 import java.sql.*;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -274,4 +275,37 @@ public class LowCardinalityTypeTest extends AbstractITest implements BytesHelper
             statement.execute("DROP STREAM IF EXISTS nested_test");
         });
     }
+
+    @Test
+    public void testArrayStringNestedType() throws Exception {
+        withStatement(statement -> {
+            statement.execute("DROP STREAM IF EXISTS nested_test");
+            statement.execute(
+                    "CREATE STREAM IF NOT EXISTS nested_test (value array(low_cardinality(string))) Engine=Memory()");
+
+            Integer rowCnt = 1;
+            try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
+                    "INSERT INTO nested_test (value) values(?);")) {
+
+                Array innerArray1 = statement.getConnection().createArrayOf("low_cardinality(string)", new String[]{"100", "2", "3"});
+                for (int i = 0; i < rowCnt; i++) {
+                    pstmt.setArray(1, innerArray1);
+                    pstmt.addBatch();
+                }
+                pstmt.executeBatch();
+            }
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM nested_test;");
+            int size = 0;
+            while (rs.next()) {
+                size++;
+                Object[] objArray = (Object[]) rs.getArray(1).getArray();
+                String[] value = Arrays.stream(objArray).map(String.class::cast).toArray(String[]::new);
+                assertTrue(Arrays.equals(value, new String[]{"100", "2", "3"}));
+            }
+            assertEquals(size, rowCnt);
+            statement.execute("DROP STREAM IF EXISTS nested_test");
+        });
+    }
+
 }

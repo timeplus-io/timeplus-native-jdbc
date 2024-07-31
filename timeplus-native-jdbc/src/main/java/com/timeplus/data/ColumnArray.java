@@ -26,12 +26,12 @@ public class ColumnArray extends AbstractColumn {
 
     private final List<Long> offsets;
     // data represents nested column in ColumnArray
-    private final IColumn data;
+    private final IColumn nestedColumn;
 
     public ColumnArray(String name, DataTypeArray type, Object[] values) {
         super(name, type, values);
         offsets = new ArrayList<>();
-        data = ColumnFactory.createColumn(null, type.getElemDataType(), null);
+        nestedColumn = ColumnFactory.createColumn(null, type.getElemDataType(), null);
     }
 
     @Override
@@ -40,17 +40,7 @@ public class ColumnArray extends AbstractColumn {
 
         offsets.add(offsets.isEmpty() ? arr.length : offsets.get((offsets.size() - 1)) + arr.length);
         for (Object field : arr) {
-            data.write(field);
-        }
-    }
-
-    @Override
-    public void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException {
-        flushOffsets(serializer);
-        data.SerializeBulk(serializer, false);
-        
-        if (now) {
-            buffer.writeTo(serializer);
+            nestedColumn.write(field);
         }
     }
 
@@ -63,23 +53,33 @@ public class ColumnArray extends AbstractColumn {
     @Override
     public void setColumnWriterBuffer(ColumnWriterBuffer buffer) {
         super.setColumnWriterBuffer(buffer);
-        data.setColumnWriterBuffer(buffer);
+        nestedColumn.setColumnWriterBuffer(buffer);
     }
 
     @Override
     public void clear() {
         offsets.clear();
-        data.clear();
+        nestedColumn.clear();
     }
 
     @Override
     public void SerializeBulkPrefix(BinarySerializer serializer) throws SQLException, IOException {
-        data.SerializeBulkPrefix(serializer);
+        nestedColumn.SerializeBulkPrefix(serializer);
+    }
+
+    @Override
+    public void SerializeBulk(BinarySerializer serializer, Boolean now) throws IOException, SQLException {
+        flushOffsets(serializer);
+        nestedColumn.SerializeBulk(serializer, false);
+
+        if (now) {
+            buffer.writeTo(serializer);
+        }
     }
 
     @Override
     public void SerializeBulkSuffix(BinarySerializer serializer) throws SQLException, IOException {
-        data.SerializeBulkSuffix(serializer);
+        nestedColumn.SerializeBulkSuffix(serializer);
     }
 
  

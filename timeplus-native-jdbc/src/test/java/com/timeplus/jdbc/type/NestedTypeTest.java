@@ -30,31 +30,31 @@ public class NestedTypeTest extends AbstractITest implements BytesHelper {
 
     // test for nested type, array of array, array of tuple, tuple of array, tuple of tuple, nullable type involved
     @Test
-    public void testNestedType() throws Exception {
+    public void testNestedArrayTupleType() throws Exception {
         withStatement(statement -> {
             statement.execute("DROP STREAM IF EXISTS nested_test");
             statement.execute(
-                    "CREATE STREAM IF NOT EXISTS nested_test (value array(array(nullable(int))), "
-                    +"value2 array(tuple(nullable(int), nullable(string))), "
-                    +"value3 tuple(array(nullable(int)), nullable(string))) Engine=Memory()");
+                    "CREATE STREAM IF NOT EXISTS nested_test (value array(array(low_cardinality(nullable(int)))), "
+                    +"value2 array(tuple(low_cardinality(nullable(int)), low_cardinality(nullable(string)))), "
+                    +"value3 tuple(array(low_cardinality(nullable(int))), low_cardinality(nullable(string)))) Engine=Memory()");
 
             Integer rowCnt = 300;
             try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
                     "INSERT INTO nested_test (value, value2, value3) values(?, ?, ?);")) {
                 for (int i = 0; i < rowCnt; i++) {
                     // array of array
-                    Array innerArray1 = statement.getConnection().createArrayOf("nullable(int32)", new Object[]{1, 2, null});
-                    Array innerArray2 = statement.getConnection().createArrayOf("nullable(int32)", new Object[]{4, 5, null});
-                    pstmt.setObject(1, statement.getConnection().createArrayOf("array(nullable(int32))", new Object[]{innerArray1, innerArray2}));
+                    Array innerArray1 = statement.getConnection().createArrayOf("low_cardinality(nullable(int32))", new Object[]{1, 2, null});
+                    Array innerArray2 = statement.getConnection().createArrayOf("low_cardinality(nullable(int32))", new Object[]{4, 5, null});
+                    pstmt.setObject(1, statement.getConnection().createArrayOf("array(low_cardinality(nullable(int32)))", new Object[]{innerArray1, innerArray2}));
                     
                     // array of tuple
                     TimeplusStruct tuple1 = new TimeplusStruct("tuple", new Object[]{1, null});
                     TimeplusStruct tuple2 = new TimeplusStruct("tuple", new Object[]{null, "test2"});
-                    pstmt.setObject(2, statement.getConnection().createArrayOf("tuple(nullable(int), nullable(string))", new Object[]{tuple1, tuple2}));
+                    pstmt.setObject(2, statement.getConnection().createArrayOf("tuple(low_cardinality(nullable(int)), low_cardinality(nullable(string)))", new Object[]{tuple1, tuple2}));
 
                     // tuple (array, string)
-                    Array array = statement.getConnection().createArrayOf("nullable(int)", new Integer[]{1, 2, null});
-                    TimeplusStruct tuple3 = new TimeplusStruct("tuple(array(nullable(int)), nullable(string))", new Object[]{array, null});
+                    Array array = statement.getConnection().createArrayOf("low_cardinality(nullable(int))", new Integer[]{1, 2, null});
+                    TimeplusStruct tuple3 = new TimeplusStruct("tuple(array(low_cardinality(nullable(int))), low_cardinality(nullable(string)))", new Object[]{array, null});
                     pstmt.setObject(3, tuple3);
 
                     pstmt.addBatch();
@@ -113,4 +113,6 @@ public class NestedTypeTest extends AbstractITest implements BytesHelper {
             statement.execute("DROP STREAM IF EXISTS nested_test");
         });
     }
+
+   
 }
