@@ -40,6 +40,8 @@ import com.timeplus.data.type.DataTypeDate;
 import com.timeplus.data.type.DataTypeDate32;
 import com.timeplus.data.type.DataTypeFloat32;
 import com.timeplus.data.type.DataTypeFloat64;
+import com.timeplus.data.type.DataTypeIPv4;
+import com.timeplus.data.type.DataTypeIPv6;
 import com.timeplus.data.type.DataTypeInt16;
 import com.timeplus.data.type.DataTypeInt256;
 import com.timeplus.data.type.DataTypeInt32;
@@ -57,6 +59,8 @@ import com.timeplus.data.type.complex.DataTypeArray;
 import com.timeplus.data.type.complex.DataTypeDateTime;
 import com.timeplus.data.type.complex.DataTypeDateTime64;
 import com.timeplus.data.type.complex.DataTypeDecimal;
+import com.timeplus.data.type.complex.DataTypeEnum16;
+import com.timeplus.data.type.complex.DataTypeEnum8;
 import com.timeplus.data.type.complex.DataTypeFixedString;
 import com.timeplus.data.type.complex.DataTypeMap;
 import com.timeplus.data.type.complex.DataTypeNothing;
@@ -123,7 +127,7 @@ public class TimeplusPreparedInsertStatement extends AbstractPreparedStatement {
         initBlockIfPossible();
         int columnIdx = block.paramIdx2ColumnIdx(paramPosition - 1);
         IColumn column = block.getColumn(columnIdx);
-        block.setObject(columnIdx, convertToCkDataType(column.type(), x));
+        block.setObject(columnIdx, convertToNativeDataType(column.type(), x));
     }
 
     @Override
@@ -222,7 +226,7 @@ public class TimeplusPreparedInsertStatement extends AbstractPreparedStatement {
     }
 
     // TODO we actually need a type cast system rather than put all type cast stuffs here
-    private Object convertToCkDataType(IDataType<?, ?> type, Object obj) throws TimeplusSQLException {
+    private Object convertToNativeDataType(IDataType<?, ?> type, Object obj) throws TimeplusSQLException {
         if (obj == null) {
             if (type.nullable() || type instanceof DataTypeNothing)
                 return null;
@@ -282,7 +286,7 @@ public class TimeplusPreparedInsertStatement extends AbstractPreparedStatement {
             if (obj instanceof Number)
                 return ((Number) obj).longValue();
         }
-        if (type instanceof DataTypeUInt64 || type instanceof DataTypeInt128 || type instanceof DataTypeInt256 || type instanceof DataTypeUInt128 || type instanceof DataTypeUInt256) {
+        if (type instanceof DataTypeUInt64 || type instanceof DataTypeInt128 || type instanceof DataTypeInt256 || type instanceof DataTypeUInt128 || type instanceof DataTypeUInt256 || type instanceof DataTypeIPv6) {
             if (obj instanceof BigInteger)
                 return obj;
             if (obj instanceof BigDecimal)
@@ -313,27 +317,43 @@ public class TimeplusPreparedInsertStatement extends AbstractPreparedStatement {
                 return UUID.fromString((String) obj);
             }
         }
+        if (type instanceof DataTypeEnum8 || type instanceof DataTypeEnum16) {
+            if (obj instanceof String)
+                return obj;
+        }
+        if (type instanceof DataTypeIPv4) {
+            if (obj instanceof Long)
+                return obj;
+            if (obj instanceof Number)
+                return ((Number) obj).longValue();
+        }
+        if (type instanceof DataTypeBool) {
+            if (obj instanceof Byte)
+                return obj;
+            if (obj instanceof Boolean)
+                return (byte) obj;
+        }
         if (type instanceof DataTypeNothing) {
             return null;
         }
         if (type instanceof DataTypeNullable) {
             // handled null at first, so obj also not null here
-            return convertToCkDataType(((DataTypeNullable) type).getNestedDataType(), obj);
+            return convertToNativeDataType(((DataTypeNullable) type).getNestedDataType(), obj);
         }
         if (type instanceof DataTypeLowCardinality) {
-            return convertToCkDataType(((DataTypeLowCardinality) type).getNestedTypes(), obj);
+            return convertToNativeDataType(((DataTypeLowCardinality) type).getNestedTypes(), obj);
         }
         if (type instanceof DataTypeArray) {
             if (!(obj instanceof TimeplusArray)) {
-                throw new TimeplusSQLException(-1, "require ClickHouseArray for column: " + type.name() + ", but found " + obj.getClass());
+                throw new TimeplusSQLException(-1, "require TimeplusArray for column: " + type.name() + ", but found " + obj.getClass());
             }
-            return ((TimeplusArray) obj).mapElements(unchecked(this::convertToCkDataType));
+            return ((TimeplusArray) obj).mapElements(unchecked(this::convertToNativeDataType));
         }
         if (type instanceof DataTypeTuple) {
             if (!(obj instanceof TimeplusStruct)) {
-                throw new TimeplusSQLException(-1, "require ClickHouseStruct for column: " + type.name() + ", but found " + obj.getClass());
+                throw new TimeplusSQLException(-1, "require TimeplusStruct for column: " + type.name() + ", but found " + obj.getClass());
             }
-            return ((TimeplusStruct) obj).mapAttributes(((DataTypeTuple) type).getNestedTypes(), unchecked(this::convertToCkDataType));
+            return ((TimeplusStruct) obj).mapAttributes(((DataTypeTuple) type).getNestedTypes(), unchecked(this::convertToNativeDataType));
         }
         if (type instanceof DataTypeMap) {
             if (obj instanceof Map) {
@@ -342,8 +362,8 @@ public class TimeplusPreparedInsertStatement extends AbstractPreparedStatement {
                 IDataType<?, ?>[] nestedTypes = ((DataTypeMap) type).getNestedTypes();
                 Map<?, ?> dataMap = (Map<?, ?>) obj;
                 for (Entry<?, ?> entry : dataMap.entrySet()) {
-                    Object key = convertToCkDataType(nestedTypes[0], entry.getKey());
-                    Object value = convertToCkDataType(nestedTypes[1], entry.getValue());
+                    Object key = convertToNativeDataType(nestedTypes[0], entry.getKey());
+                    Object value = convertToNativeDataType(nestedTypes[1], entry.getValue());
                     result.put(key, value);
                 }
                 return result;
