@@ -73,6 +73,11 @@ public class DataTypeMap implements IDataType<Object, Object> {
     }
 
     @Override
+    public Map<?, ?> defaultValue() {
+        return Map.of(getNestedTypes()[0].defaultValue(), getNestedTypes()[1].defaultValue());
+    }
+
+    @Override
     public int getPrecision() {
         return 0;
     }
