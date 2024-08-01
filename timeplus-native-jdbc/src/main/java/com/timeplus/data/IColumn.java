@@ -40,7 +40,6 @@ public interface IColumn {
      * Flush to socket output stream
      *
      * @param serializer is serializer wrapper of tcp socket
-     * @param now        means we should flush all the buffer to serializer now
      */
     void SerializeBulkPrefix(BinarySerializer serializer) throws IOException, SQLException;
 
