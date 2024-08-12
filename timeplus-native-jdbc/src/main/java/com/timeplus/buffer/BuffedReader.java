@@ -21,4 +21,6 @@ public interface BuffedReader {
     int readBinary() throws IOException;
 
     int readBinary(byte[] bytes) throws IOException;
+
+    boolean remaining() throws IOException;
 }

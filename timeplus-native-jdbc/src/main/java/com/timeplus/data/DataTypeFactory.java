@@ -95,6 +95,8 @@ public class DataTypeFactory {
             return DataTypeNothing.CREATOR.createDataType(lexer, serverContext);
         } else if (dataTypeName.equalsIgnoreCase("map")) {
             return DataTypeMap.creator.createDataType(lexer, serverContext);
+        } else if (dataTypeName.equalsIgnoreCase("aggregate_function") || dataTypeName.equalsIgnoreCase("simple_aggregate_function")) {
+            return DataTypeAggregationFunction.creator.createDataType(lexer, serverContext);
         } else {
             IDataType<?, ?> dataType = dataTypes.get(dataTypeName.toLowerCase(Locale.ROOT));
             Validate.isTrue(dataType != null, "Unknown data type: " + dataTypeName);

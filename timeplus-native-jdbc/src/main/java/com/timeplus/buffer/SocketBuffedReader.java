@@ -72,7 +72,7 @@ public class SocketBuffedReader implements BuffedReader {
         return bytes.length;
     }
 
-    private boolean remaining() {
+    public boolean remaining() {
         return position < limit;
     }
 

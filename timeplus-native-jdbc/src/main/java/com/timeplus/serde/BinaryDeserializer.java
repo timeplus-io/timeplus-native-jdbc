@@ -163,5 +163,11 @@ public class BinaryDeserializer {
 
         return bytes;
     }
+    public Boolean remaining() throws IOException {
+        if (switcher.get().remaining()) {
+            return true;
+        }
+        return false;
+    }
 
 }

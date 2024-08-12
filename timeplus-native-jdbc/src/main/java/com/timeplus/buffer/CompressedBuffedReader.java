@@ -72,6 +72,14 @@ public class CompressedBuffedReader implements BuffedReader, BytesHelper {
         return bytes.length;
     }
 
+    @Override
+    public boolean remaining() {
+        if (position == capacity) {
+            return false;
+        }
+        return true;
+    }
+
     // @formatter:off
     private static final int NONE = 0x02;
     private static final int LZ4  = 0x82;

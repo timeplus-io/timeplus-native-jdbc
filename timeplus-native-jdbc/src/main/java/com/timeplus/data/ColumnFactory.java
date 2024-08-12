@@ -14,6 +14,7 @@
 
 package com.timeplus.data;
 
+import com.timeplus.data.type.complex.DataTypeAggregationFunction;
 import com.timeplus.data.type.complex.DataTypeArray;
 import com.timeplus.data.type.complex.DataTypeLowCardinality;
 import com.timeplus.data.type.complex.DataTypeMap;
@@ -37,6 +38,9 @@ public class ColumnFactory {
 
         if (type instanceof DataTypeLowCardinality)
            return new ColumnLowCardinality(name, (DataTypeLowCardinality) type, values);
+
+        if (type instanceof DataTypeAggregationFunction)
+           return new ColumnAggregationFunction(name, (DataTypeAggregationFunction) type, values);
 
         return new Column(name, type, values);
     }

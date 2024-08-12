@@ -59,4 +59,9 @@ public class FragmentBuffedReader implements BuffedReader {
         }
         return bytes.length;
     }
+
+    @Override
+    public boolean remaining() throws IOException {
+        return false;
+    }
 }
