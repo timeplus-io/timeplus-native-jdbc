@@ -122,11 +122,11 @@ public class NestedTypeTest extends AbstractITest implements BytesHelper {
             statement.execute("DROP STREAM IF EXISTS nested_test");
             statement.execute(
                     "CREATE STREAM IF NOT EXISTS nested_test (value array(map(int32, low_cardinality(nullable(string)))), "
-                    +"value2 map(string, array(low_cardinality(nullable(int))))) Engine=Memory()");
+                    +"value2 map(string, array(low_cardinality(nullable(int)))), value3 map(string, map(string, low_cardinality(nullable(string))))) Engine=Memory()");
 
             Integer rowCnt = 300;
             try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
-                    "INSERT INTO nested_test (value, value2) values(?, ?);")) {
+                    "INSERT INTO nested_test (value, value2, value3) values(?, ?, ?);")) {
                 for (int i = 0; i < rowCnt; i++) {
                     // array of map
                     Map<Integer, String> map1 = new HashMap<>();
@@ -142,6 +142,14 @@ public class NestedTypeTest extends AbstractITest implements BytesHelper {
                     Map<String, Object> map3 = new HashMap<>();
                     map3.put("array", array);
                     pstmt.setObject(2, map3);
+
+                    // map (string, map(string, int))
+                    Map<String, Object> map4 = new HashMap<>();
+                    map4.put("test", null);
+                    map4.put("test2", "test");
+                    Map<String, Object> map5 = new HashMap<>();
+                    map5.put("test", map4);
+                    pstmt.setObject(3, map5);
 
                     pstmt.addBatch();
                 }
@@ -173,6 +181,12 @@ public class NestedTypeTest extends AbstractITest implements BytesHelper {
                 assertEquals(arrayValue3[1], 2);
                 assertEquals(arrayValue3[2], null);
 
+                // map (string, map(string, int))
+                Map<String, Object> map4 = (Map<String, Object>) rs.getObject(3);
+                Map<String, Object> map5 = (Map<String, Object>) map4.get("test");
+                assertEquals(map5.get("test"), null);
+                assertEquals(map5.get("test2"), "test");
+
             }
             assertEquals(size, rowCnt);
             statement.execute("DROP STREAM IF EXISTS nested_test");
@@ -185,11 +199,11 @@ public class NestedTypeTest extends AbstractITest implements BytesHelper {
             statement.execute("DROP STREAM IF EXISTS nested_test");
             statement.execute(
                     "CREATE STREAM IF NOT EXISTS nested_test (value tuple(map(int32, low_cardinality(nullable(string))), low_cardinality(nullable(string))), "
-                    +"value2 map(string, tuple(low_cardinality(nullable(int))))) Engine=Memory()");
+                    +"value2 map(string, tuple(low_cardinality(nullable(int)))), value3 tuple(tuple(low_cardinality(nullable(int))))) Engine=Memory()");
 
             Integer rowCnt = 300;
             try (PreparedStatement pstmt = statement.getConnection().prepareStatement(
-                    "INSERT INTO nested_test (value, value2) values(?, ?);")) {
+                    "INSERT INTO nested_test (value, value2, value3) values(?, ?, ?);")) {
                 for (int i = 0; i < rowCnt; i++) {
                     // tuple (map, string)
                     Map<Integer, String> map1 = new HashMap<>();
@@ -205,6 +219,13 @@ public class NestedTypeTest extends AbstractITest implements BytesHelper {
                     Map<String, Object> map2 = new HashMap<>();
                     map2.put("tuple", tuple2);
                     pstmt.setObject(2, map2);
+
+                    // tuple (tuple)
+                    Object[] tupleValue3 = new Object[]{1};
+                    TimeplusStruct tuple3 = new TimeplusStruct("tuple", tupleValue3);
+                    Object[] tupleValue4 = new Object[]{tuple3};
+                    TimeplusStruct tuple4 = new TimeplusStruct("tuple", tupleValue4);
+                    pstmt.setObject(3, tuple4);
 
                     pstmt.addBatch();
                 }
@@ -232,6 +253,15 @@ public class NestedTypeTest extends AbstractITest implements BytesHelper {
                 Object[] tupleValue2 = (Object[]) tuple2.getAttributes();
                 assertEquals(tupleValue2.length, 1);
                 assertEquals(tupleValue2[0], 3);
+
+                // tuple (tuple)
+                Object obj3 = rs.getObject(3);
+                TimeplusStruct tuple3 = (TimeplusStruct) obj3;
+                Object[] tupleValue3 = (Object[]) tuple3.getAttributes();
+                TimeplusStruct tuple4 = (TimeplusStruct) tupleValue3[0];
+                Object[] tupleValue4 = (Object[]) tuple4.getAttributes();
+                assertEquals(tupleValue4.length, 1);
+                assertEquals(tupleValue4[0], 1);
 
             }
             assertEquals(size, rowCnt);
