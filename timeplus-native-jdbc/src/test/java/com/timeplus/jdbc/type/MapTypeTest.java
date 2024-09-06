@@ -69,22 +69,38 @@ public class MapTypeTest extends AbstractITest implements BytesHelper {
                     "INSERT INTO map_test (value, values, valuefs, value_date, value_datetime, value_decimal32, value_decimal64, value_decimal128, "
                     +"value_decimal256, value_enum, value_enum16, value_float32, value_float64, value_ipv4, value_ipv6, value_boolean, value_uuid) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);")) {
                 
-                Map<String, Integer> map = Map.of("key", 1);
-                Map<String, String> maps = Map.of("key", "this_is_key");
-                Map<String, String> mapfs = Map.of("key", "a_key");
-                Map<String, Date> map_date = Map.of("key", java.sql.Date.valueOf("1970-01-01"));
-                Map<String, java.sql.Timestamp> map_datetime = Map.of("key", java.sql.Timestamp.valueOf("2021-01-01 00:00:00"));
-                Map<String, BigDecimal> map_decimal32 = Map.of("key", BigDecimal.valueOf(412341.21D).setScale(3, RoundingMode.HALF_UP));
-                Map<String, BigDecimal> map_decimal64 = Map.of("key", BigDecimal.valueOf(412341.21D).setScale(5, RoundingMode.HALF_UP));
-                Map<String, BigDecimal> map_decimal128 = Map.of("key", BigDecimal.valueOf(412341.21D).setScale(16, RoundingMode.HALF_UP));
-                Map<String, BigDecimal> map_decimal256 = Map.of("key", BigDecimal.valueOf(412341.21D).setScale(26, RoundingMode.HALF_UP));
-                Map<String, String> map_enum = Map.of("key", "test");
-                Map<String, Float> map_float32 = Map.of("key", 1.1f);
-                Map<String, Double> map_float64 = Map.of("key", 1.1);
-                Map<String, Long> map_ipv4 = Map.of("key", testIPv4Value1);
-                Map<String, BigInteger> map_ipv6 = Map.of("key", testIPv6Value1);
-                Map<String, Byte> map_bool = Map.of("key", (byte) 1);
-                Map<String, java.util.UUID> map_uuid = Map.of("key", uuid);
+            Map<String, Integer> map = new HashMap<>();
+            map.put("key", 1);
+            Map<String, String> maps = new HashMap<>();
+            maps.put("key", "this_is_key");
+            Map<String, String> mapfs = new HashMap<>();
+            mapfs.put("key", "a_key");
+            Map<String, Date> map_date = new HashMap<>();
+            map_date.put("key", Date.valueOf("1970-01-01"));
+            Map<String, java.sql.Timestamp> map_datetime = new HashMap<>();
+            map_datetime.put("key", java.sql.Timestamp.valueOf("2021-01-01 00:00:00"));
+            Map<String, BigDecimal> map_decimal32 = new HashMap<>();
+            map_decimal32.put("key", BigDecimal.valueOf(412341.21D).setScale(3, RoundingMode.HALF_UP));
+            Map<String, BigDecimal> map_decimal64 = new HashMap<>();
+            map_decimal64.put("key", BigDecimal.valueOf(412341.21D).setScale(5, RoundingMode.HALF_UP));
+            Map<String, BigDecimal> map_decimal128 = new HashMap<>();
+            map_decimal128.put("key", BigDecimal.valueOf(412341.21D).setScale(16, RoundingMode.HALF_UP));
+            Map<String, BigDecimal> map_decimal256 = new HashMap<>();
+            map_decimal256.put("key", BigDecimal.valueOf(412341.21D).setScale(26, RoundingMode.HALF_UP));
+            Map<String, String> map_enum = new HashMap<>();
+            map_enum.put("key", "test");
+            Map<String, Float> map_float32 = new HashMap<>();
+            map_float32.put("key", 1.1f);
+            Map<String, Double> map_float64 = new HashMap<>();
+            map_float64.put("key", 1.1);
+            Map<String, Long> map_ipv4 = new HashMap<>();
+            map_ipv4.put("key", testIPv4Value1);
+            Map<String, BigInteger> map_ipv6 = new HashMap<>();
+            map_ipv6.put("key", testIPv6Value1);
+            Map<String, Byte> map_bool = new HashMap<>();
+            map_bool.put("key", (byte) 1);
+            Map<String, java.util.UUID> map_uuid = new HashMap<>();
+            map_uuid.put("key", uuid);
 
                 for (int i = 0; i < rowCnt; i++) {
                     pstmt.setObject(1, map);
@@ -184,17 +200,28 @@ public class MapTypeTest extends AbstractITest implements BytesHelper {
                     "INSERT INTO map_test (value_int8, values, valuefs, value_enum, value_enum16, value_ipv4, value_ipv6, value_int16, value_int32, value_int64, value_int128, value_int256, "
                     +"value_uint8, value_uint16, value_uint32, value_uint64, value_uint128, value_uint256, value_boolean, value_uuid) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);")) {
                 
-                Map<String, String> maps = Map.of("this_is_key", "this_is_key");
-                Map<String, String> mapfs = Map.of("a_key", "a_key");
-                Map<String, String> map_enum = Map.of("test", "test");
-                Map<Long, Long> map_ipv4 = Map.of(testIPv4Value1, testIPv4Value1);
-                Map<Long, BigInteger> map_ipv6 = Map.of(testIPv4Value1, testIPv6Value1);
-                Map<Byte, Byte> map_int8 = Map.of((byte) 1, (byte) 1);
-                Map<Short, Short> map_int16 = Map.of((short) 1, (short) 1);
-                Map<Integer, Integer> map_int32 = Map.of(1, 1);
-                Map<Long, Long> map_int64 = Map.of(1l, 1l);
-                Map<BigInteger, BigInteger> map_int128 = Map.of(testIPv6Value1, testIPv6Value1);
-                Map<java.util.UUID, java.util.UUID> map_uuid = Map.of(uuid, uuid);
+                Map<String, String> maps = new HashMap<>();
+                maps.put("this_is_key", "this_is_key");
+                Map<String, String> mapfs = new HashMap<>();
+                mapfs.put("a_key", "a_key");
+                Map<String, String> map_enum = new HashMap<>();
+                map_enum.put("test", "test");
+                Map<Long, Long> map_ipv4 = new HashMap<>();
+                map_ipv4.put(testIPv4Value1, testIPv4Value1);
+                Map<Long, BigInteger> map_ipv6 = new HashMap<>();
+                map_ipv6.put(testIPv4Value1, testIPv6Value1);
+                Map<Byte, Byte> map_int8 = new HashMap<>();
+                map_int8.put((byte) 1, (byte) 1);
+                Map<Short, Short> map_int16 = new HashMap<>();
+                map_int16.put((short) 1, (short) 1);
+                Map<Integer, Integer> map_int32 = new HashMap<>();
+                map_int32.put(1, 1);
+                Map<Long, Long> map_int64 = new HashMap<>();
+                map_int64.put(1L, 1L);
+                Map<BigInteger, BigInteger> map_int128 = new HashMap<>();
+                map_int128.put(testIPv6Value1, testIPv6Value1);
+                Map<java.util.UUID, java.util.UUID> map_uuid = new HashMap<>();
+                map_uuid.put(uuid, uuid);
 
                 for (int i = 0; i < rowCnt; i++) {
                     pstmt.setObject(1, map_int8);

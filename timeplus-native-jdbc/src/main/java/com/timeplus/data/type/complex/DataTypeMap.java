@@ -39,7 +39,7 @@ public class DataTypeMap implements IDataType<Object, Object> {
         IDataType<?, ?> value = DataTypeFactory.get(lexer, serverContext);
         Validate.isTrue(lexer.character() == ')');
 
-        IDataType<?, ?>[] nestedTypes = new IDataType[]{key, value};
+        IDataType<?, ?>[] nestedTypes = new IDataType[] { key, value };
         String name = "map(" + key.name() + ", " + value.name() + ")";
 
         return new DataTypeMap(name, nestedTypes, (DataTypeInt64) DataTypeFactory.get("int64", serverContext));
@@ -74,7 +74,9 @@ public class DataTypeMap implements IDataType<Object, Object> {
 
     @Override
     public Map<?, ?> defaultValue() {
-        return Map.of(getNestedTypes()[0].defaultValue(), getNestedTypes()[1].defaultValue());
+        Map<Object, Object> map = new HashMap<>();
+        map.put(getNestedTypes()[0].defaultValue(), getNestedTypes()[1].defaultValue());
+        return map;
     }
 
     @Override
@@ -119,7 +121,7 @@ public class DataTypeMap implements IDataType<Object, Object> {
         Object key = null;
         Object value = null;
         Validate.isTrue(lexer.character() == '{');
-        for (; ; ) {
+        for (;;) {
             if (lexer.isCharacter('}')) {
                 lexer.character();
                 break;
@@ -183,7 +185,7 @@ public class DataTypeMap implements IDataType<Object, Object> {
         getNestedTypes()[0].deserializeBinaryPrefix(rows, deserializer);
         getNestedTypes()[1].deserializeBinaryPrefix(rows, deserializer);
     }
-    
+
     @Override
     public void deserializeBinarySuffix(int rows, BinaryDeserializer deserializer) throws SQLException, IOException {
         getNestedTypes()[0].deserializeBinarySuffix(rows, deserializer);
