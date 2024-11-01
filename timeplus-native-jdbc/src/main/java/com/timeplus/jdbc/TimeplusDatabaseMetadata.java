@@ -738,6 +738,9 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
                         "string");
 
         List<String> typeList = types != null ? Arrays.asList(types) : null;
+        if (typeList != null) {
+            typeList.replaceAll(type -> type.equals("STREAM") ? "TABLE" : type);
+        }
         while (result.next()) {
             List<String> row = new ArrayList<>();
             row.add(TimeplusDefines.DEFAULT_CATALOG);
@@ -758,7 +761,7 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
                     type = "OTHER"; // not a real table
                     break;
                 default:
-                    type = "STREAM";
+                    type = "TABLE";
                     break;
             }
             row.add(type);
