@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TimeplusConfigTest {
 
     @Test
-    public void testDefaultClickHouseConfig() {
+    public void testDefaultTimeplusConfig() {
         TimeplusConfig cfg = TimeplusConfig.Builder.builder().build();
         assertEquals("127.0.0.1", cfg.host());
         assertEquals(9000, cfg.port());
@@ -43,7 +43,7 @@ class TimeplusConfigTest {
     }
 
     @Test
-    public void testClickHouseConfig() {
+    public void testTimeplusConfig() {
         TimeplusConfig cfg = TimeplusConfig.Builder.builder()
                 .withJdbcUrl("jdbc:timeplus://1.2.3.4:8123/db2")
                 .charset("GBK")

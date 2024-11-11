@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-// TODO avoid using ClickHouseArray because it's a subclass of java.sql.Array
+// TODO avoid using TimeplusArray because it's a subclass of java.sql.Array
 public class DataTypeArray implements IDataType<TimeplusArray, Array> {
 
     public static DataTypeCreator<TimeplusArray, Array> creator = (lexer, serverContext) -> {

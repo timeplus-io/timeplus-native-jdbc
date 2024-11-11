@@ -35,7 +35,7 @@ public class TimeplusDriver implements Driver {
 
     @Override
     public boolean acceptsURL(String url) throws SQLException {
-        return url.startsWith(TimeplusJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX);
+        return url.startsWith(TimeplusJdbcUrlParser.JDBC_TIMEPLUS_PREFIX);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class TimeplusDriver implements Driver {
         if (!this.acceptsURL(url)) {
             return null;
         }
-        return TimeplusConnection.createClickHouseConnection(cfg.withJdbcUrl(url));
+        return TimeplusConnection.createTimeplusConnection(cfg.withJdbcUrl(url));
     }
 
     @Override

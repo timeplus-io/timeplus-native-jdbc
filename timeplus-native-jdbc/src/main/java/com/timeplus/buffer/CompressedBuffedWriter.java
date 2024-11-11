@@ -15,7 +15,7 @@
 package com.timeplus.buffer;
 
 import com.timeplus.misc.BytesHelper;
-import com.timeplus.misc.ClickHouseCityHash;
+import com.timeplus.misc.TimeplusCityHash;
 import io.airlift.compress.Compressor;
 import io.airlift.compress.lz4.Lz4Compressor;
 import io.airlift.compress.zstd.ZstdCompressor;
@@ -78,7 +78,7 @@ public class CompressedBuffedWriter implements BuffedWriter, BytesHelper {
             System.arraycopy(getBytesLE(compressedSize), 0, compressedBuffer, CHECKSUM_LENGTH + 1, Integer.BYTES);
             System.arraycopy(getBytesLE(position), 0, compressedBuffer, CHECKSUM_LENGTH + Integer.BYTES + 1, Integer.BYTES);
 
-            long[] checksum = ClickHouseCityHash.cityHash128(compressedBuffer, CHECKSUM_LENGTH, compressedSize);
+            long[] checksum = TimeplusCityHash.cityHash128(compressedBuffer, CHECKSUM_LENGTH, compressedSize);
             System.arraycopy(getBytesLE(checksum[0]), 0, compressedBuffer, 0, Long.BYTES);
             System.arraycopy(getBytesLE(checksum[1]), 0, compressedBuffer, Long.BYTES, Long.BYTES);
 

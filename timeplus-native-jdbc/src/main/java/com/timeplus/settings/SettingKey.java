@@ -488,13 +488,13 @@ public class SettingKey implements Serializable {
     public static SettingKey send_progress_in_http_headers = SettingKey.builder()
             .withName("send_progress_in_http_headers")
             .withType(SettingType.Bool)
-            .withDescription("Send progress notifications using X-ClickHouse-Progress headers. Some clients do not support high amount of HTTP headers (Python requests in particular), so it is disabled by default.")
+            .withDescription("Send progress notifications using X-Timeplus-Progress headers. Some clients do not support high amount of HTTP headers (Python requests in particular), so it is disabled by default.")
             .build();
 
     public static SettingKey http_headers_progress_interval_ms = SettingKey.builder()
             .withName("http_headers_progress_interval_ms")
             .withType(SettingType.Int64)
-            .withDescription("Do not send HTTP headers X-ClickHouse-Progress more frequently than at each specified interval.")
+            .withDescription("Do not send HTTP headers X-Timeplus-Progress more frequently than at each specified interval.")
             .build();
 
     public static SettingKey fsync_metadata = SettingKey.builder()

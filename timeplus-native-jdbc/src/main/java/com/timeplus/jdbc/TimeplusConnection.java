@@ -213,7 +213,7 @@ public class TimeplusConnection implements SQLConnection {
         return getNativeClient().ping(Duration.ofSeconds(timeout), nativeCtx.serverCtx());
     }
 
-    // ClickHouse support only `database`, we treat it as JDBC `schema`
+    // Timeplus support only `database`, we treat it as JDBC `schema`
     @Override
     public void setSchema(String schema) throws SQLException {
         this.cfg.set(this.cfg().withDatabase(schema));
@@ -314,7 +314,7 @@ public class TimeplusConnection implements SQLConnection {
         return nativeCtx.nativeClient();
     }
 
-    public static TimeplusConnection createClickHouseConnection(TimeplusConfig configure) throws SQLException {
+    public static TimeplusConnection createTimeplusConnection(TimeplusConfig configure) throws SQLException {
         return new TimeplusConnection(configure, createNativeContext(configure));
     }
 

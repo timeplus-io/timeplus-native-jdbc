@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
 public class TimeplusJdbcUrlParser {
     public static final String JDBC_PREFIX = "jdbc:";
     public static final String TIMEPLUS_PREFIX = "timeplus:";
-    public static final String JDBC_CLICKHOUSE_PREFIX = JDBC_PREFIX + TIMEPLUS_PREFIX;
+    public static final String JDBC_TIMEPLUS_PREFIX = JDBC_PREFIX + TIMEPLUS_PREFIX;
 
     public static final String HOST_DELIMITER = ",";
     public static final String PORT_DELIMITER = ":";
@@ -47,7 +47,7 @@ public class TimeplusJdbcUrlParser {
     private static final Logger LOG = LoggerFactory.getLogger(TimeplusJdbcUrlParser.class);
 
     public static Map<SettingKey, Serializable> parseJdbcUrl(String jdbcUrl) {
-        String uri = jdbcUrl.substring(JDBC_CLICKHOUSE_PREFIX.length());
+        String uri = jdbcUrl.substring(JDBC_TIMEPLUS_PREFIX.length());
         Matcher matcher = CONNECTION_PATTERN.matcher(uri);
         if (!matcher.matches()) {
             throw new InvalidValueException("Connection is not support");
@@ -99,7 +99,7 @@ public class TimeplusJdbcUrlParser {
         while (tokenizer.hasMoreTokens()) {
             String[] queryParameter = tokenizer.nextToken().split("=", 2);
             Validate.ensure(queryParameter.length == 2,
-                    "ClickHouse JDBC URL Parameter '" + queryParameters + "' Error, Expected '='.");
+                    "Timeplus JDBC URL Parameter '" + queryParameters + "' Error, Expected '='.");
 
             String name = queryParameter[0];
             String value = queryParameter[1];

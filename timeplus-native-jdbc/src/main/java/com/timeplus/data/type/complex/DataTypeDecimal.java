@@ -47,7 +47,6 @@ public class DataTypeDecimal implements IDataType<BigDecimal, BigDecimal>, Bytes
     private final BigDecimal scaleFactor;
     private final int nobits;
 
-    // see https://clickhouse.tech/docs/en/sql-reference/data-types/decimal/
     public DataTypeDecimal(String name, int precision, int scale) {
         this.name = name;
         this.precision = precision;

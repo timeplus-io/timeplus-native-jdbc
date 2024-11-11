@@ -118,7 +118,7 @@ public class TimeplusConfig implements Serializable {
     }
 
     public String jdbcUrl() {
-        StringBuilder builder = new StringBuilder(TimeplusJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX)
+        StringBuilder builder = new StringBuilder(TimeplusJdbcUrlParser.JDBC_TIMEPLUS_PREFIX)
                 .append("//").append(host);
 
         if (hosts.size() == 1) {

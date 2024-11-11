@@ -21,7 +21,7 @@ import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class ClickHouseSQLExceptionITest extends AbstractITest {
+public class TimeplusSQLExceptionITest extends AbstractITest {
 
     @Test
     public void errorCodeShouldBeAssigned() throws Exception {

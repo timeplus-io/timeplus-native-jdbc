@@ -19,8 +19,7 @@ import com.timeplus.misc.SystemUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.clickhouse.*;
-// import org.testcontainers.timeplus.TimeplusContainer;
+import org.testcontainers.timeplus.TimeplusContainer;
 import org.testcontainers.utility.MountableFile;
 
 import javax.sql.DataSource;
@@ -37,11 +36,11 @@ public abstract class AbstractITest implements Serializable {
     protected static final String DRIVER_CLASS_NAME = "com.timeplus.jdbc.TimeplusDriver";
 
     public static final String TIMEPLUS_IMAGE = System.getProperty("TIMEPLUS_IMAGE", "timeplus/timeplusd:2.3.3");
-    // public static DockerImageName proton_image = DockerImageName.parse(CLICKHOUSE_IMAGE).asCompatibleSubstituteFor("clickhouse/clickhouse-server");
+    // public static DockerImageName proton_image = DockerImageName.parse(TIMEPLUS_IMAGE).asCompatibleSubstituteFor("timeplus/timeplus-server");
 
-    protected static final String TIMEPLUS_USER = SystemUtil.loadProp("CLICKHOUSE_USER", "");
-    protected static final String TIMEPLUS_PASSWORD = SystemUtil.loadProp("CLICKHOUSE_PASSWORD", "");
-    protected static final String TIMEPLUS_DB = SystemUtil.loadProp("CLICKHOUSE_DB", "");
+    protected static final String TIMEPLUS_USER = SystemUtil.loadProp("TIMEPLUS_USER", "");
+    protected static final String TIMEPLUS_PASSWORD = SystemUtil.loadProp("TIMEPLUS_PASSWORD", "");
+    protected static final String TIMEPLUS_DB = SystemUtil.loadProp("TIMEPLUS_DB", "");
 
     protected static final int TIMEPLUS_HTTP_PORT = 3218;
     protected static final int TIMEPLUS_HTTPS_PORT = 3218;
@@ -49,10 +48,10 @@ public abstract class AbstractITest implements Serializable {
     protected static final int TIMEPLUS_NATIVE_SECURE_PORT = 8463;
 
     @Container
-    public static ClickHouseContainer container = new ClickHouseContainer(TIMEPLUS_IMAGE)
-            .withEnv("CLICKHOUSE_USER", TIMEPLUS_USER)
-            .withEnv("CLICKHOUSE_PASSWORD", TIMEPLUS_PASSWORD)
-            .withEnv("CLICKHOUSE_DB", TIMEPLUS_DB)
+    public static TimeplusContainer container = new TimeplusContainer(TIMEPLUS_IMAGE)
+            .withEnv("TIMEPLUS_USER", TIMEPLUS_USER)
+            .withEnv("TIMEPLUS_PASSWORD", TIMEPLUS_PASSWORD)
+            .withEnv("TIMEPLUS_DB", TIMEPLUS_DB)
             .withExposedPorts(TIMEPLUS_HTTP_PORT,
                     TIMEPLUS_HTTPS_PORT,
                     TIMEPLUS_NATIVE_PORT,

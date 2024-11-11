@@ -188,11 +188,11 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
         assertEquals(Duration.ofSeconds(6789), cfg.queryTimeout());
         assertEquals("888888", cfg.password());
         assertEquals("click", cfg.database());
-        assertEquals(2, dataSource.getAllClickhouseUrls().size());
+        assertEquals(2, dataSource.getAllTimeplusUrls().size());
         assertEquals(String.format(Locale.ROOT, "jdbc:timeplus://%s:%s/click", TP_HOST, TP_PORT),
-                dataSource.getAllClickhouseUrls().get(0));
+                dataSource.getAllTimeplusUrls().get(0));
         assertEquals(String.format(Locale.ROOT, "jdbc:timeplus://%s:%s/click", TP_HOST, TP_PORT),
-                dataSource.getAllClickhouseUrls().get(1));
+                dataSource.getAllTimeplusUrls().get(1));
 
         // with connection parameters
         dataSource = new BalancedTimeplusDataSource(
@@ -202,10 +202,10 @@ public class BalancedTimeplusDataSourceITest extends AbstractITest {
         assertEquals("readonly", cfg.user());
         assertEquals("888888", cfg.password());
         assertEquals("click", cfg.database());
-        assertEquals(2, dataSource.getAllClickhouseUrls().size());
+        assertEquals(2, dataSource.getAllTimeplusUrls().size());
         assertEquals(String.format(Locale.ROOT, "jdbc:timeplus://%s:%s/click?query_timeout=12345&user=readonly", TP_HOST, TP_PORT),
-                dataSource.getAllClickhouseUrls().get(0));
+                dataSource.getAllTimeplusUrls().get(0));
         assertEquals(String.format(Locale.ROOT, "jdbc:timeplus://%s:%s/click?query_timeout=12345&user=readonly", TP_HOST, TP_PORT),
-                dataSource.getAllClickhouseUrls().get(1));
+                dataSource.getAllTimeplusUrls().get(1));
     }
 }
