@@ -1,0 +1,36 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    types:
+      - synchronize
+      - reopened
+      - opened
+      - ready_for_review
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        java-version: [8, 11]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java-version }}
+      
+      - name: Find Maven dependencies
+        run: mvn dependency:resolve
+
+      - name: Build with Maven
+        run: mvn clean install
