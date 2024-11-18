@@ -104,7 +104,7 @@ class TimeplusDatabaseMetadataITest extends AbstractITest {
     void getDatabaseProductName() throws Exception {
         withNewConnection(connection -> {
             DatabaseMetaData dm = connection.getMetaData();
-            assertEquals("ClickHouse", dm.getDatabaseProductName());
+            assertEquals("Timeplus", dm.getDatabaseProductName());
         });
     }
 

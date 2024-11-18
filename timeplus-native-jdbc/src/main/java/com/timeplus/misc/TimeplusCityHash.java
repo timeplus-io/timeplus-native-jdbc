@@ -17,14 +17,7 @@
 
 package com.timeplus.misc;
 
-/**
- * @author tamtam180 - kirscheless at gmail.com
- * @see <a href="http://google-opensource.blogspot.jp/2011/04/introducing-cityhash.html"></a>
- * @see <a href="http://code.google.com/p/cityhash"></a>
- * <p>
- * NOTE: The code is modified to be compatible with CityHash128 used in ClickHouse
- */
-public class ClickHouseCityHash {
+public class TimeplusCityHash {
 
     private static final long k0 = 0xc3a5c85c97cb3127L;
     private static final long k1 = 0xb492b66fbe98f273L;

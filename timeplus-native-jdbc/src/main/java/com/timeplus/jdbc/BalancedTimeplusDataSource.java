@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 import javax.sql.DataSource;
 
 /**
- * <p> Database for clickhouse jdbc connections.
+ * <p> Database for timeplus jdbc connections.
  * <p> It has list of database urls.
  * For every {@link #getConnection() getConnection} invocation, it returns connection to random host from the list.
  * Furthermore, this class has method { #scheduleActualization(int, TimeUnit) scheduleActualization}
@@ -51,7 +51,7 @@ import javax.sql.DataSource;
 public final class BalancedTimeplusDataSource implements DataSource, SQLWrapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(BalancedTimeplusDataSource.class);
-    private static final Pattern URL_TEMPLATE = Pattern.compile(TimeplusJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX +
+    private static final Pattern URL_TEMPLATE = Pattern.compile(TimeplusJdbcUrlParser.JDBC_TIMEPLUS_PREFIX +
             "//([a-zA-Z0-9_:,.-]+)" +
             "((/[a-zA-Z0-9_]+)?" +
             "([?][a-zA-Z0-9_]+[=][a-zA-Z0-9_]+([&][a-zA-Z0-9_]+[=][a-zA-Z0-9_]*)*)?" +
@@ -68,7 +68,7 @@ public final class BalancedTimeplusDataSource implements DataSource, SQLWrapper 
     private final TimeplusDriver driver = new TimeplusDriver();
 
     /**
-     * create Datasource for clickhouse JDBC connections
+     * create Datasource for timeplus JDBC connections
      *
      * @param url address for connection to the database, must have the next format
      *            {@code jdbc:timeplus://<first-host>:<port>,<second-host>:<port>/<database>?param1=value1&param2=value2 }
@@ -81,7 +81,7 @@ public final class BalancedTimeplusDataSource implements DataSource, SQLWrapper 
     }
 
     /**
-     * create Datasource for clickhouse JDBC connections
+     * create Datasource for timeplus JDBC connections
      *
      * @param url        address for connection to the database
      * @param properties database properties
@@ -92,10 +92,10 @@ public final class BalancedTimeplusDataSource implements DataSource, SQLWrapper 
     }
 
     /**
-     * create Datasource for clickhouse JDBC connections
+     * create Datasource for timeplus JDBC connections
      *
      * @param url      address for connection to the database
-     * @param settings clickhouse settings
+     * @param settings timeplus settings
      * @see #BalancedTimeplusDataSource(String)
      */
     public BalancedTimeplusDataSource(final String url, Map<SettingKey, Serializable> settings) {
@@ -107,7 +107,7 @@ public final class BalancedTimeplusDataSource implements DataSource, SQLWrapper 
     }
 
     private BalancedTimeplusDataSource(final List<String> urls, Map<SettingKey, Serializable> settings) {
-        Validate.ensure(!urls.isEmpty(), "Incorrect ClickHouse jdbc url list. It must be not empty");
+        Validate.ensure(!urls.isEmpty(), "Incorrect timeplus jdbc url list. It must be not empty");
 
         this.cfg = TimeplusConfig.Builder.builder()
                 .withJdbcUrl(urls.get(0))
@@ -141,7 +141,7 @@ public final class BalancedTimeplusDataSource implements DataSource, SQLWrapper 
         final String database = StrUtil.getOrDefault(m.group(2), "");
         String[] hosts = m.group(1).split(",");
         return Arrays.stream(hosts)
-                .map(host -> TimeplusJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX + "//" + host + database)
+                .map(host -> TimeplusJdbcUrlParser.JDBC_TIMEPLUS_PREFIX + "//" + host + database)
                 .collect(Collectors.toList());
     }
 
@@ -154,9 +154,9 @@ public final class BalancedTimeplusDataSource implements DataSource, SQLWrapper 
     }
 
     /**
-     * Checks if clickhouse on url is alive, if it isn't, disable url, else enable.
+     * Checks if timeplus on url is alive, if it isn't, disable url, else enable.
      *
-     * @return number of available clickhouse urls
+     * @return number of available timeplus urls
      */
     synchronized int actualize() {
         List<String> enabledUrls = new ArrayList<>(allUrls.size());
@@ -247,11 +247,11 @@ public final class BalancedTimeplusDataSource implements DataSource, SQLWrapper 
         throw new SQLFeatureNotSupportedException();
     }
 
-    public List<String> getAllClickhouseUrls() {
+    public List<String> getAllTimeplusUrls() {
         return allUrls;
     }
 
-    public List<String> getEnabledClickHouseUrls() {
+    public List<String> getEnabledTimeplusUrls() {
         return enabledUrls;
     }
 

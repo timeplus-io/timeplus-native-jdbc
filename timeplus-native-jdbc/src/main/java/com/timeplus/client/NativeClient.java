@@ -43,7 +43,7 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.UUID;
 
-// TODO throw ClickHouseException instead of SQLException
+// TODO throw TimeplusException instead of SQLException
 public class NativeClient {
 
     private static final Logger LOG = LoggerFactory.getLogger(NativeClient.class);

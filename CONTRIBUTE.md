@@ -70,9 +70,7 @@ To build the source code locally, checkout and update the `master` branch:
 
 Then use Maven to compile everything, build all artifacts, and install all JAR, ZIP, and TAR files into your local Maven repository:
 
-    mvn clean install -DskipITs -DskipTests
-
-(Currently the unit tests and integration tests are not fixed, so we have to skip them)
+    mvn clean install
 
 ### Running and debugging tests
 (Not working at this point)
@@ -92,7 +90,7 @@ To fix pull requests with code style violations, simply run the project's build 
 
 To run the build, navigate to the project's root directory and run:
 
-    mvn clean verify -DskipITs -DskipTests
+    mvn clean verify -DskipITs
 
 It might be useful to simply run a _validate_ check against the code instead of automatically applying code style changes.  If you want to simply run validation, navigate to the project's root directory and run:
 
@@ -122,7 +120,7 @@ export GPG_TTY=$(tty)
 Then run the following commmands:
 
 ```bash
-mvn clean javadoc:jar source:jar package gpg:sign install deploy -DskipITs -DskipTests -Drevision=2.0.2 -e
+mvn clean javadoc:jar source:jar package gpg:sign install deploy -DskipITs Drevision=2.0.2 -e
 ```
 
 This will geneate target/central-staging folder with required jar/asc/md5/sha1 files.

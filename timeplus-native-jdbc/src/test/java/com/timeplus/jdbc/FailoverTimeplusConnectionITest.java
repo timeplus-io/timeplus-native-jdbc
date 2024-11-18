@@ -16,10 +16,10 @@ package com.timeplus.jdbc;
 
 import com.timeplus.log.Logger;
 import com.timeplus.log.LoggerFactory;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.testcontainers.clickhouse.*;
-//import org.testcontainers.timeplus.TimeplusContainer;
+import org.testcontainers.timeplus.TimeplusContainer;
 import org.testcontainers.junit.jupiter.Container;
 
 import java.sql.Connection;
@@ -31,17 +31,17 @@ import java.util.Locale;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class FailoverClickhouseConnectionITest extends AbstractITest {
-    private static final Logger LOG = LoggerFactory.getLogger(FailoverClickhouseConnectionITest.class);
+public class FailoverTimeplusConnectionITest extends AbstractITest {
+    private static final Logger LOG = LoggerFactory.getLogger(FailoverTimeplusConnectionITest.class);
     private static final Integer NATIVE_PORT = 8463;
     protected static String HA_HOST;
     protected static int HA_PORT;
 
     @Container
-    public static ClickHouseContainer containerHA = new ClickHouseContainer(AbstractITest.TIMEPLUS_IMAGE)
-            .withEnv("CLICKHOUSE_USER", TIMEPLUS_USER)
-            .withEnv("CLICKHOUSE_PASSWORD", TIMEPLUS_PASSWORD)
-            .withEnv("CLICKHOUSE_DB", TIMEPLUS_DB);
+    public static TimeplusContainer containerHA = new TimeplusContainer(AbstractITest.TIMEPLUS_IMAGE)
+            .withEnv("TIMEPLUS_USER", TIMEPLUS_USER)
+            .withEnv("TIMEPLUS_PASSWORD", TIMEPLUS_PASSWORD)
+            .withEnv("TIMEPLUS_DB", TIMEPLUS_DB);
 
 
     @BeforeEach
@@ -57,7 +57,7 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
     }
 
     @Test
-    public void testClickhouseDownBeforeConnect() throws Exception {
+    public void testTimeplusDownBeforeConnect() throws Exception {
         String haHost = String.format(Locale.ROOT, "%s:%s,%s:%s", TP_HOST, TP_PORT, HA_HOST, HA_PORT);
 
         container.stop();
@@ -75,7 +75,7 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
     }
 
     @Test
-    public void testClickhouseDownBeforeStatement() throws Exception {
+    public void testTimeplusDownBeforeStatement() throws Exception {
         String haHost = String.format(Locale.ROOT, "%s:%s,%s:%s", TP_HOST, TP_PORT, HA_HOST, HA_PORT);
 
         try (Connection connection = DriverManager
@@ -93,7 +93,7 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
     }
 
     @Test
-    public void testClickhouseDownBeforePrepareStatement() throws Exception {
+    public void testTimeplusDownBeforePrepareStatement() throws Exception {
         String haHost = String.format(Locale.ROOT, "%s:%s,%s:%s", TP_HOST, TP_PORT, HA_HOST, HA_PORT);
 
         try (Connection connection = DriverManager
@@ -111,7 +111,7 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
     }
 
     @Test
-    public void testClickhouseDownBeforeExecute() throws Exception {
+    public void testTimeplusDownBeforeExecute() throws Exception {
         String haHost = String.format(Locale.ROOT, "%s:%s,%s:%s", TP_HOST, TP_PORT, HA_HOST, HA_PORT);
 
         try (Connection connection = DriverManager
@@ -129,7 +129,7 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
     }
 
     @Test
-    public void testClickhouseDownBeforeAndAfterConnect() {
+    public void testTimeplusDownBeforeAndAfterConnect() {
         String haHost = String.format(Locale.ROOT, "%s:%s,%s:%s", TP_HOST, TP_PORT, HA_HOST, HA_PORT);
 
         Exception ex = null;
@@ -153,7 +153,7 @@ public class FailoverClickhouseConnectionITest extends AbstractITest {
     }
 
     @Test
-    public void testClickhouseAllDownBeforeConnect() throws Exception {
+    public void testTimeplusAllDownBeforeConnect() throws Exception {
         String haHost = String.format(Locale.ROOT, "%s:%s,%s", TP_HOST, TP_PORT, HA_HOST);
 
         Exception ex = null;

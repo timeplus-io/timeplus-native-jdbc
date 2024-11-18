@@ -21,8 +21,7 @@ import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-import org.testcontainers.clickhouse.*;
-//import org.testcontainers.timeplus.TimeplusContainer;
+import org.testcontainers.timeplus.TimeplusContainer;
 
 import java.sql.*;
 import java.util.Enumeration;
@@ -39,10 +38,10 @@ public class AbstractIBenchmark {
     protected static final int TIMEPLUS_HTTP_PORT = 3218;
     protected static final int TIMEPLUS_NATIVE_PORT = 8463;
 
-    public static final ClickHouseContainer container;
+    public static final TimeplusContainer container;
 
     static {
-        container = new ClickHouseContainer(AbstractITest.TIMEPLUS_IMAGE);
+        container = new TimeplusContainer(AbstractITest.TIMEPLUS_IMAGE);
         container.start();
     }
 

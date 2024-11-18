@@ -68,7 +68,7 @@ public class ConnectionParamITest extends AbstractITest {
 
         for (String jdbc : jdbcTrue) {
             TimeplusConfig cfg = TimeplusConfig.Builder.builder()
-                    .withJdbcUrl(TimeplusJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX + jdbc)
+                    .withJdbcUrl(TimeplusJdbcUrlParser.JDBC_TIMEPLUS_PREFIX + jdbc)
                     .build();
 
             if (jdbc.contains("?")) {
@@ -93,7 +93,7 @@ public class ConnectionParamITest extends AbstractITest {
         };
 
         for (String jdbc : fullJdbc) {
-            jdbc = TimeplusJdbcUrlParser.JDBC_CLICKHOUSE_PREFIX + jdbc;
+            jdbc = TimeplusJdbcUrlParser.JDBC_TIMEPLUS_PREFIX + jdbc;
             TimeplusConfig cfg = TimeplusConfig.Builder.builder()
                     .withJdbcUrl(jdbc)
                     .build();
@@ -150,9 +150,9 @@ public class ConnectionParamITest extends AbstractITest {
 
     @Test
     public void successfullyHostNameOnly() {
-        String url = "jdbc:timeplus://my_clickhouse_sever_host_name/system?min_insert_block_size_rows=1000&connect_timeout=50";
+        String url = "jdbc:timeplus://my_timeplus_sever_host_name/system?min_insert_block_size_rows=1000&connect_timeout=50";
         TimeplusConfig config = TimeplusConfig.Builder.builder().withJdbcUrl(url).build();
-        assertEquals("my_clickhouse_sever_host_name", config.host());
+        assertEquals("my_timeplus_sever_host_name", config.host());
         assertEquals(9000, config.port());
         assertEquals("system", config.database());
         assertEquals(1000L, config.settings().get(SettingKey.min_insert_block_size_rows));
@@ -161,9 +161,9 @@ public class ConnectionParamITest extends AbstractITest {
 
     @Test
     public void successfullyHostNameWithDefaultPort() {
-        String url = "jdbc:timeplus://my_clickhouse_sever_host_name:9000/system?min_insert_block_size_rows=1000&connect_timeout=50";
+        String url = "jdbc:timeplus://my_timeplus_sever_host_name:9000/system?min_insert_block_size_rows=1000&connect_timeout=50";
         TimeplusConfig config = TimeplusConfig.Builder.builder().withJdbcUrl(url).build();
-        assertEquals("my_clickhouse_sever_host_name", config.host());
+        assertEquals("my_timeplus_sever_host_name", config.host());
         assertEquals(9000, config.port());
         assertEquals("system", config.database());
         assertEquals(1000L, config.settings().get(SettingKey.min_insert_block_size_rows));
@@ -172,9 +172,9 @@ public class ConnectionParamITest extends AbstractITest {
 
     @Test
     public void successfullyHostNameWithCustomPort() {
-        String url = "jdbc:timeplus://my_clickhouse_sever_host_name:1940/system?min_insert_block_size_rows=1000&connect_timeout=50";
+        String url = "jdbc:timeplus://my_timeplus_sever_host_name:1940/system?min_insert_block_size_rows=1000&connect_timeout=50";
         TimeplusConfig config = TimeplusConfig.Builder.builder().withJdbcUrl(url).build();
-        assertEquals("my_clickhouse_sever_host_name", config.host());
+        assertEquals("my_timeplus_sever_host_name", config.host());
         assertEquals(1940, config.port());
         assertEquals("system", config.database());
         assertEquals(1000L, config.settings().get(SettingKey.min_insert_block_size_rows));
@@ -183,9 +183,9 @@ public class ConnectionParamITest extends AbstractITest {
 
     @Test
     public void successfullyFailoverHostNameWithCustomPort() {
-        String url = "jdbc:timeplus://my_clickhouse_sever_host_name1:1940,my_clickhouse_sever_host_name2:1941/system?min_insert_block_size_rows=1000&connect_timeout=50";
+        String url = "jdbc:timeplus://my_timeplus_sever_host_name1:1940,my_timeplus_sever_host_name2:1941/system?min_insert_block_size_rows=1000&connect_timeout=50";
         TimeplusConfig config = TimeplusConfig.Builder.builder().withJdbcUrl(url).build();
-        assertEquals("my_clickhouse_sever_host_name1:1940,my_clickhouse_sever_host_name2:1941", config.host());
+        assertEquals("my_timeplus_sever_host_name1:1940,my_timeplus_sever_host_name2:1941", config.host());
         assertEquals(2, config.hosts().size());
         assertEquals(9000, config.port());
         assertEquals("system", config.database());
@@ -195,9 +195,9 @@ public class ConnectionParamITest extends AbstractITest {
 
     @Test
     public void successfullyFailoverHostNameWithDefaultPort() {
-        String url = "jdbc:timeplus://my_clickhouse_sever_host_name1,my_clickhouse_sever_host_name2/system?min_insert_block_size_rows=1000&connect_timeout=50";
+        String url = "jdbc:timeplus://my_timeplus_sever_host_name1,my_timeplus_sever_host_name2/system?min_insert_block_size_rows=1000&connect_timeout=50";
         TimeplusConfig config = TimeplusConfig.Builder.builder().withJdbcUrl(url).build();
-        assertEquals("my_clickhouse_sever_host_name1,my_clickhouse_sever_host_name2", config.host());
+        assertEquals("my_timeplus_sever_host_name1,my_timeplus_sever_host_name2", config.host());
         assertEquals(2, config.hosts().size());
         assertEquals(9000, config.port());
         assertEquals("system", config.database());

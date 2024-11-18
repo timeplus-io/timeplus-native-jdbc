@@ -87,7 +87,7 @@ public final class TimeplusDatabaseMetadata implements SQLDatabaseMetadata {
 
     @Override
     public String getDatabaseProductName() throws SQLException {
-        return "ClickHouse";
+        return "Timeplus";
     }
 
     @Override
