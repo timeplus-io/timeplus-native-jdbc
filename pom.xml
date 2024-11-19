@@ -91,7 +91,7 @@
     </modules>
 
     <properties>
-        <revision>2.0.6</revision>
+        <revision>2.0.7</revision>
 
         <deploy.repo.snapshots.id>ossrh</deploy.repo.snapshots.id>
         <deploy.repo.snapshots.url>https://s01.oss.sonatype.org/content/repositories/snapshots</deploy.repo.snapshots.url>

@@ -120,7 +120,7 @@ export GPG_TTY=$(tty)
 Then run the following commmands:
 
 ```bash
-mvn clean javadoc:jar source:jar package gpg:sign install deploy -DskipITs Drevision=2.0.2 -e
+mvn clean javadoc:jar source:jar package gpg:sign install deploy -DskipITs -Drevision=2.0.2 -e
 ```
 
 This will geneate target/central-staging folder with required jar/asc/md5/sha1 files.
