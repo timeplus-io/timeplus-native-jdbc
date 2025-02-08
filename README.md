@@ -74,6 +74,8 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         String url = "jdbc:timeplus://localhost:8463";
+        // to connect Timeplus Enterprise with username and password: jdbc:timeplus://localhost:8463?user=admin&password=changeme
+
         try (Connection connection = DriverManager.getConnection(url)) {
             try (Statement stmt = connection.createStatement()) {
                 stmt.executeQuery(
