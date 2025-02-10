@@ -166,7 +166,8 @@ public class SQLLexer {
         throw new SQLException("Expect Bare Token.");
     }
 
-    public StringView tryGetBareWord() throws SQLException {
+    // Diferrence from bareWord(): the pos won't change after get the word
+    public StringView bareWordView() throws SQLException {
         skipAnyWhitespace();
         // @formatter:off
         if (isCharacter('`')) {
@@ -185,7 +186,6 @@ public class SQLLexer {
                     break;
                 }
             }
-            // the pos won't change
             int end = pos;
             pos = start;
             return new StringView(data, start, end);
