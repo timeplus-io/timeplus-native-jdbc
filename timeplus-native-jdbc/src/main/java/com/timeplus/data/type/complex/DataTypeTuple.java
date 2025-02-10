@@ -35,8 +35,23 @@ public class DataTypeTuple implements IDataType<TimeplusStruct, Struct> {
         Validate.isTrue(lexer.character() == '(');
         List<IDataType<?, ?>> nestedDataTypes = new ArrayList<>();
 
+        Integer count = 0;
+        List<String> tupleDataNames = new ArrayList<>();
         for (; ; ) {
-            nestedDataTypes.add(DataTypeFactory.get(lexer, serverContext));
+            while (count < 2) {
+                String tmpName = String.valueOf(lexer.tryGetBareWord());
+                try {
+                    nestedDataTypes.add(DataTypeFactory.get(lexer, serverContext));
+                    count = 0;
+                    break;
+                } catch (Exception e) {
+                    count++;
+                    tupleDataNames.add(tmpName);
+                    if (count >= 2) {
+                        throw e;
+                    }
+                }
+            }
             char delimiter = lexer.character();
             Validate.isTrue(delimiter == ',' || delimiter == ')');
             if (delimiter == ')') {
@@ -44,6 +59,10 @@ public class DataTypeTuple implements IDataType<TimeplusStruct, Struct> {
                 for (int i = 0; i < nestedDataTypes.size(); i++) {
                     if (i > 0)
                         builder.append(",");
+                    if (tupleDataNames.size() > 0) {
+                        builder.append(tupleDataNames.get(i));
+                        builder.append(" ");
+                    }
                     builder.append(nestedDataTypes.get(i).name());
                 }
                 return new DataTypeTuple(builder.append(")").toString(), nestedDataTypes.toArray(new IDataType[0]));
