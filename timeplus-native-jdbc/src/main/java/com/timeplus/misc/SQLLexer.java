@@ -166,6 +166,34 @@ public class SQLLexer {
         throw new SQLException("Expect Bare Token.");
     }
 
+    // Diferrence from bareWord(): the pos won't change after get the word
+    public StringView bareWordView() throws SQLException {
+        skipAnyWhitespace();
+        // @formatter:off
+        if (isCharacter('`')) {
+            return stringLiteralWithQuoted('`');
+        } else if (isCharacter('"')) {
+            return stringLiteralWithQuoted('"');
+        } else if (data.charAt(pos) == '_'
+               || (data.charAt(pos) >= 'a' && data.charAt(pos) <= 'z')
+               || (data.charAt(pos) >= 'A' && data.charAt(pos) <= 'Z')) {
+            int start = pos;
+            for (pos++; pos < data.length(); pos++) {
+                if (!('_' == data.charAt(pos)
+                  || (data.charAt(pos) >= 'a' && data.charAt(pos) <= 'z')
+                  || (data.charAt(pos) >= 'A' && data.charAt(pos) <= 'Z')
+                  || (data.charAt(pos) >= '0' && data.charAt(pos) <= '9'))) {
+                    break;
+                }
+            }
+            int end = pos;
+            pos = start;
+            return new StringView(data, start, end);
+        }
+        // @formatter:on
+        throw new SQLException("Expect Bare Token.");
+    }
+
     public boolean isWhitespace() {
         return data.charAt(pos++) == ' ';
     }

@@ -24,6 +24,7 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.time.ZonedDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -200,6 +201,25 @@ public class TupleTypeTest extends AbstractITest implements BytesHelper {
             }
             assertEquals(size, rowCnt);
             statement.execute("DROP STREAM IF EXISTS tuple_test");
+        });
+    }
+
+    @Test
+    public void testTupleWithName() throws Exception {
+        withStatement(statement -> {
+            statement.execute("DROP DICTIONARY IF EXISTS tuple_test");
+            statement.execute("CREATE DICTIONARY tuple_test (LocationID uint16 DEFAULT 0,"
+                                +"Borough string, Zone string, service_zone string) PRIMARY KEY LocationID\n"
+                                +"SOURCE(HTTP(URL 'https://datasets-documentation.s3.eu-west-3.amazonaws.com/nyc-taxi/taxi_zone_lookup.csv'"
+                                +"FORMAT 'CSVWithNames')) \n LIFETIME(MIN 0 MAX 0) LAYOUT(HASHED_ARRAY());");
+
+            ResultSet rs = statement.executeQuery("SELECT dict_get('tuple_test', ('Borough','Zone'), 132)");
+            while (rs.next()) {
+                ResultSetMetaData data = rs.getMetaData();
+                String name = data.getColumnTypeName(1);
+                assertEquals("tuple(Borough string,Zone string)", name);
+            }
+            statement.execute("DROP DICTIONARY IF EXISTS tuple_test");
         });
     }
 

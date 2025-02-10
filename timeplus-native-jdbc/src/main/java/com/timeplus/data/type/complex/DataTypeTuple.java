@@ -35,8 +35,28 @@ public class DataTypeTuple implements IDataType<TimeplusStruct, Struct> {
         Validate.isTrue(lexer.character() == '(');
         List<IDataType<?, ?>> nestedDataTypes = new ArrayList<>();
 
+        Integer count = 0;
+        List<String> tupleDataNames = new ArrayList<>();
         for (; ; ) {
-            nestedDataTypes.add(DataTypeFactory.get(lexer, serverContext));
+            // Tuple return types can be specified as either "name + type" or just "type."
+            // Example: tuple(a string, b string) or tuple(string, string)
+            // We use the parameter count to determine the possible return types.
+            // If the first word is not a type, it's treated as a tuple name.
+            // The next word must be a data type; otherwise, an error is reported.
+            while (count < 2) {
+                String elemName = String.valueOf(lexer.bareWordView());
+                try {
+                    nestedDataTypes.add(DataTypeFactory.get(lexer, serverContext));
+                    count = 0;
+                    break;
+                } catch (Exception e) {
+                    count++;
+                    tupleDataNames.add(elemName);
+                    if (count >= 2) {
+                        throw e;
+                    }
+                }
+            }
             char delimiter = lexer.character();
             Validate.isTrue(delimiter == ',' || delimiter == ')');
             if (delimiter == ')') {
@@ -44,6 +64,10 @@ public class DataTypeTuple implements IDataType<TimeplusStruct, Struct> {
                 for (int i = 0; i < nestedDataTypes.size(); i++) {
                     if (i > 0)
                         builder.append(",");
+                    if (i < tupleDataNames.size()) {
+                        builder.append(tupleDataNames.get(i));
+                        builder.append(" ");
+                    }
                     builder.append(nestedDataTypes.get(i).name());
                 }
                 return new DataTypeTuple(builder.append(")").toString(), nestedDataTypes.toArray(new IDataType[0]));
