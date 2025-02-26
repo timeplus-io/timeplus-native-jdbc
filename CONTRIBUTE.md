@@ -11,7 +11,7 @@ You can report problems or request features by creating [GitHub Issues](https://
 The following software is required to work with the codebase and build it locally:
 
 * Git
-* JDK 8/11
+* JDK 8
 * Maven
 * Docker
 
@@ -84,7 +84,7 @@ This project utilizes a set of code style rules that are automatically applied b
 
 With the command `mvn validate` the code style rules can be applied automatically.
 
-In the event that a pull request is submitted with code style violations, continuous integration will fail the pull request build.  
+In the event that a pull request is submitted with code style violations, continuous integration will fail the pull request build.
 
 To fix pull requests with code style violations, simply run the project's build locally and allow the automatic formatting happen.  Once the build completes, you will have some local repository files modified to fix the coding style which can be amended on your pull request.  Once the pull request is synchronized with the formatting changes, CI will rerun the build.
 
@@ -128,7 +128,7 @@ This will geneate target/central-staging folder with required jar/asc/md5/sha1 f
 In some cases,the `asc` file is not properly generated and cannot be verified via `gpg --verify target/central-staging/com/timeplus/timeplus-native-jdbc/2.0.0/timeplus-native-jdbc-2.0.0.jar.asc`
 You may need to regenerate it via `gpg -ab target/central-staging/com/timeplus/timeplus-native-jdbc/2.0.0/timeplus-native-jdbc-2.0.0.jar`
 
-Then you turn the com folder to a zip file and create a deployment on https://central.sonatype.com/publishing/deployments with proper name and descript as well as the zip file.
+Then you turn the `com` folder to a zip file and create a deployment on https://central.sonatype.com/publishing/deployments with proper name and descript as well as the zip file.
 
 Only jove@timeplus.com is expected to upload new version.
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -12,9 +12,11 @@
   See the License for the specific language governing permissions and
   limitations under the License. See accompanying LICENSE file.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.timeplus</groupId>
@@ -34,8 +36,10 @@
 
     <scm>
         <url>https://github.com/timeplus-io/timeplus-native-jdbc</url>
-        <connection>scm:git:git@github.com:timeplus-io/timeplus-native-jdbc.git</connection>
-        <developerConnection>scm:git:git@github.com:timeplus-io/timeplus-native-jdbc.git</developerConnection>
+        <connection
+        >scm:git:git@github.com:timeplus-io/timeplus-native-jdbc.git</connection>
+        <developerConnection
+        >scm:git:git@github.com:timeplus-io/timeplus-native-jdbc.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
     <licenses>
@@ -76,12 +80,6 @@
             <email>jove@timeplus.com</email>
             <timezone>-1</timezone>
         </developer>
-        <developer>
-            <id>Jasmine-ge</id>
-            <name>Jasmine Ge</name>
-            <email>jasmine.ge@timeplus.com</email>
-            <timezone>8</timezone>
-        </developer>
     </developers>
 
     <modules>
@@ -91,16 +89,19 @@
     </modules>
 
     <properties>
-        <revision>2.0.8</revision>
+        <revision>2.0.9</revision>
 
         <deploy.repo.snapshots.id>ossrh</deploy.repo.snapshots.id>
-        <deploy.repo.snapshots.url>https://s01.oss.sonatype.org/content/repositories/snapshots</deploy.repo.snapshots.url>
+        <deploy.repo.snapshots.url
+        >https://s01.oss.sonatype.org/content/repositories/snapshots</deploy.repo.snapshots.url>
         <deploy.repo.release.id>ossrh</deploy.repo.release.id>
-        <deploy.repo.release.url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</deploy.repo.release.url>
+        <deploy.repo.release.url
+        >https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</deploy.repo.release.url>
 
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <project.reporting.outputEncoding
+        >UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -112,7 +113,8 @@
         <maven.checkstyle.plugin.version>3.4.0</maven.checkstyle.plugin.version>
         <maven.scala.plugin.version>4.3.0</maven.scala.plugin.version>
         <maven.exec.plugin.version>1.6.0</maven.exec.plugin.version>
-        <maven.forbiddenapis.plugin.version>3.0.1</maven.forbiddenapis.plugin.version>
+        <maven.forbiddenapis.plugin.version
+        >3.0.1</maven.forbiddenapis.plugin.version>
         <maven.gpg.plugin.version>1.5</maven.gpg.plugin.version>
         <maven.jar.plugin.version>3.1.2</maven.jar.plugin.version>
         <maven.javadoc.plugin.version>3.1.1</maven.javadoc.plugin.version>
@@ -140,7 +142,8 @@
         <jupiter.version>5.7.0</jupiter.version>
         <testcontainers.version>1.20.3</testcontainers.version>
 
-        <async-profiler.library-path>/tmp/async-profiler-1.8.3-linux-x64/build</async-profiler.library-path>
+        <async-profiler.library-path
+        >/tmp/async-profiler-1.8.3-linux-x64/build</async-profiler.library-path>
 
         <TimeplusPort>8463</TimeplusPort>
         <TimeplusHTTPPort>8123</TimeplusHTTPPort>
@@ -334,8 +337,10 @@
                     </executions>
                     <configuration>
                         <scalaVersion>${scala.version}</scalaVersion>
-                        <checkMultipleScalaVersions>true</checkMultipleScalaVersions>
-                        <failOnMultipleScalaVersions>true</failOnMultipleScalaVersions>
+                        <checkMultipleScalaVersions
+                        >true</checkMultipleScalaVersions>
+                        <failOnMultipleScalaVersions
+                        >true</failOnMultipleScalaVersions>
                         <recompileMode>incremental</recompileMode>
                         <args>
                             <arg>-unchecked</arg>
@@ -454,13 +459,16 @@
                     </dependencies>
                     <configuration>
                         <configLocation>dev/checkstyle.xml</configLocation>
-                        <suppressionsLocation>dev/checkstyle-suppression.xml</suppressionsLocation>
-                        <suppressionsFileExpression>checkstyle.suppression.file</suppressionsFileExpression>
+                        <suppressionsLocation
+                        >dev/checkstyle-suppression.xml</suppressionsLocation>
+                        <suppressionsFileExpression
+                        >checkstyle.suppression.file</suppressionsFileExpression>
                         <consoleOutput>true</consoleOutput>
                         <failsOnError>true</failsOnError>
                         <linkXRef>false</linkXRef>
                         <violationSeverity>error</violationSeverity>
-                        <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                        <includeTestSourceDirectory
+                        >true</includeTestSourceDirectory>
                     </configuration>
                     <executions>
                         <execution>
@@ -483,7 +491,8 @@
                             <!-- disallow deprecated methods from Java 8 -->
                             <bundledSignature>jdk-deprecated</bundledSignature>
                             <!-- disallow undocumented classes like sun.misc.Unsafe: -->
-                            <bundledSignature>jdk-non-portable</bundledSignature>
+                            <bundledSignature
+                            >jdk-non-portable</bundledSignature>
                             <!-- disallow unsafe reflective access: -->
                             <bundledSignature>jdk-reflection</bundledSignature>
                         </bundledSignatures>
@@ -551,7 +560,8 @@
                 <extensions>true</extensions>
                 <configuration>
                     <publishingServerId>central</publishingServerId>
-                    <deploymentName>com.timeplus:timeplus-native-jdbc:${revision}</deploymentName>
+                    <deploymentName
+                    >com.timeplus:timeplus-native-jdbc:${revision}</deploymentName>
                     <checksums>required</checksums>
                     <excludeArtifacts>examples</excludeArtifacts>
                     <skipPublishing>true</skipPublishing>

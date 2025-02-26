@@ -3,7 +3,11 @@ Timeplus Native JDBC
 
 A Native JDBC library for accessing [Timeplus](https://timeplus.com/) in Java with streaming SQL support.
 
-This is a fork of https://github.com/housepower/ClickHouse-Native-JDBC, but revised and enhanced for streaming query processing. If you don't need to run streaming SQL or has lower performance need, you may also use https://github.com/timeplus-io/proton-java-driver.
+This is a fork of https://github.com/housepower/ClickHouse-Native-JDBC, but revised and enhanced for streaming query processing.
+
+This JDBC driver is recommended for Timeplus Enterprise users.
+
+If you don't need to run streaming SQL or has lower performance need, you may also use https://github.com/timeplus-io/proton-java-driver.
 
 ## CONTRIBUTE
 
@@ -13,7 +17,7 @@ We welcome anyone that wants to help out in any way, whether that includes repor
 
 ### Requirements
 
-- Java 8/11. 
+- Java 8 or above
 
 **Notes:** We only do test with Java LTS versions.
 
