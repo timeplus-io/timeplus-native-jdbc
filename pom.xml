@@ -89,7 +89,7 @@
     </modules>
 
     <properties>
-        <revision>2.0.10</revision>
+        <revision>2.0.9</revision>
 
         <deploy.repo.snapshots.id>ossrh</deploy.repo.snapshots.id>
         <deploy.repo.snapshots.url
