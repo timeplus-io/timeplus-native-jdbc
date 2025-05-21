@@ -89,7 +89,7 @@
     </modules>
 
     <properties>
-        <revision>2.0.9</revision>
+        <revision>2.0.10</revision>
 
         <deploy.repo.snapshots.id>ossrh</deploy.repo.snapshots.id>
         <deploy.repo.snapshots.url
@@ -140,7 +140,7 @@
         <alibaba.druid.version>1.2.4</alibaba.druid.version>
         <dbcp2.version>2.8.0</dbcp2.version>
         <jupiter.version>5.7.0</jupiter.version>
-        <testcontainers.version>1.20.3</testcontainers.version>
+        <testcontainers.version>1.21.0</testcontainers.version>
 
         <async-profiler.library-path
         >/tmp/async-profiler-1.8.3-linux-x64/build</async-profiler.library-path>

@@ -35,7 +35,7 @@ public abstract class AbstractITest implements Serializable {
     protected static final ZoneId SERVER_TZ = ZoneId.of("UTC");
     protected static final String DRIVER_CLASS_NAME = "com.timeplus.jdbc.TimeplusDriver";
 
-    public static final String TIMEPLUS_IMAGE = System.getProperty("TIMEPLUS_IMAGE", "timeplus/timeplusd:2.3.3");
+    public static final String TIMEPLUS_IMAGE = System.getProperty("TIMEPLUS_IMAGE", "timeplus/timeplusd:2.7.46");
     // public static DockerImageName proton_image = DockerImageName.parse(TIMEPLUS_IMAGE).asCompatibleSubstituteFor("timeplus/timeplus-server");
 
     protected static final String TIMEPLUS_USER = SystemUtil.loadProp("TIMEPLUS_USER", "");
