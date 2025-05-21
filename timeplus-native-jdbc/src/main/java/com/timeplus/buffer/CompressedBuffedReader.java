@@ -19,7 +19,6 @@ import java.io.IOException;
 import com.timeplus.misc.BytesHelper;
 import io.airlift.compress.Decompressor;
 import io.airlift.compress.lz4.Lz4Decompressor;
-import io.airlift.compress.zstd.ZstdDecompressor;
 
 import static com.timeplus.settings.TimeplusDefines.CHECKSUM_LENGTH;
 import static com.timeplus.settings.TimeplusDefines.COMPRESSION_HEADER_LENGTH;
@@ -33,7 +32,6 @@ public class CompressedBuffedReader implements BuffedReader, BytesHelper {
     private final BuffedReader buf;
 
     private final Decompressor lz4Decompressor = new Lz4Decompressor();
-    private final Decompressor zstdDecompressor = new ZstdDecompressor();
 
     public CompressedBuffedReader(BuffedReader buf) {
         this.buf = buf;
@@ -75,7 +73,6 @@ public class CompressedBuffedReader implements BuffedReader, BytesHelper {
     // @formatter:off
     private static final int NONE = 0x02;
     private static final int LZ4  = 0x82;
-    private static final int ZSTD = 0x90;
     // @formatter:on
 
     private byte[] readCompressedData() throws IOException {

@@ -71,7 +71,7 @@ public class CompressedBuffedWriter implements BuffedWriter, BytesHelper {
             int maxLen = lz4Compressor.maxCompressedLength(position);
 
             byte[] compressedBuffer = new byte[maxLen + COMPRESSION_HEADER_LENGTH + CHECKSUM_LENGTH];
-            int res = lz4Compressor.compress(writtenBuf, 0, position, compressedBuffer, COMPRESSION_HEADER_LENGTH + CHECKSUM_LENGTH, compressedBuffer.length);
+            int res = lz4Compressor.compress(writtenBuf, 0, position, compressedBuffer, COMPRESSION_HEADER_LENGTH + CHECKSUM_LENGTH, maxLen);
 
             compressedBuffer[CHECKSUM_LENGTH] = (byte) (0x82 & 0xFF);
             int compressedSize = res + COMPRESSION_HEADER_LENGTH;
